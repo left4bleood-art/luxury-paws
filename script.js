@@ -1570,26 +1570,9 @@ function initGradientText() {
   if (heroH1) heroH1.classList.add('gradient-text');
 }
 
-/* ── 3D Tilt on Product Cards ── */
+/* ── 3D Tilt on Product Cards (disabled) ── */
 function initCardTilt() {
-  document.addEventListener('mousemove', e => {
-    const card = e.target.closest('.pcard');
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    card.style.transform = `perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) translateY(-8px)`;
-  });
-  document.addEventListener('mouseleave', e => {
-    const card = e.target.closest('.pcard');
-    if (card) card.style.transform = '';
-  }, true);
-  // Reset on mouseout
-  document.addEventListener('mouseout', e => {
-    if (e.target.classList && e.target.classList.contains('pcard')) {
-      e.target.style.transform = '';
-    }
-  });
+  // Removed — caused shake effect on scroll
 }
 
 /* ── Cursor Glow ── */
