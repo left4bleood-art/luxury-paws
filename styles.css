@@ -1000,11 +1000,15 @@ main { flex:1; }
   .pcard-body { padding:14px 16px 0; }
   .pcard-body h3 { font-size:0.95rem; margin-bottom:4px; }
   .pcard-body p { font-size:0.8rem; -webkit-line-clamp:1; }
-  .pcard-foot { padding:12px 16px 16px; }
-  .pcard-price { font-size:1rem; }
+  .pcard-foot {
+    flex-direction:column; align-items:stretch;
+    padding:12px 16px 16px; gap:8px;
+  }
+  .pcard-price { font-size:1rem; text-align:center; }
   .pcard-btn {
     padding:10px 16px; font-size:0.8rem;
     border-radius:var(--radius-xs);
+    text-align:center; width:100%;
   }
   .pcard-badge { top:10px; left:10px; padding:5px 10px; font-size:0.65rem; }
   .pcard-stock { padding:0 16px 12px; font-size:0.68rem; }
@@ -1223,9 +1227,9 @@ main { flex:1; }
   .pcard-body h3 { font-size:0.85rem; line-height:1.25; margin-bottom:2px; }
   .pcard-body p { font-size:0.75rem; -webkit-line-clamp:1; }
   .pcard-rating { font-size:0.78rem; margin-bottom:6px; gap:4px; }
-  .pcard-foot { padding:10px 12px 14px; gap:8px; }
-  .pcard-price { font-size:0.92rem; }
-  .pcard-btn { padding:8px 12px; font-size:0.75rem; }
+  .pcard-foot { padding:10px 12px 14px; gap:6px; }
+  .pcard-price { font-size:0.92rem; text-align:center; }
+  .pcard-btn { padding:8px 12px; font-size:0.75rem; width:100%; text-align:center; }
   .pcard-badge { top:8px; left:8px; padding:4px 8px; font-size:0.6rem; }
   .pcard-stock { padding:0 12px 10px; font-size:0.65rem; }
 
@@ -1622,9 +1626,9 @@ main { flex:1; }
   .pgrid { gap:8px; }
   .pcard-media { height:140px; }
   .pcard-body h3 { font-size:0.8rem; }
-  .pcard-foot { padding:8px 10px 12px; }
-  .pcard-price { font-size:0.85rem; }
-  .pcard-btn { padding:7px 10px; font-size:0.72rem; }
+  .pcard-foot { padding:8px 10px 12px; gap:5px; }
+  .pcard-price { font-size:0.85rem; text-align:center; }
+  .pcard-btn { padding:7px 10px; font-size:0.72rem; width:100%; text-align:center; }
   .hero-inner { padding:48px 12px 36px; }
   .hero-text h1 { font-size:1.4rem; }
   .section { padding:36px 12px; }
