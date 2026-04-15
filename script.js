@@ -517,8 +517,9 @@ let selectedCountry = '';
 let locale        = 'en';
 let route         = 'home';
 let prevCategory  = null;
-const cart        = [];
+const cart        = JSON.parse(localStorage.getItem('lp_cart') || '[]');
 let payMethod     = 'card';
+function saveCart() { localStorage.setItem('lp_cart', JSON.stringify(cart)); }
 let stripe, stripeElements;
 let promoDiscount = 0;
 let promoType = 'fixed'; // 'fixed' or 'percent'
@@ -910,6 +911,7 @@ function addToCart(id) {
   const existing = cart.find(i => i.id === id);
   if (existing) existing.qty += 1;
   else cart.push({ ...p, qty: 1 });
+  saveCart();
   updateCartCount();
   renderCartDrawer();
   showToast(t('toast.added'));
@@ -926,6 +928,7 @@ function changeQty(id, delta) {
   const item = cart.find(i => i.id === id);
   if (!item) return;
   item.qty = Math.max(1, item.qty + delta);
+  saveCart();
   renderCartDrawer();
   updateCartCount();
 }
@@ -933,6 +936,7 @@ function changeQty(id, delta) {
 function removeItem(id) {
   const idx = cart.findIndex(i => i.id === id);
   if (idx >= 0) cart.splice(idx, 1);
+  saveCart();
   renderCartDrawer();
   updateCartCount();
 }
@@ -1086,6 +1090,7 @@ async function submitOrder(provider) {
     promoDiscount = 0;
     promoType = 'fixed';
     selectedCountry = '';
+    saveCart();
     renderCartDrawer(); updateCartCount();
     document.getElementById('checkout-form').reset();
     closeDrawer();
