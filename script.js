@@ -1575,24 +1575,116 @@ function initGradientText() {
 function initAmbientParticles() {
   if (window.matchMedia('(max-width:768px)').matches) return;
   if (document.querySelector('.ambient-particles')) return;
+
   const container = document.createElement('div');
   container.className = 'ambient-particles';
   document.body.appendChild(container);
 
-  const types = ['gold', 'warm', 'light'];
-  const count = 40;
+  const W = () => window.innerWidth;
+  const H = () => window.innerHeight;
+  const count = 30;
+  const particles = [];
+
+  const colors = [
+    { bg: 'rgba(212,169,76,0.6)', glow: 'rgba(212,169,76,0.12)' },   // gold
+    { bg: 'rgba(176,140,96,0.45)', glow: 'rgba(176,140,96,0.08)' },   // warm
+    { bg: 'rgba(255,248,230,0.65)', glow: 'rgba(255,248,230,0.1)' },  // light
+  ];
+
   for (let i = 0; i < count; i++) {
     const dot = document.createElement('div');
-    const type = types[i % 3];
-    dot.className = `ambient-dot ambient-dot--${type}`;
-    const size = 5 + Math.random() * 10;
-    dot.style.width = dot.style.height = size + 'px';
-    dot.style.left = Math.random() * 100 + '%';
-    dot.style.setProperty('--dur', (10 + Math.random() * 14) + 's');
-    dot.style.setProperty('--delay', (Math.random() * 6) + 's');
-    dot.style.setProperty('--dx', (Math.random() * 80 - 40) + 'px');
+    dot.className = 'ambient-dot';
     container.appendChild(dot);
+
+    const col = colors[i % 3];
+    const size = 4 + Math.random() * 8;
+    dot.style.width = dot.style.height = size + 'px';
+    dot.style.background = `radial-gradient(circle, ${col.bg} 0%, ${col.glow} 60%, transparent 70%)`;
+
+    particles.push({
+      el: dot,
+      x: Math.random() * W(),
+      y: Math.random() * H(),
+      baseVx: (Math.random() - 0.5) * 0.3,
+      baseVy: -(0.15 + Math.random() * 0.35),
+      phase: Math.random() * Math.PI * 2,
+      waveAmp: 15 + Math.random() * 25,
+      waveSpeed: 0.3 + Math.random() * 0.5,
+      size,
+      opacity: 0,
+      fadeIn: true,
+      maxOpacity: 0.4 + Math.random() * 0.3,
+    });
   }
+
+  let lastScroll = window.scrollY;
+  let scrollDelta = 0;
+
+  window.addEventListener('scroll', () => {
+    const curr = window.scrollY;
+    scrollDelta += (curr - lastScroll) * 0.12;
+    lastScroll = curr;
+  }, { passive: true });
+
+  let running = true;
+  let lastTime = performance.now();
+
+  function tick(now) {
+    if (!running) return;
+    const dt = Math.min((now - lastTime) / 16.67, 3);
+    lastTime = now;
+
+    const w = W();
+    const h = H();
+
+    scrollDelta *= 0.92;
+
+    for (const p of particles) {
+      p.phase += p.waveSpeed * 0.016 * dt;
+
+      p.x += (p.baseVx + Math.sin(p.phase) * 0.4) * dt;
+      p.y += (p.baseVy - scrollDelta) * dt;
+
+      if (p.fadeIn) {
+        p.opacity = Math.min(p.opacity + 0.008 * dt, p.maxOpacity);
+        if (p.opacity >= p.maxOpacity) p.fadeIn = false;
+      }
+
+      if (p.y < -30) {
+        p.y = h + 20;
+        p.x = Math.random() * w;
+        p.opacity = 0;
+        p.fadeIn = true;
+      }
+      if (p.y > h + 30) {
+        p.y = -20;
+        p.x = Math.random() * w;
+        p.opacity = 0;
+        p.fadeIn = true;
+      }
+      if (p.x < -30) p.x = w + 20;
+      if (p.x > w + 30) p.x = -20;
+
+      p.el.style.transform = `translate(${p.x}px, ${p.y}px)`;
+      p.el.style.opacity = p.opacity;
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  requestAnimationFrame(tick);
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      running = false;
+    } else {
+      running = true;
+      lastTime = performance.now();
+      lastScroll = window.scrollY;
+      scrollDelta = 0;
+      requestAnimationFrame(tick);
+    }
+  });
 }
 
 /* ── 3D Tilt on Product Cards (disabled) ── */
