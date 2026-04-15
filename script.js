@@ -1553,13 +1553,13 @@ function initHeroParticles() {
     container.className = 'hero-particles';
     hero.querySelector('.hero-bg').after(container);
   }
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < 55; i++) {
     const p = document.createElement('div');
     p.className = 'gold-particle';
     p.style.left = `${Math.random() * 100}%`;
-    p.style.setProperty('--dur', `${6+Math.random()*8}s`);
-    p.style.setProperty('--delay', `${Math.random()*6}s`);
-    p.style.width = p.style.height = `${2+Math.random()*4}px`;
+    p.style.setProperty('--dur', `${5+Math.random()*10}s`);
+    p.style.setProperty('--delay', `${Math.random()*8}s`);
+    p.style.width = p.style.height = `${2+Math.random()*5}px`;
     container.appendChild(p);
   }
 }
@@ -1584,12 +1584,8 @@ function initCursorGlow() {
   let mx = -500, my = -500;
   document.addEventListener('mousemove', e => {
     mx = e.clientX; my = e.clientY;
+    glow.style.transform = `translate(${mx - 150}px, ${my - 150}px)`;
   }, { passive:true });
-  (function updateGlow() {
-    glow.style.left = mx + 'px';
-    glow.style.top = my + 'px';
-    requestAnimationFrame(updateGlow);
-  })();
 }
 
 /* ── Cart Count Pulse ── */

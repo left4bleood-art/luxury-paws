@@ -325,7 +325,8 @@ main { flex:1; }
 .hero-text h1 {
   font-family:var(--font-display);
   font-size:clamp(2.8rem,5vw,4.6rem);
-  line-height:1.06; margin-bottom:20px;
+  line-height:1.15; margin-bottom:20px;
+  padding-bottom:0.05em;
   font-weight:700;
 }
 .hero-sub {
@@ -1448,6 +1449,9 @@ main { flex:1; }
   background-clip:text;
   -webkit-text-fill-color:transparent;
   animation:gradientShift 4s ease infinite;
+  padding-bottom:0.08em;
+  -webkit-box-decoration-break:clone;
+  box-decoration-break:clone;
 }
 @keyframes gradientShift {
   0%,100% { background-position:0% center; }
@@ -1477,14 +1481,7 @@ main { flex:1; }
   50% { background-position:100% 50%; }
 }
 
-/* ─── 3D TILT ON PRODUCT CARDS ─── */
-.pcard {
-  transform-style:preserve-3d;
-  perspective:800px;
-}
-.pcard-body, .pcard-foot {
-  transform:translateZ(20px);
-}
+/* ─── 3D TILT ON PRODUCT CARDS (disabled) ─── */
 
 /* ─── MAGNETIC HOVER ON BUTTONS ─── */
 .btn-primary {
@@ -1588,13 +1585,13 @@ main { flex:1; }
 /* ─── CURSOR GLOW (desktop) ─── */
 .cursor-glow {
   position:fixed;
+  top:0; left:0;
   width:300px; height:300px;
   border-radius:50%;
   background:radial-gradient(circle, rgba(176,140,96,0.06) 0%, transparent 70%);
   pointer-events:none;
   z-index:999;
-  transform:translate(-50%,-50%);
-  transition:opacity 0.3s ease;
+  will-change:transform;
   mix-blend-mode:normal;
 }
 
@@ -1679,13 +1676,7 @@ main { flex:1; }
   .col-card::before { display:none; }
 
   /* Mobile-specific premium touches */
-  .pcard {
-    transform:none !important;
-    perspective:none;
-  }
-  .pcard-body, .pcard-foot {
-    transform:none;
-  }
+
 
   /* Smooth active states for touch */
   .pcard:active { transform:scale(0.98) !important; transition:transform 0.1s; }

@@ -68,6 +68,7 @@ const emailI18n = {
     total: 'Итого',
     shippingTo: 'Доставка по адресу',
     willContact: 'Мы свяжемся с вами для уточнения деталей доставки.',
+    replyHint: 'Если у вас есть вопросы о товаре или заказе — просто ответьте на это письмо, мы с радостью поможем!',
     newOrder: 'Новый заказ получен',
     customer: 'Покупатель',
     phone: 'Телефон',
@@ -94,6 +95,7 @@ const emailI18n = {
     total: 'Total',
     shippingTo: 'Shipping to',
     willContact: 'We will contact you soon with delivery details.',
+    replyHint: 'Have questions about your order or products? Simply reply to this email — we are happy to help!',
     newOrder: 'New order received',
     customer: 'Customer',
     phone: 'Phone',
@@ -120,6 +122,7 @@ const emailI18n = {
     total: 'Ukupno',
     shippingTo: 'Dostava na adresu',
     willContact: 'Kontaktiraćemo vas uskoro sa detaljima dostave.',
+    replyHint: 'Imate pitanja o porudžbini ili proizvodima? Jednostavno odgovorite na ovaj email — rado ćemo pomoći!',
     newOrder: 'Nova porudžbina primljena',
     customer: 'Kupac',
     phone: 'Telefon',
@@ -269,7 +272,7 @@ async function sendEmail(order) {
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"></head>
-<body style="margin:0;padding:0;background:#f7f2eb;font-family:'Inter',Arial,sans-serif;">
+<body style="margin:0;padding:0;background:linear-gradient(180deg,#f5eacd 0%,#f7f0df 40%,#faf6f0 100%);font-family:'Inter',Arial,sans-serif;">
   <div style="max-width:600px;margin:0 auto;padding:32px 16px;">
 
     <!-- Header -->
@@ -279,7 +282,7 @@ async function sendEmail(order) {
     </div>
 
     <!-- Body -->
-    <div style="background:#ffffff;padding:36px 32px;border-left:1px solid #f0ebe4;border-right:1px solid #f0ebe4;">
+    <div style="background:linear-gradient(180deg,#fffdf8 0%,#fff9f0 100%);padding:36px 32px;border-left:1px solid #e8dcc8;border-right:1px solid #e8dcc8;">
 
       <p style="font-size:15px;color:#3a3229;line-height:1.7;margin:0 0 24px;">
         ${lang.dear} ${esc(order.customer.firstName)},
@@ -359,9 +362,14 @@ async function sendEmail(order) {
         </div>
       </div>
 
-      <p style="font-size:14px;color:#6b5e50;line-height:1.7;margin:0;">
+      <p style="font-size:14px;color:#6b5e50;line-height:1.7;margin:0 0 20px;">
         ${lang.willContact}
       </p>
+
+      <!-- Reply hint -->
+      <div style="background:linear-gradient(135deg,#fdf6e3 0%,#f9f0d8 100%);border:1px solid rgba(212,169,76,0.25);border-radius:10px;padding:16px 20px;text-align:center;">
+        <p style="font-size:13px;color:#8b7a66;line-height:1.6;margin:0;">💬 ${lang.replyHint}</p>
+      </div>
     </div>
 
     <!-- Footer -->
@@ -402,6 +410,7 @@ async function sendEmail(order) {
 
   const customerMail = {
     from: process.env.EMAIL_FROM,
+    replyTo: process.env.STORE_EMAIL || process.env.EMAIL_FROM,
     to: order.customer.email,
     subject: `Luxury Paws — ${lang.subject} #${order.orderNumber}`,
     html: customerHtml,
