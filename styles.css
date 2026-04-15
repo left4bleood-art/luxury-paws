@@ -873,16 +873,9 @@ main { flex:1; }
 }
 .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 
-#payment-element {
+#paypal-button-container {
   margin-bottom:16px;
-}
-.express-divider {
-  display:flex; align-items:center; gap:14px;
-  margin:18px 0; color:var(--text-soft); font-size:0.82rem; font-weight:600;
-}
-.express-divider::before,
-.express-divider::after {
-  content:''; flex:1; height:1px; background:var(--border-strong);
+  min-height:50px;
 }
 .payment-message {
   color: #df1b41;
@@ -1119,9 +1112,7 @@ main { flex:1; }
   }
 
   /* Payment elements mobile */
-  #express-checkout-element { min-height:auto; margin-bottom:4px; }
-  #payment-element { min-height:auto; }
-  .express-divider { margin:12px 0; font-size:0.76rem; }
+  #paypal-button-container { min-height:auto; margin-bottom:8px; }
 
   /* Promo code mobile */
   .promo-row { gap:6px; }

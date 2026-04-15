@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const Stripe = require('stripe');
 const nodemailer = require('nodemailer');
 
 function esc(str) {
@@ -11,11 +10,43 @@ function esc(str) {
 
 const app = express();
 const port = process.env.PORT || 4242;
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', { apiVersion: '2023-08-16' });
+
+const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID || '';
+const PAYPAL_SECRET = process.env.PAYPAL_SECRET || '';
+const PAYPAL_BASE = 'https://api-m.paypal.com'; // live
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname));
+
+/* ─── PayPal helpers ─── */
+async function getPayPalAccessToken() {
+  const auth = Buffer.from(`${PAYPAL_CLIENT_ID}:${PAYPAL_SECRET}`).toString('base64');
+  const r = await fetch(`${PAYPAL_BASE}/v1/oauth2/token`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${auth}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: 'grant_type=client_credentials',
+  });
+  const data = await r.json();
+  return data.access_token;
+}
+
+async function paypalRequest(path, method, body) {
+  const token = await getPayPalAccessToken();
+  const opts = {
+    method,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  };
+  if (body) opts.body = JSON.stringify(body);
+  const r = await fetch(`${PAYPAL_BASE}${path}`, opts);
+  return r.json();
+}
 
 const emailI18n = {
   ru: {
@@ -74,23 +105,40 @@ const emailI18n = {
   },
 };
 
-app.post('/api/create-payment-intent', async (req, res) => {
+/* ─── PayPal Routes ─── */
+app.post('/api/paypal/create-order', async (req, res) => {
   try {
-    const { amount, email } = req.body;
+    const { amount, currency } = req.body;
     if (!amount || amount <= 0) {
-      return res.status(400).json({ error: { message: 'Invalid amount' } });
+      return res.status(400).json({ error: 'Invalid amount' });
     }
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: parseInt(amount, 10),
-      currency: 'eur',
-      automatic_payment_methods: { enabled: true },
-      receipt_email: email,
-      metadata: { integration_check: 'accept_a_payment' },
+    const order = await paypalRequest('/v2/checkout/orders', 'POST', {
+      intent: 'CAPTURE',
+      purchase_units: [{
+        amount: {
+          currency_code: (currency || 'EUR').toUpperCase(),
+          value: parseFloat(amount).toFixed(2),
+        },
+      }],
     });
-    res.json({ clientSecret: paymentIntent.client_secret });
+    res.json({ id: order.id });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: { message: error.message } });
+    console.error('PayPal create order error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/paypal/capture-order', async (req, res) => {
+  try {
+    const { orderID } = req.body;
+    if (!orderID) {
+      return res.status(400).json({ error: 'Missing orderID' });
+    }
+    const capture = await paypalRequest(`/v2/checkout/orders/${encodeURIComponent(orderID)}/capture`, 'POST');
+    res.json(capture);
+  } catch (error) {
+    console.error('PayPal capture error:', error);
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -163,7 +211,7 @@ app.post('/api/send-order', async (req, res) => {
 
 app.get('/api/config', (req, res) => {
   res.json({
-    stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY || '',
+    paypalClientId: PAYPAL_CLIENT_ID,
   });
 });
 

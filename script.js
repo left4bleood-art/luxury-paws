@@ -3,8 +3,6 @@
    Centralized i18n, SPA routing, cart, checkout
    ═══════════════════════════════════════════════ */
 
-const STRIPE_PK = 'pk_test_51TMSPdC4zZD5FAlIez4qZYZpB24XNFeAnS257DEDqMCNwyl90O6j4ZXFJbEqHkjseGVfDa7MLnTlf2WRH2XEB5HZ00ZiNFUxvg';
-
 /* ─────────────────────────────────────────────
    1. INTERNATIONALIZATION (i18n)
    Single source of truth for every string.
@@ -32,7 +30,7 @@ const i18n = {
     trust: {
       tag: 'Почему выбирают нас', heading: 'Бутик, которому доверяют',
       item1: 'Авторский дизайн', item1Text: 'Премиальные материалы, изысканные детали и элегантная отделка.',
-      item2: 'Безопасная оплата', item2Text: 'Stripe и PayPal обеспечивают надёжную защиту каждого платежа.',
+      item2: 'Безопасная оплата', item2Text: 'PayPal обеспечивает надёжную защиту каждого платежа.',
       item3: 'Персональный сервис', item3Text: 'Индивидуальная поддержка и быстрые ответы на каждом этапе.',
     },
     reviews: { tag: 'Отзывы', heading: 'Нас любят владельцы питомцев' },
@@ -137,7 +135,7 @@ const i18n = {
     trust: {
       tag: 'Why Choose Us', heading: 'A Boutique Experience You Can Rely On',
       item1: 'Authentic Craftsmanship', item1Text: 'Premium materials, elegant finishes and meticulous attention to detail.',
-      item2: 'Secure Checkout', item2Text: 'Stripe and PayPal protect every transaction with industry-leading security.',
+      item2: 'Secure Checkout', item2Text: 'PayPal protects every transaction with industry-leading security.',
       item3: 'White-Glove Support', item3Text: 'Personalised assistance and quick responses every step of the way.',
     },
     reviews: { tag: 'Reviews', heading: 'Loved by Pet Parents' },
@@ -242,7 +240,7 @@ const i18n = {
     trust: {
       tag: 'Zašto mi', heading: 'Butik kome verujete',
       item1: 'Autentičan dizajn', item1Text: 'Premium materijali, elegantni detalji i pažljiva izrada.',
-      item2: 'Bezbedno plaćanje', item2Text: 'Stripe i PayPal štite svaku transakciju.',
+      item2: 'Bezbedno plaćanje', item2Text: 'PayPal štiti svaku transakciju.',
       item3: 'Personalni servis', item3Text: 'Individualna podrška i brzi odgovori na svakom koraku.',
     },
     reviews: { tag: 'Recenzije', heading: 'Vlasnici ljubimaca nas vole' },
@@ -518,9 +516,7 @@ let locale        = 'en';
 let route         = 'home';
 let prevCategory  = null;
 const cart        = JSON.parse(localStorage.getItem('lp_cart') || '[]');
-let payMethod     = 'card';
 function saveCart() { localStorage.setItem('lp_cart', JSON.stringify(cart)); }
-let stripe, stripeElements;
 let promoDiscount = 0;
 let promoType = 'fixed'; // 'fixed' or 'percent'
 
@@ -993,84 +989,72 @@ function closeDrawer() {
 }
 
 /* ─────────────────────────────────────────────
-   13. PAYMENTS (Stripe Payment Element — all methods)
+   13. PAYMENTS (PayPal Business)
    ───────────────────────────────────────────── */
 
-async function createPI(amount, email) {
-  const r = await fetch('/api/create-payment-intent', {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({ amount, email }),
-  });
-  return r.json();
-}
+let paypalButtonsRendered = false;
 
-async function initPaymentElement() {
-  if (!window.Stripe) return;
-  stripe = Stripe(STRIPE_PK);
-  const t_ = totals();
-  const amount = Math.max(Math.round(t_.total * 100), 50); // min 50 cents
-  stripeElements = stripe.elements({
-    mode: 'payment',
-    amount,
-    currency: 'eur',
-    appearance: {
-      theme: 'stripe',
-      variables: {
-        colorPrimary: '#8b6914',
-        colorText: '#2c261f',
-        fontFamily: 'Inter, sans-serif',
-        borderRadius: '8px',
-      },
+async function initPayPalButtons() {
+  if (!window.paypal) return;
+  if (paypalButtonsRendered) return;
+  paypalButtonsRendered = true;
+
+  paypal.Buttons({
+    style: {
+      layout: 'vertical',
+      color: 'gold',
+      shape: 'rect',
+      label: 'paypal',
+      height: 50,
     },
-  });
-
-  // Express Checkout (Apple Pay, Google Pay, PayPal)
-  const expressEl = stripeElements.create('expressCheckout', {
-    buttonType: { applePay: 'buy', googlePay: 'buy', paypal: 'paypal' },
-    buttonHeight: 50,
-    wallets: {
-      applePay: 'auto',
-      googlePay: 'auto',
-      amazonPay: 'never',
+    createOrder: async () => {
+      // Validate form first
+      const form = document.getElementById('checkout-form');
+      if (!form.checkValidity()) { form.reportValidity(); throw new Error('Form invalid'); }
+      if (!document.getElementById('inp-terms').checked) {
+        showPaymentMessage(t('checkout.error'));
+        throw new Error('Terms not accepted');
+      }
+      if (!cart.length) { showPaymentMessage(t('cart.empty')); throw new Error('Cart empty'); }
+      const t_ = totals();
+      if (t_.total <= 0) {
+        showPaymentMessage(t('cart.empty'));
+        throw new Error('Cart empty');
+      }
+      const r = await fetch('/api/paypal/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: t_.total, currency: 'EUR' }),
+      });
+      const data = await r.json();
+      if (data.error) {
+        showPaymentMessage(data.error);
+        throw new Error(data.error);
+      }
+      return data.id;
     },
-    paymentMethodOrder: ['apple_pay', 'google_pay', 'paypal'],
-  });
-  expressEl.mount('#express-checkout-element');
-  expressEl.on('ready', ({ availablePaymentMethods }) => {
-    if (availablePaymentMethods) {
-      document.getElementById('express-divider').style.display = '';
-    }
-  });
-  expressEl.on('confirm', async () => {
-    const { error: submitError } = await stripeElements.submit();
-    if (submitError) { showPaymentMessage(submitError.message); return; }
-    const email = document.getElementById('inp-em').value || '';
-    const t2 = totals();
-    const pi = await createPI(Math.round(t2.total * 100), email);
-    if (pi.error) { showPaymentMessage(pi.error.message); return; }
-    const { error } = await stripe.confirmPayment({
-      elements: stripeElements,
-      clientSecret: pi.clientSecret,
-      confirmParams: { return_url: window.location.origin + window.location.pathname },
-      redirect: 'if_required',
-    });
-    if (error) { showPaymentMessage(error.message); return; }
-    await submitOrder('stripe');
-  });
-
-  // Standard Payment Element (card, etc.)
-  const paymentElement = stripeElements.create('payment', {
-    layout: 'tabs',
-    wallets: { applePay: 'never', googlePay: 'never', amazonPay: 'never' },
-  });
-  paymentElement.mount('#payment-element');
+    onApprove: async (data) => {
+      const r = await fetch('/api/paypal/capture-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderID: data.orderID }),
+      });
+      const capture = await r.json();
+      if (capture.status === 'COMPLETED') {
+        await submitOrder('PayPal');
+      } else {
+        showPaymentMessage(t('checkout.error'));
+      }
+    },
+    onError: (err) => {
+      console.error('PayPal error:', err);
+      showPaymentMessage(t('checkout.error'));
+    },
+  }).render('#paypal-button-container');
 }
 
 function updatePaymentAmount() {
-  if (!stripeElements) return;
-  const t_ = totals();
-  const amount = Math.max(Math.round(t_.total * 100), 50);
-  stripeElements.update({ amount });
+  // PayPal amount is fetched fresh in createOrder, no update needed
 }
 
 /* ─────────────────────────────────────────────
@@ -1144,62 +1128,8 @@ async function handleCheckout(e) {
   e.preventDefault();
   if (!cart.length) { alert(t('cart.empty')); return; }
   if (!e.target.checkValidity()) { e.target.reportValidity(); return; }
-
-  const submitBtn = document.getElementById('checkout-submit');
-  submitBtn.disabled = true;
-  submitBtn.textContent = '...';
-
-  try {
-    // 1. Validate Payment Element
-    const { error: submitError } = await stripeElements.submit();
-    if (submitError) {
-      showPaymentMessage(submitError.message);
-      submitBtn.disabled = false;
-      submitBtn.textContent = t('checkout.submit');
-      return;
-    }
-
-    // 2. Create PaymentIntent on server
-    const t_ = totals();
-    const email = document.getElementById('inp-em').value;
-    const pi = await createPI(Math.round(t_.total * 100), email);
-    if (pi.error) {
-      showPaymentMessage(pi.error.message || t('checkout.error'));
-      submitBtn.disabled = false;
-      submitBtn.textContent = t('checkout.submit');
-      return;
-    }
-
-    // 3. Confirm payment
-    const { error: confirmError } = await stripe.confirmPayment({
-      elements: stripeElements,
-      clientSecret: pi.clientSecret,
-      confirmParams: {
-        return_url: window.location.origin + window.location.pathname,
-        payment_method_data: {
-          billing_details: {
-            name: document.getElementById('inp-fn').value + ' ' + document.getElementById('inp-ln').value,
-            email,
-          },
-        },
-      },
-      redirect: 'if_required',
-    });
-
-    if (confirmError) {
-      showPaymentMessage(confirmError.message || t('checkout.error'));
-      submitBtn.disabled = false;
-      submitBtn.textContent = t('checkout.submit');
-      return;
-    }
-
-    // Payment succeeded
-    await submitOrder('stripe');
-  } catch (err) {
-    showPaymentMessage(t('checkout.error'));
-  }
-  submitBtn.disabled = false;
-  submitBtn.textContent = t('checkout.submit');
+  // Payment is handled by PayPal buttons — just validate the form
+  showPaymentMessage(t('checkout.paypalHint'));
 }
 
 function showPaymentMessage(msg) {
@@ -1344,7 +1274,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   updateCartCount();
   renderRoute();
   initPromoBar();
-  await initPaymentElement();
+  await initPayPalButtons();
   initCreativeEffects();
 });
 

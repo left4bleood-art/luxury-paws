@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://js.stripe.com/v3/"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=AfMr34fVlhI6Z4De6f9UIjiwfYd2Ea5HsOkNJSG0Rwm01L9SY_0f_FRVdjcwNIxXiq3VD5Am7eD7BiC9&currency=EUR&intent=capture&components=buttons" defer></script>
 </head>
 <body>
 
@@ -351,11 +351,7 @@
         </fieldset>
         <fieldset class="fs">
           <legend data-i18n="checkout.paymentTitle">Способ оплаты</legend>
-          <div id="express-checkout-element"></div>
-          <div id="express-divider" class="express-divider" style="display:none">
-            <span data-i18n="checkout.orPayWith">или оплатить картой</span>
-          </div>
-          <div id="payment-element"></div>
+          <div id="paypal-button-container"></div>
           <div id="payment-message" class="payment-message" style="display:none"></div>
         </fieldset>
         <fieldset class="fs promo-fs">
@@ -369,7 +365,6 @@
         <div class="terms-row">
           <label class="cb-label"><input type="checkbox" id="inp-terms" required><span data-i18n="checkout.terms">Я соглашаюсь с условиями</span></label>
         </div>
-        <button type="submit" class="btn btn-primary btn-full" id="checkout-submit" data-i18n="checkout.submit">Оформить заказ</button>
         <p class="drawer-note" data-i18n="checkout.note">Безопасная оплата и подтверждение на email.</p>
       </form>
     </div>
