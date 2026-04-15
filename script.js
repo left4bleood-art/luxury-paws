@@ -34,6 +34,11 @@ const i18n = {
       item3: 'Персональный сервис', item3Text: 'Индивидуальная поддержка и быстрые ответы на каждом этапе.',
     },
     reviews: { tag: 'Отзывы', heading: 'Нас любят владельцы питомцев' },
+    ambassador: {
+      tag: 'Наш амбассадор',
+      heading: 'Звёздный клиент & спонсор',
+      desc: 'Питомник LakshmiLove — наш главный партнёр и вдохновение. Роскошь, элегантность и безупречный стиль в каждом питомце.',
+    },
     contact: {
       tag: 'Связь', heading: 'Поможем выбрать идеальный товар',
       text: 'Оставьте email для получения новостей и эксклюзивных предложений.',
@@ -140,6 +145,11 @@ const i18n = {
       item3: 'White-Glove Support', item3Text: 'Personalised assistance and quick responses every step of the way.',
     },
     reviews: { tag: 'Reviews', heading: 'Loved by Pet Parents' },
+    ambassador: {
+      tag: 'Our Ambassador',
+      heading: 'Star Client & Sponsor',
+      desc: 'LakshmiLove kennel — our main partner and inspiration. Luxury, elegance and impeccable style in every pet.',
+    },
     contact: {
       tag: 'Stay Connected', heading: 'Need Help Selecting the Perfect Item?',
       text: 'Leave your email to receive news and exclusive offers.',
@@ -246,6 +256,11 @@ const i18n = {
       item3: 'Personalni servis', item3Text: 'Individualna podrška i brzi odgovori na svakom koraku.',
     },
     reviews: { tag: 'Recenzije', heading: 'Vlasnici ljubimaca nas vole' },
+    ambassador: {
+      tag: 'Naš ambasador',
+      heading: 'Zvezdani klijent & sponzor',
+      desc: 'Odgajivačnica LakshmiLove — naš glavni partner i inspiracija. Luksuz, elegancija i besprekoran stil u svakom ljubimcu.',
+    },
     contact: {
       tag: 'Kontakt', heading: 'Pomažemo vam da odaberete idealan proizvod',
       text: 'Ostavite email za novosti i ekskluzivne ponude.',

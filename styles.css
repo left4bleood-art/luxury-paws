@@ -133,7 +133,7 @@ main { flex:1; }
   backdrop-filter: blur(20px) saturate(1.6);
   -webkit-backdrop-filter: blur(20px) saturate(1.6);
   background: rgba(247,242,235,0.78);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(80,65,50,0.04);
   transition: box-shadow 0.3s ease;
 }
 .site-header.scrolled { box-shadow: 0 2px 24px rgba(60,45,30,0.08); }
@@ -227,8 +227,16 @@ main { flex:1; }
 }
 
 /* ─── SECTIONS ─── */
-.section { padding:100px 24px; }
-.section-alt { background:var(--bg-alt); }
+.section { padding:100px 24px; position:relative; }
+.section-alt {
+  background: linear-gradient(
+    180deg,
+    var(--bg) 0%,
+    var(--bg-alt) 15%,
+    var(--bg-alt) 85%,
+    var(--bg) 100%
+  );
+}
 .section-wrap { max-width:1240px; margin:0 auto; }
 .section-head { max-width:700px; margin-bottom:52px; }
 .section-head.center { text-align:center; margin-left:auto; margin-right:auto; }
@@ -485,6 +493,59 @@ main { flex:1; }
 }
 .trust-card p { color:var(--text-soft); font-size:0.92rem; line-height:1.8; }
 
+/* ─── AMBASSADOR BANNER ─── */
+.ambassador-banner {
+  display:flex; align-items:center; gap:48px;
+  background:linear-gradient(135deg, var(--surface) 0%, rgba(212,169,76,0.06) 100%);
+  border:1px solid rgba(212,169,76,0.18);
+  border-radius:var(--radius);
+  padding:48px 52px;
+  box-shadow:var(--shadow-sm);
+  overflow:hidden;
+}
+.ambassador-text {
+  flex:1; min-width:0;
+}
+.ambassador-text h2 {
+  font-family:var(--font-display);
+  font-size:clamp(1.5rem,3vw,2.1rem);
+  font-weight:700; margin-bottom:14px;
+  background:linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.ambassador-text p {
+  color:var(--text-soft); font-size:1rem;
+  line-height:1.85; margin-bottom:22px; max-width:520px;
+}
+.ambassador-fb {
+  display:inline-flex; align-items:center; gap:10px;
+  padding:12px 28px;
+  background:linear-gradient(135deg, #1877f2, #0d5bbf);
+  color:#fff; font-weight:700; font-size:0.95rem;
+  border-radius:50px; text-decoration:none;
+  transition:transform var(--transition), box-shadow var(--transition);
+  box-shadow:0 4px 16px rgba(24,119,242,0.25);
+}
+.ambassador-fb:hover {
+  transform:translateY(-2px);
+  box-shadow:0 6px 24px rgba(24,119,242,0.35);
+}
+.ambassador-fb svg { flex-shrink:0; }
+.ambassador-img {
+  flex:0 0 340px; height:280px;
+  border-radius:var(--radius); overflow:hidden;
+  box-shadow:0 8px 32px rgba(0,0,0,0.12);
+}
+.ambassador-img img {
+  width:100%; height:100%;
+  object-fit:cover; object-position:center;
+  transition:transform 0.6s ease;
+}
+.ambassador-banner:hover .ambassador-img img {
+  transform:scale(1.04);
+}
+
 /* ─── TESTIMONIALS ─── */
 .reviews-grid {
   display:grid; gap:24px;
@@ -516,7 +577,14 @@ main { flex:1; }
 .review-author span { font-size:0.82rem; color:var(--text-soft); }
 
 /* ─── CONTACT ─── */
-.section-contact { background: linear-gradient(135deg, var(--bg-alt) 0%, var(--bg) 100%); }
+.section-contact {
+  background: linear-gradient(
+    180deg,
+    var(--bg) 0%,
+    var(--bg-alt) 20%,
+    var(--bg) 100%
+  );
+}
 .contact-card {
   display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;
   padding:56px 48px;
@@ -550,8 +618,8 @@ main { flex:1; }
 /* ─── FOOTER ─── */
 .site-footer {
   padding:36px 24px 44px;
-  background:var(--bg-alt);
-  border-top:1px solid var(--border);
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 30%);
+  border-top:none;
 }
 .footer-inner {
   max-width:1240px; margin:0 auto;
@@ -992,6 +1060,13 @@ main { flex:1; }
   .col-card-content p { font-size:0.85rem; margin-bottom:10px; }
   .col-card-cta { opacity:1; transform:none; }
 
+  /* ─── AMBASSADOR ─── */
+  .ambassador-banner {
+    flex-direction:column; padding:32px 28px; gap:28px; text-align:center;
+  }
+  .ambassador-text p { margin-left:auto; margin-right:auto; }
+  .ambassador-img { flex:none; width:100%; height:240px; }
+
   /* ─── TRUST / REVIEWS GRID ─── */
   .trust-grid { grid-template-columns:1fr; gap:16px; }
   .trust-card {
@@ -1183,6 +1258,13 @@ main { flex:1; }
 }
 
 @media (max-width:480px) {
+  /* ─── AMBASSADOR COMPACT ─── */
+  .ambassador-banner { padding:24px 18px; gap:20px; }
+  .ambassador-text h2 { font-size:1.3rem; }
+  .ambassador-text p { font-size:0.88rem; }
+  .ambassador-img { height:200px; }
+  .ambassador-fb { padding:10px 22px; font-size:0.88rem; }
+
   /* ─── HEADER ULTRA-COMPACT ─── */
   .header-inner { padding:12px 14px; gap:10px; }
   .logo { font-size:0.92rem; letter-spacing:0.14em; gap:6px; }
