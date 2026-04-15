@@ -995,6 +995,16 @@ function closeDrawer() {
 let paypalButtonsRendered = false;
 
 async function initPayPalButtons() {
+  // Wait for PayPal SDK to load (it's loaded with defer)
+  if (!window.paypal) {
+    let attempts = 0;
+    await new Promise((resolve) => {
+      const check = setInterval(() => {
+        attempts++;
+        if (window.paypal || attempts > 50) { clearInterval(check); resolve(); }
+      }, 200);
+    });
+  }
   if (!window.paypal) return;
   if (paypalButtonsRendered) return;
   paypalButtonsRendered = true;

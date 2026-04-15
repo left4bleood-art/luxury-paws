@@ -13,7 +13,7 @@ const port = process.env.PORT || 4242;
 
 const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID || '';
 const PAYPAL_SECRET = process.env.PAYPAL_SECRET || '';
-const PAYPAL_BASE = 'https://api-m.paypal.com'; // live
+const PAYPAL_BASE = 'https://api-m.sandbox.paypal.com';
 
 app.use(cors());
 app.use(express.json());

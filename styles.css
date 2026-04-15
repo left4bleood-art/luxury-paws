@@ -875,7 +875,18 @@ main { flex:1; }
 
 #paypal-button-container {
   margin-bottom:16px;
-  min-height:50px;
+  min-height:55px;
+}
+.paypal-fs {
+  background:linear-gradient(135deg, rgba(255,196,57,0.06), rgba(176,140,96,0.08));
+  border:1.5px solid rgba(176,140,96,0.18);
+  border-radius:var(--radius-sm);
+  padding:20px;
+  margin-top:8px;
+}
+.paypal-fs legend {
+  font-weight:700;
+  color:var(--accent-dark);
 }
 .payment-message {
   color: #df1b41;
@@ -1113,6 +1124,7 @@ main { flex:1; }
 
   /* Payment elements mobile */
   #paypal-button-container { min-height:auto; margin-bottom:8px; }
+  .paypal-fs { padding:16px; margin-top:6px; }
 
   /* Promo code mobile */
   .promo-row { gap:6px; }
@@ -1122,12 +1134,6 @@ main { flex:1; }
   /* Terms & submit mobile */
   .cb-label { font-size:0.84rem; gap:8px; }
   .cb-label input { width:20px; height:20px; }
-  #checkout-submit {
-    min-height:52px;
-    font-size:0.95rem;
-    border-radius:var(--radius-sm);
-    margin-top:4px;
-  }
   .drawer-note { font-size:0.78rem; margin-top:10px; }
 
   /* ─── CONTACT MOBILE ─── */
@@ -1262,7 +1268,7 @@ main { flex:1; }
   .fs legend { font-size:0.92rem; }
   .sum-row { font-size:0.84rem; }
   .sum-total { font-size:0.98rem; }
-  #checkout-submit { min-height:48px; font-size:0.9rem; }
+  .paypal-fs { padding:14px; }
 
   /* ─── CONTACT COMPACT ─── */
   .contact-card { padding:28px 18px; gap:24px; }

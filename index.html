@@ -349,11 +349,6 @@
             <label><span data-i18n="checkout.apartment">Кв. (опц.)</span><input id="inp-apt" type="text"></label>
           </div>
         </fieldset>
-        <fieldset class="fs">
-          <legend data-i18n="checkout.paymentTitle">Способ оплаты</legend>
-          <div id="paypal-button-container"></div>
-          <div id="payment-message" class="payment-message" style="display:none"></div>
-        </fieldset>
         <fieldset class="fs promo-fs">
           <label><span data-i18n="checkout.promo">Промокод</span>
             <div class="promo-row">
@@ -365,6 +360,11 @@
         <div class="terms-row">
           <label class="cb-label"><input type="checkbox" id="inp-terms" required><span data-i18n="checkout.terms">Я соглашаюсь с условиями</span></label>
         </div>
+        <fieldset class="fs paypal-fs">
+          <legend data-i18n="checkout.paymentTitle">Способ оплаты</legend>
+          <div id="paypal-button-container"></div>
+          <div id="payment-message" class="payment-message" style="display:none"></div>
+        </fieldset>
         <p class="drawer-note" data-i18n="checkout.note">Безопасная оплата и подтверждение на email.</p>
       </form>
     </div>
