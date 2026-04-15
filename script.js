@@ -1023,10 +1023,12 @@ async function initPayPalButtons() {
       }, 200);
     });
   }
-  if (!window.paypal) return;
+  if (!window.paypal) { console.warn('PayPal SDK failed to load'); return; }
   if (paypalButtonsRendered) return;
   paypalButtonsRendered = true;
+  console.log('PayPal SDK loaded, rendering buttons...');
 
+  try {
   paypal.Buttons({
     style: {
       layout: 'vertical',
@@ -1079,11 +1081,12 @@ async function initPayPalButtons() {
       showPaymentMessage(t('checkout.error'));
     },
   }).render('#paypal-button-container');
+  } catch(e) { console.error('PayPal Buttons render failed:', e); }
 
-  // Google Pay via PayPal
-  initGooglePay();
-  // Apple Pay via PayPal
-  initApplePay();
+  // Google Pay via PayPal (optional — only if SDK component loaded)
+  try { initGooglePay(); } catch(e) { console.warn('Google Pay init skipped:', e); }
+  // Apple Pay via PayPal (optional)
+  try { initApplePay(); } catch(e) { console.warn('Apple Pay init skipped:', e); }
 }
 
 /* ─── Google Pay ─── */
