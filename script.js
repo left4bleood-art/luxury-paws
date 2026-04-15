@@ -111,6 +111,7 @@ const i18n = {
       promoFail: 'Промокод не распознан.',
       paypalHint: 'Завершите оплату через PayPal кнопку ниже.',
       otherHint: 'Выберите способ оплаты с помощью кнопки.',
+      orPayWith: 'или оплатить картой',
     },
   },
 
@@ -215,6 +216,7 @@ const i18n = {
       promoFail: 'Promo code not recognized.',
       paypalHint: 'Complete payment using the PayPal button below.',
       otherHint: 'Select and confirm payment using the button.',
+      orPayWith: 'or pay with card',
     },
   },
 
@@ -319,6 +321,7 @@ const i18n = {
       promoFail: 'Promo kod nije prepoznat.',
       paypalHint: 'Završite plaćanje putem PayPal dugmeta ispod.',
       otherHint: 'Izaberite način plaćanja pomoću dugmeta.',
+      orPayWith: 'ili platite karticom',
     },
   },
 };
@@ -390,7 +393,7 @@ const collections = [
   { id:'beds',
     title:{ ru:'Лежанки', en:'Dog Beds', sr:'Ležaljke' },
     description:{ ru:'Комфортные и стильные лежанки для вашего питомца.', en:'Comfortable and stylish beds for your beloved pet.', sr:'Udobne i stilske ležaljke za vašeg ljubimca.' },
-    image:'https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=800&q=80' },
+    image:'images/4.png' },
   { id:'toys',
     title:{ ru:'Игрушки', en:'Toys', sr:'Igračke' },
     description:{ ru:'Забавные игрушки для активных игр и развития.', en:'Fun toys for active play and development.', sr:'Zabavne igračke za aktivnu igru i razvoj.' },
@@ -430,7 +433,7 @@ const filterConfig = {
 };
 
 const categoryBanners = {
-  beds:        'https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&w=1600&q=80',
+  beds:        'images/4.png',
   toys:        'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&w=1600&q=80',
   accessories: 'images/11.png',
 };
@@ -516,7 +519,7 @@ let route         = 'home';
 let prevCategory  = null;
 const cart        = [];
 let payMethod     = 'card';
-let stripe, cardEl, payReq;
+let stripe, stripeElements;
 let promoDiscount = 0;
 let promoType = 'fixed'; // 'fixed' or 'percent'
 
@@ -638,6 +641,8 @@ function renderRoute() {
 
   updateNavHighlight();
   hideLoading();
+  // Re-apply scroll reveal to new content
+  setTimeout(() => { if (typeof initScrollReveal === 'function') initScrollReveal(); }, 100);
 }
 
 function updateNavHighlight() {
@@ -968,7 +973,7 @@ function renderCartDrawer() {
   shipEl.textContent = t_.ship === 0 && t_.sub >= shippingConfig.freeThreshold ? t('cart.shippingFree') : fmt(t_.ship);
   document.getElementById('sum-disc').textContent = fmt(t_.disc);
   document.getElementById('sum-total').textContent = fmt(t_.total);
-  if (payReq) updatePRTotal(t_.total);
+  updatePaymentAmount();
 }
 
 function openDrawer() {
@@ -984,15 +989,8 @@ function closeDrawer() {
 }
 
 /* ─────────────────────────────────────────────
-   13. PAYMENTS
+   13. PAYMENTS (Stripe Payment Element — all methods)
    ───────────────────────────────────────────── */
-function updatePayUI() {
-  document.getElementById('card-fields').style.display = payMethod === 'card' ? 'grid' : 'none';
-  document.getElementById('pr-container').style.display = ['apple','google'].includes(payMethod) ? 'block' : 'none';
-  document.getElementById('pp-container').style.display = payMethod === 'paypal' ? 'block' : 'none';
-  const ch = document.getElementById('inp-ch');
-  if (ch) ch.required = payMethod === 'card';
-}
 
 async function createPI(amount, email) {
   const r = await fetch('/api/create-payment-intent', {
@@ -1002,77 +1000,71 @@ async function createPI(amount, email) {
   return r.json();
 }
 
-async function initStripe() {
+async function initPaymentElement() {
   if (!window.Stripe) return;
   stripe = Stripe(STRIPE_PK);
-  const elems = stripe.elements();
-  cardEl = elems.create('card', {
-    hidePostalCode:true,
-    style:{ base:{ color:'#2c261f', fontSize:'16px', '::placeholder':{ color:'#8b7a6d' } } },
+  const t_ = totals();
+  const amount = Math.max(Math.round(t_.total * 100), 50); // min 50 cents
+  stripeElements = stripe.elements({
+    mode: 'payment',
+    amount,
+    currency: 'eur',
+    appearance: {
+      theme: 'stripe',
+      variables: {
+        colorPrimary: '#8b6914',
+        colorText: '#2c261f',
+        fontFamily: 'Inter, sans-serif',
+        borderRadius: '8px',
+      },
+    },
   });
-  cardEl.mount('#card-element');
 
-  payReq = stripe.paymentRequest({
-    country:'DE', currency:'eur',
-    total:{ label: t('cart.heading'), amount:0 },
-    requestPayerName:true, requestPayerEmail:true,
+  // Express Checkout (Apple Pay, Google Pay, PayPal)
+  const expressEl = stripeElements.create('expressCheckout', {
+    buttonType: { applePay: 'buy', googlePay: 'buy', paypal: 'paypal' },
+    buttonHeight: 50,
+    wallets: {
+      applePay: 'auto',
+      googlePay: 'auto',
+      amazonPay: 'never',
+    },
   });
-
-  const prBtn = elems.create('paymentRequestButton', {
-    paymentRequest: payReq,
-    style:{ paymentRequestButton:{ type:'default', theme:'dark', height:'50px' } },
-  });
-
-  payReq.on('paymentmethod', async ev => {
-    if (!cart.length) return ev.complete('fail');
-    const t_ = totals();
-    const pi = await createPI(t_.total * 100, document.getElementById('inp-em').value);
-    if (pi.error) { ev.complete('fail'); return; }
-    const res = await stripe.confirmCardPayment(pi.clientSecret, { payment_method:ev.paymentMethod.id }, { handleActions:false });
-    if (res.error) { ev.complete('fail'); return; }
-    ev.complete('success');
-    if (res.paymentIntent.status === 'requires_action') {
-      const c = await stripe.confirmCardPayment(pi.clientSecret);
-      if (c.error) return;
+  expressEl.mount('#express-checkout-element');
+  expressEl.on('ready', ({ availablePaymentMethods }) => {
+    if (availablePaymentMethods) {
+      document.getElementById('express-divider').style.display = '';
     }
+  });
+  expressEl.on('confirm', async () => {
+    const { error: submitError } = await stripeElements.submit();
+    if (submitError) { showPaymentMessage(submitError.message); return; }
+    const email = document.getElementById('inp-em').value || '';
+    const t2 = totals();
+    const pi = await createPI(Math.round(t2.total * 100), email);
+    if (pi.error) { showPaymentMessage(pi.error.message); return; }
+    const { error } = await stripe.confirmPayment({
+      elements: stripeElements,
+      clientSecret: pi.clientSecret,
+      confirmParams: { return_url: window.location.origin + window.location.pathname },
+      redirect: 'if_required',
+    });
+    if (error) { showPaymentMessage(error.message); return; }
     await submitOrder('stripe');
   });
 
-  payReq.canMakePayment().then(r => {
-    if (r) prBtn.mount('#pr-container');
-    else document.getElementById('pr-container').style.display = 'none';
+  // Standard Payment Element (card, etc.)
+  const paymentElement = stripeElements.create('payment', {
+    layout: 'tabs',
   });
+  paymentElement.mount('#payment-element');
 }
 
-function updatePRTotal(total) {
-  if (!payReq) return;
-  payReq.update({ total:{ label: t('cart.heading'), amount: total * 100 } });
-}
-
-function setupPayPal() {
-  const c = document.getElementById('pp-container');
-  c.innerHTML = '';
-  if (!window.paypal) return;
-  window.paypal.Buttons({
-    style:{ shape:'pill', color:'gold', layout:'vertical', label:'paypal' },
-    createOrder: async () => {
-      const t_ = totals();
-      const r = await fetch('/api/create-paypal-order', {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ amount: t_.total }),
-      });
-      const d = await r.json();
-      return d.id;
-    },
-    onApprove: async data => {
-      const r = await fetch('/api/capture-paypal-order', {
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ orderId: data.orderID }),
-      });
-      const res = await r.json();
-      if (res.status === 'COMPLETED') await submitOrder('paypal');
-    },
-  }).render('#pp-container');
+function updatePaymentAmount() {
+  if (!stripeElements) return;
+  const t_ = totals();
+  const amount = Math.max(Math.round(t_.total * 100), 50);
+  stripeElements.update({ amount });
 }
 
 /* ─────────────────────────────────────────────
@@ -1145,21 +1137,69 @@ async function handleCheckout(e) {
   e.preventDefault();
   if (!cart.length) { alert(t('cart.empty')); return; }
   if (!e.target.checkValidity()) { e.target.reportValidity(); return; }
-  if (payMethod === 'card') {
+
+  const submitBtn = document.getElementById('checkout-submit');
+  submitBtn.disabled = true;
+  submitBtn.textContent = '...';
+
+  try {
+    // 1. Validate Payment Element
+    const { error: submitError } = await stripeElements.submit();
+    if (submitError) {
+      showPaymentMessage(submitError.message);
+      submitBtn.disabled = false;
+      submitBtn.textContent = t('checkout.submit');
+      return;
+    }
+
+    // 2. Create PaymentIntent on server
     const t_ = totals();
     const email = document.getElementById('inp-em').value;
-    const pi = await createPI(t_.total * 100, email);
-    if (pi.error) { alert(pi.error.message || t('checkout.error')); return; }
-    const res = await stripe.confirmCardPayment(pi.clientSecret, {
-      payment_method:{ card:cardEl, billing_details:{ name:document.getElementById('inp-ch').value, email } },
+    const pi = await createPI(Math.round(t_.total * 100), email);
+    if (pi.error) {
+      showPaymentMessage(pi.error.message || t('checkout.error'));
+      submitBtn.disabled = false;
+      submitBtn.textContent = t('checkout.submit');
+      return;
+    }
+
+    // 3. Confirm payment
+    const { error: confirmError } = await stripe.confirmPayment({
+      elements: stripeElements,
+      clientSecret: pi.clientSecret,
+      confirmParams: {
+        return_url: window.location.origin + window.location.pathname,
+        payment_method_data: {
+          billing_details: {
+            name: document.getElementById('inp-fn').value + ' ' + document.getElementById('inp-ln').value,
+            email,
+          },
+        },
+      },
+      redirect: 'if_required',
     });
-    if (res.error) { alert(res.error.message || t('checkout.error')); return; }
-    if (res.paymentIntent?.status === 'succeeded') await submitOrder('stripe');
-  } else if (payMethod === 'paypal') {
-    alert(t('checkout.paypalHint'));
-  } else {
-    alert(t('checkout.otherHint'));
+
+    if (confirmError) {
+      showPaymentMessage(confirmError.message || t('checkout.error'));
+      submitBtn.disabled = false;
+      submitBtn.textContent = t('checkout.submit');
+      return;
+    }
+
+    // Payment succeeded
+    await submitOrder('stripe');
+  } catch (err) {
+    showPaymentMessage(t('checkout.error'));
   }
+  submitBtn.disabled = false;
+  submitBtn.textContent = t('checkout.submit');
+}
+
+function showPaymentMessage(msg) {
+  const el = document.getElementById('payment-message');
+  el.textContent = msg;
+  el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, 6000);
 }
 
 function applyPromo() {
@@ -1216,15 +1256,6 @@ function bindEvents() {
     e.preventDefault();
     alert(t('contact.success'));
     e.target.reset();
-  });
-
-  // Payment method
-  document.querySelectorAll('input[name="pay"]').forEach(r => {
-    r.addEventListener('change', e => {
-      payMethod = e.target.value;
-      updatePayUI();
-      if (payMethod === 'paypal') setupPayPal();
-    });
   });
 
   // Navigation links
@@ -1296,9 +1327,142 @@ window.addEventListener('DOMContentLoaded', async () => {
   bindEvents();
   translatePage();
   updateCartCount();
-  updatePayUI();
   renderRoute();
   initPromoBar();
-  await initStripe();
-  setupPayPal();
+  await initPaymentElement();
+  initCreativeEffects();
 });
+
+/* ─────────────────────────────────────────────
+   17. CREATIVE EFFECTS ENGINE
+   ───────────────────────────────────────────── */
+function initCreativeEffects() {
+  initScrollReveal();
+  initHeroParticles();
+  initGradientText();
+  initCardTilt();
+  initCursorGlow();
+  initCartPulse();
+}
+
+/* ── Scroll Reveal ── */
+function initScrollReveal() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold:0.12, rootMargin:'0px 0px -40px 0px' });
+
+  // Auto-tag sections
+  document.querySelectorAll('.section-head').forEach(el => {
+    el.classList.add('reveal');
+    observer.observe(el);
+  });
+  document.querySelectorAll('.col-card').forEach((el,i) => {
+    el.classList.add('reveal-scale');
+    el.style.setProperty('--i', i);
+    el.classList.add('stagger-children');
+    observer.observe(el);
+  });
+  document.querySelectorAll('.trust-card').forEach((el,i) => {
+    el.classList.add('reveal');
+    el.style.transitionDelay = `${i * 0.15}s`;
+    observer.observe(el);
+  });
+  document.querySelectorAll('.review-card').forEach((el,i) => {
+    el.classList.add('reveal');
+    el.style.transitionDelay = `${i * 0.12}s`;
+    observer.observe(el);
+  });
+  document.querySelectorAll('.pcard').forEach((el,i) => {
+    el.classList.add('reveal');
+    el.style.transitionDelay = `${(i % 4) * 0.1}s`;
+    observer.observe(el);
+  });
+  const contactCard = document.querySelector('.contact-card');
+  if (contactCard) { contactCard.classList.add('reveal-scale'); observer.observe(contactCard); }
+}
+
+// Re-observe after route changes
+const origRenderRoute = typeof renderRoute === 'function' ? renderRoute : null;
+
+/* ── Hero Gold Particles ── */
+function initHeroParticles() {
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
+  let container = hero.querySelector('.hero-particles');
+  if (!container) {
+    container = document.createElement('div');
+    container.className = 'hero-particles';
+    hero.querySelector('.hero-bg').after(container);
+  }
+  for (let i = 0; i < 25; i++) {
+    const p = document.createElement('div');
+    p.className = 'gold-particle';
+    p.style.left = `${Math.random() * 100}%`;
+    p.style.setProperty('--dur', `${6+Math.random()*8}s`);
+    p.style.setProperty('--delay', `${Math.random()*6}s`);
+    p.style.width = p.style.height = `${2+Math.random()*4}px`;
+    container.appendChild(p);
+  }
+}
+
+/* ── Gradient Text on Headings ── */
+function initGradientText() {
+  const heroH1 = document.querySelector('.hero-text h1');
+  if (heroH1) heroH1.classList.add('gradient-text');
+}
+
+/* ── 3D Tilt on Product Cards ── */
+function initCardTilt() {
+  document.addEventListener('mousemove', e => {
+    const card = e.target.closest('.pcard');
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = `perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) translateY(-8px)`;
+  });
+  document.addEventListener('mouseleave', e => {
+    const card = e.target.closest('.pcard');
+    if (card) card.style.transform = '';
+  }, true);
+  // Reset on mouseout
+  document.addEventListener('mouseout', e => {
+    if (e.target.classList && e.target.classList.contains('pcard')) {
+      e.target.style.transform = '';
+    }
+  });
+}
+
+/* ── Cursor Glow ── */
+function initCursorGlow() {
+  if (window.matchMedia('(max-width:768px)').matches) return;
+  const glow = document.createElement('div');
+  glow.className = 'cursor-glow';
+  document.body.appendChild(glow);
+  let mx = -500, my = -500;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+  }, { passive:true });
+  (function updateGlow() {
+    glow.style.left = mx + 'px';
+    glow.style.top = my + 'px';
+    requestAnimationFrame(updateGlow);
+  })();
+}
+
+/* ── Cart Count Pulse ── */
+function initCartPulse() {
+  const origAddToCart = window.addToCart || addToCart;
+  const countEl = document.getElementById('cart-count');
+  if (!countEl) return;
+  const mo = new MutationObserver(() => {
+    countEl.classList.remove('pulse');
+    void countEl.offsetWidth; // trigger reflow
+    countEl.classList.add('pulse');
+  });
+  mo.observe(countEl, { childList:true, characterData:true, subtree:true });
+}

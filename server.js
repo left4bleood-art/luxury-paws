@@ -3,7 +3,6 @@ const express = require('express');
 const cors = require('cors');
 const Stripe = require('stripe');
 const nodemailer = require('nodemailer');
-const fetch = global.fetch || require('node-fetch');
 
 function esc(str) {
   if (!str) return '';
@@ -84,6 +83,7 @@ app.post('/api/create-payment-intent', async (req, res) => {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: parseInt(amount, 10),
       currency: 'eur',
+      automatic_payment_methods: { enabled: true },
       receipt_email: email,
       metadata: { integration_check: 'accept_a_payment' },
     });
@@ -161,76 +161,9 @@ app.post('/api/send-order', async (req, res) => {
   }
 });
 
-async function getPayPalAccessToken() {
-  const base = process.env.PAYPAL_ENV === 'sandbox'
-    ? 'https://api-m.sandbox.paypal.com'
-    : 'https://api-m.paypal.com';
-  const auth = Buffer.from(`${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_SECRET}`).toString('base64');
-  const response = await fetch(`${base}/v1/oauth2/token`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Basic ${auth}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: 'grant_type=client_credentials',
-  });
-  const data = await response.json();
-  return data.access_token;
-}
-
-app.post('/api/create-paypal-order', async (req, res) => {
-  try {
-    const { amount } = req.body;
-    const token = await getPayPalAccessToken();
-    const base = process.env.PAYPAL_ENV === 'sandbox'
-      ? 'https://api-m.sandbox.paypal.com'
-      : 'https://api-m.paypal.com';
-    const order = await fetch(`${base}/v2/checkout/orders`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        intent: 'CAPTURE',
-        purchase_units: [{ amount: { currency_code: 'EUR', value: Number(amount).toFixed(2) } }],
-      }),
-    }).then((r) => r.json());
-    res.json(order);
-  } catch (error) {
-    console.error('PayPal order creation', error);
-    res.status(500).json({ error: error.message });
-  }
-});
-
-app.post('/api/capture-paypal-order', async (req, res) => {
-  try {
-    const { orderId } = req.body;
-    if (!orderId || typeof orderId !== 'string' || !/^[A-Z0-9]+$/.test(orderId)) {
-      return res.status(400).json({ error: 'Invalid order ID' });
-    }
-    const token = await getPayPalAccessToken();
-    const base = process.env.PAYPAL_ENV === 'sandbox'
-      ? 'https://api-m.sandbox.paypal.com'
-      : 'https://api-m.paypal.com';
-    const result = await fetch(`${base}/v2/checkout/orders/${orderId}/capture`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    }).then((r) => r.json());
-    res.json(result);
-  } catch (error) {
-    console.error('PayPal capture', error);
-    res.status(500).json({ error: error.message });
-  }
-});
-
 app.get('/api/config', (req, res) => {
   res.json({
     stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY || '',
-    paypalClientId: process.env.PAYPAL_CLIENT_ID || '',
   });
 });
 

@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://js.stripe.com/v3/"></script>
-  <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=EUR" data-sdk-integration-source="button-factory"></script>
 </head>
 <body>
 
@@ -347,18 +346,12 @@
         </fieldset>
         <fieldset class="fs">
           <legend data-i18n="checkout.paymentTitle">Способ оплаты</legend>
-          <div class="pay-opts">
-            <label class="pay-opt"><input type="radio" name="pay" value="card" checked><span data-i18n="checkout.card">Карта</span></label>
-            <label class="pay-opt"><input type="radio" name="pay" value="paypal"><span data-i18n="checkout.paypal">PayPal</span></label>
-            <label class="pay-opt"><input type="radio" name="pay" value="apple"><span data-i18n="checkout.applePay">Apple Pay</span></label>
-            <label class="pay-opt"><input type="radio" name="pay" value="google"><span data-i18n="checkout.googlePay">Google Pay</span></label>
+          <div id="express-checkout-element"></div>
+          <div id="express-divider" class="express-divider" style="display:none">
+            <span data-i18n="checkout.orPayWith">или оплатить картой</span>
           </div>
-          <div id="card-fields" class="card-fields">
-            <label><span data-i18n="checkout.cardholder">Владелец карты</span><input id="inp-ch" type="text" required></label>
-            <label><span data-i18n="checkout.cardNumber">Номер карты</span><div id="card-element" class="stripe-el"></div></label>
-          </div>
-          <div id="pr-container" class="pr-container"></div>
-          <div id="pp-container" class="pp-container"></div>
+          <div id="payment-element"></div>
+          <div id="payment-message" class="payment-message" style="display:none"></div>
         </fieldset>
         <fieldset class="fs promo-fs">
           <label><span data-i18n="checkout.promo">Промокод</span>
