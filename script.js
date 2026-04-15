@@ -107,6 +107,7 @@ const i18n = {
       promoOk5p: 'Скидка 5% применена!',
       promoOk5: 'Скидка €5 применена!',
       promoFail: 'Промокод не распознан.',
+      promoExhausted: 'Промокод больше не действует — лимит исчерпан.',
       paypalHint: 'Завершите оплату через PayPal кнопку ниже.',
       otherHint: 'Выберите способ оплаты с помощью кнопки.',
       orPayWith: 'или оплатить картой',
@@ -212,6 +213,7 @@ const i18n = {
       promoOk5p: '5% discount applied!',
       promoOk5: '€5 discount applied!',
       promoFail: 'Promo code not recognized.',
+      promoExhausted: 'Promo code is no longer available — limit reached.',
       paypalHint: 'Complete payment using the PayPal button below.',
       otherHint: 'Select and confirm payment using the button.',
       orPayWith: 'or pay with card',
@@ -317,6 +319,7 @@ const i18n = {
       promoOk5p: 'Popust 5% primenjen!',
       promoOk5: 'Popust €5 primenjen!',
       promoFail: 'Promo kod nije prepoznat.',
+      promoExhausted: 'Promo kod više ne važi — limit je dostignut.',
       paypalHint: 'Završite plaćanje putem PayPal dugmeta ispod.',
       otherHint: 'Izaberite način plaćanja pomoću dugmeta.',
       orPayWith: 'ili platite karticom',
@@ -1061,6 +1064,167 @@ async function initPayPalButtons() {
       showPaymentMessage(t('checkout.error'));
     },
   }).render('#paypal-button-container');
+
+  // Google Pay via PayPal
+  initGooglePay();
+  // Apple Pay via PayPal
+  initApplePay();
+}
+
+/* ─── Google Pay ─── */
+async function initGooglePay() {
+  if (!window.paypal || !paypal.Googlepay) return;
+  try {
+    const googlepay = paypal.Googlepay();
+    const gpConfig = await googlepay.config();
+
+    const gPayClient = new google.payments.api.PaymentsClient({
+      environment: 'PRODUCTION',
+    });
+
+    const { result } = await gPayClient.isReadyToPay({
+      apiVersion: 2, apiVersionMinor: 0,
+      allowedPaymentMethods: gpConfig.allowedPaymentMethods,
+    });
+    if (!result) return;
+
+    const btn = gPayClient.createButton({
+      buttonColor: 'black',
+      buttonType: 'pay',
+      buttonSizeMode: 'fill',
+      onClick: () => onGooglePayClick(gPayClient, googlepay, gpConfig),
+    });
+    document.getElementById('googlepay-container').appendChild(btn);
+  } catch (e) { console.log('Google Pay not available:', e.message); }
+}
+
+async function onGooglePayClick(client, googlepay, gpConfig) {
+  const form = document.getElementById('checkout-form');
+  if (!form.checkValidity()) { form.reportValidity(); return; }
+  if (!document.getElementById('inp-terms').checked) { showPaymentMessage(t('checkout.error')); return; }
+  if (!cart.length) { showPaymentMessage(t('cart.empty')); return; }
+
+  const t_ = totals();
+  try {
+    const paymentData = await client.loadPaymentData({
+      apiVersion: 2, apiVersionMinor: 0,
+      allowedPaymentMethods: gpConfig.allowedPaymentMethods,
+      transactionInfo: {
+        totalPriceStatus: 'FINAL',
+        totalPrice: t_.total.toFixed(2),
+        currencyCode: 'EUR',
+        countryCode: 'AT',
+      },
+      merchantInfo: gpConfig.merchantInfo,
+    });
+
+    const r = await fetch('/api/paypal/create-order', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: t_.total, currency: 'EUR' }),
+    });
+    const orderData = await r.json();
+
+    const { status } = await googlepay.confirmOrder({
+      orderId: orderData.id,
+      paymentMethodData: paymentData.paymentMethodData,
+    });
+
+    if (status === 'APPROVED') {
+      const capture = await fetch('/api/paypal/capture-order', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderID: orderData.id }),
+      });
+      const captureData = await capture.json();
+      if (captureData.status === 'COMPLETED') {
+        await submitOrder('Google Pay');
+      } else { showPaymentMessage(t('checkout.error')); }
+    }
+  } catch (e) {
+    console.error('Google Pay error:', e);
+    if (e.statusCode !== 'CANCELED') showPaymentMessage(t('checkout.error'));
+  }
+}
+
+/* ─── Apple Pay ─── */
+async function initApplePay() {
+  if (!window.paypal || !paypal.Applepay) return;
+  if (!window.ApplePaySession || !ApplePaySession.canMakePayments()) return;
+  try {
+    const applepay = paypal.Applepay();
+    const apConfig = await applepay.config();
+    if (!apConfig.isEligible) return;
+
+    const btn = document.createElement('apple-pay-button');
+    btn.setAttribute('buttonstyle', 'black');
+    btn.setAttribute('type', 'pay');
+    btn.style.cssText = 'width:100%;height:50px;border-radius:8px;cursor:pointer;';
+    btn.addEventListener('click', () => onApplePayClick(applepay, apConfig));
+    document.getElementById('applepay-container').appendChild(btn);
+  } catch (e) { console.log('Apple Pay not available:', e.message); }
+}
+
+async function onApplePayClick(applepay, apConfig) {
+  const form = document.getElementById('checkout-form');
+  if (!form.checkValidity()) { form.reportValidity(); return; }
+  if (!document.getElementById('inp-terms').checked) { showPaymentMessage(t('checkout.error')); return; }
+  if (!cart.length) { showPaymentMessage(t('cart.empty')); return; }
+
+  const t_ = totals();
+  try {
+    const session = new ApplePaySession(4, {
+      countryCode: apConfig.countryCode,
+      currencyCode: 'EUR',
+      merchantCapabilities: apConfig.merchantCapabilities,
+      supportedNetworks: apConfig.supportedNetworks,
+      requiredBillingContactFields: ['name', 'email'],
+      total: { label: 'Luxury Paws', amount: t_.total.toFixed(2), type: 'final' },
+    });
+
+    session.onvalidatemerchant = (event) => {
+      applepay.validateMerchant({ validationUrl: event.validationURL })
+        .then(payload => session.completeMerchantValidation(payload.merchantSession))
+        .catch(err => { console.error('Apple Pay merchant validation failed:', err); session.abort(); });
+    };
+
+    session.onpaymentauthorized = async (event) => {
+      try {
+        const r = await fetch('/api/paypal/create-order', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: t_.total, currency: 'EUR' }),
+        });
+        const orderData = await r.json();
+
+        const { status } = await applepay.confirmOrder({
+          orderId: orderData.id,
+          token: event.payment.token,
+          billingContact: event.payment.billingContact,
+        });
+
+        if (status === 'APPROVED') {
+          session.completePayment(ApplePaySession.STATUS_SUCCESS);
+          const capture = await fetch('/api/paypal/capture-order', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ orderID: orderData.id }),
+          });
+          const captureData = await capture.json();
+          if (captureData.status === 'COMPLETED') {
+            await submitOrder('Apple Pay');
+          } else { showPaymentMessage(t('checkout.error')); }
+        } else {
+          session.completePayment(ApplePaySession.STATUS_FAILURE);
+          showPaymentMessage(t('checkout.error'));
+        }
+      } catch (err) {
+        session.completePayment(ApplePaySession.STATUS_FAILURE);
+        showPaymentMessage(t('checkout.error'));
+      }
+    };
+
+    session.begin();
+  } catch (e) {
+    console.error('Apple Pay error:', e);
+    showPaymentMessage(t('checkout.error'));
+  }
 }
 
 function updatePaymentAmount() {
@@ -1078,11 +1242,19 @@ async function submitOrder(provider) {
   });
   const res = await r.json();
   if (res.success) {
+    // Track promo usage on server
+    if (appliedPromoCode) {
+      fetch('/api/use-promo', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: appliedPromoCode }),
+      }).catch(() => {});
+    }
     const num = res.orderNumber || '';
     alert(`${t('checkout.thankYou')}${num ? '\nOrder #' + num : ''}`);
     cart.length = 0;
     promoDiscount = 0;
     promoType = 'fixed';
+    appliedPromoCode = '';
     selectedCountry = '';
     saveCart();
     renderCartDrawer(); updateCartCount();
@@ -1149,19 +1321,29 @@ function showPaymentMessage(msg) {
   setTimeout(() => { el.style.display = 'none'; }, 6000);
 }
 
-function applyPromo() {
+let appliedPromoCode = '';
+
+async function applyPromo() {
   const code = document.getElementById('inp-promo').value.trim().toUpperCase();
-  if (code === 'LUXURY20') {
-    promoDiscount = 5;
-    promoType = 'percent';
-    alert(t('checkout.promoOk5p'));
-  } else if (code === 'PAWLOVE') {
-    promoDiscount = 5;
-    promoType = 'fixed';
-    alert(t('checkout.promoOk5'));
-  } else {
-    promoDiscount = 0;
-    promoType = 'fixed';
+  if (!code) return;
+  try {
+    const r = await fetch('/api/validate-promo', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code }),
+    });
+    const data = await r.json();
+    if (!data.valid) {
+      promoDiscount = 0; promoType = 'fixed'; appliedPromoCode = '';
+      alert(data.exhausted ? (t('checkout.promoExhausted') || 'Promo code used up!') : t('checkout.promoFail'));
+    } else {
+      promoDiscount = data.discount;
+      promoType = data.type;
+      appliedPromoCode = code;
+      if (data.type === 'percent') alert(t('checkout.promoOk5p'));
+      else alert(t('checkout.promoOk5'));
+    }
+  } catch {
+    promoDiscount = 0; promoType = 'fixed'; appliedPromoCode = '';
     alert(t('checkout.promoFail'));
   }
   renderCartDrawer();

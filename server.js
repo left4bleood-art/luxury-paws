@@ -142,6 +142,48 @@ app.post('/api/paypal/capture-order', async (req, res) => {
   }
 });
 
+/* ─── Promo codes (server-side, max 100 uses each) ─── */
+const fs = require('fs');
+const PROMO_FILE = __dirname + '/promo-usage.json';
+const PROMO_CODES = {
+  LUXURY20: { discount: 5, type: 'percent', maxUses: 100 },
+  PAWLOVE:  { discount: 5, type: 'fixed',   maxUses: 100 },
+};
+
+function loadPromoUsage() {
+  try { return JSON.parse(fs.readFileSync(PROMO_FILE, 'utf8')); }
+  catch { return {}; }
+}
+function savePromoUsage(data) {
+  fs.writeFileSync(PROMO_FILE, JSON.stringify(data));
+}
+
+app.post('/api/validate-promo', (req, res) => {
+  const code = (req.body.code || '').trim().toUpperCase();
+  const promo = PROMO_CODES[code];
+  if (!promo) return res.json({ valid: false });
+
+  const usage = loadPromoUsage();
+  const used = usage[code] || 0;
+  if (used >= promo.maxUses) return res.json({ valid: false, exhausted: true });
+
+  res.json({ valid: true, discount: promo.discount, type: promo.type, remaining: promo.maxUses - used });
+});
+
+app.post('/api/use-promo', (req, res) => {
+  const code = (req.body.code || '').trim().toUpperCase();
+  const promo = PROMO_CODES[code];
+  if (!promo) return res.json({ ok: false });
+
+  const usage = loadPromoUsage();
+  const used = usage[code] || 0;
+  if (used >= promo.maxUses) return res.json({ ok: false, exhausted: true });
+
+  usage[code] = used + 1;
+  savePromoUsage(usage);
+  res.json({ ok: true, remaining: promo.maxUses - used - 1 });
+});
+
 function createOrderNumber() {
   return `LP-${Date.now().toString().slice(-6)}-${Math.floor(Math.random() * 900 + 100)}`;
 }

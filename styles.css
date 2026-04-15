@@ -877,6 +877,13 @@ main { flex:1; }
   margin-bottom:16px;
   min-height:55px;
 }
+.wallet-btn-wrap {
+  margin-bottom:10px;
+}
+.wallet-btn-wrap:empty {
+  display:none;
+  margin:0;
+}
 .paypal-fs {
   background:linear-gradient(135deg, rgba(255,196,57,0.06), rgba(176,140,96,0.08));
   border:1.5px solid rgba(176,140,96,0.18);

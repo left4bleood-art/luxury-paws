@@ -4,10 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Luxury Paws — Premium Dog Boutique</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://www.paypal.com/sdk/js?client-id=AS0IzZAd-2QvrQFj4HeAHZay82kX4lf3DEqnttyrhsH2Bslhx4vM4PIxt4RRtPr34P45TfDHUZvENxn8&currency=EUR&intent=capture&components=buttons" defer></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=AS0IzZAd-2QvrQFj4HeAHZay82kX4lf3DEqnttyrhsH2Bslhx4vM4PIxt4RRtPr34P45TfDHUZvENxn8&currency=EUR&intent=capture&components=buttons,applepay,googlepay&buyer-country=AT" defer></script>
+  <script src="https://pay.google.com/gp/p/js/pay.js" defer></script>
 </head>
 <body>
 
@@ -362,6 +364,8 @@
         </div>
         <fieldset class="fs paypal-fs">
           <legend data-i18n="checkout.paymentTitle">Способ оплаты</legend>
+          <div id="applepay-container" class="wallet-btn-wrap"></div>
+          <div id="googlepay-container" class="wallet-btn-wrap"></div>
           <div id="paypal-button-container"></div>
           <div id="payment-message" class="payment-message" style="display:none"></div>
         </fieldset>
