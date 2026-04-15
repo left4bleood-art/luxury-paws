@@ -1580,16 +1580,16 @@ function initAmbientParticles() {
   document.body.appendChild(container);
 
   const types = ['gold', 'warm', 'light'];
-  const count = 35;
+  const count = 40;
   for (let i = 0; i < count; i++) {
     const dot = document.createElement('div');
     const type = types[i % 3];
     dot.className = `ambient-dot ambient-dot--${type}`;
-    const size = 3 + Math.random() * 6;
+    const size = 5 + Math.random() * 10;
     dot.style.width = dot.style.height = size + 'px';
     dot.style.left = Math.random() * 100 + '%';
-    dot.style.setProperty('--dur', (12 + Math.random() * 18) + 's');
-    dot.style.setProperty('--delay', (Math.random() * 14) + 's');
+    dot.style.setProperty('--dur', (10 + Math.random() * 14) + 's');
+    dot.style.setProperty('--delay', (Math.random() * 6) + 's');
     dot.style.setProperty('--dx', (Math.random() * 80 - 40) + 'px');
     container.appendChild(dot);
   }
