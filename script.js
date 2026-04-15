@@ -1029,6 +1029,7 @@ async function initPaymentElement() {
       googlePay: 'auto',
       amazonPay: 'never',
     },
+    paymentMethodOrder: ['apple_pay', 'google_pay', 'paypal'],
   });
   expressEl.mount('#express-checkout-element');
   expressEl.on('ready', ({ availablePaymentMethods }) => {
@@ -1056,6 +1057,7 @@ async function initPaymentElement() {
   // Standard Payment Element (card, etc.)
   const paymentElement = stripeElements.create('payment', {
     layout: 'tabs',
+    wallets: { applePay: 'never', googlePay: 'never', amazonPay: 'never' },
   });
   paymentElement.mount('#payment-element');
 }
@@ -1286,6 +1288,10 @@ function bindEvents() {
   document.getElementById('lang-en').addEventListener('click', () => setLocale('en'));
   document.getElementById('lang-ru').addEventListener('click', () => setLocale('ru'));
   document.getElementById('lang-sr').addEventListener('click', () => setLocale('sr'));
+  // Mobile language buttons
+  document.getElementById('mob-lang-en').addEventListener('click', () => { setLocale('en'); document.getElementById('site-nav').classList.remove('open'); });
+  document.getElementById('mob-lang-ru').addEventListener('click', () => { setLocale('ru'); document.getElementById('site-nav').classList.remove('open'); });
+  document.getElementById('mob-lang-sr').addEventListener('click', () => { setLocale('sr'); document.getElementById('site-nav').classList.remove('open'); });
 
   // Mobile menu
   document.getElementById('burger').addEventListener('click', () => {
@@ -1315,6 +1321,9 @@ function setLocale(l) {
   document.getElementById('lang-en').classList.toggle('active', l === 'en');
   document.getElementById('lang-ru').classList.toggle('active', l === 'ru');
   document.getElementById('lang-sr').classList.toggle('active', l === 'sr');
+  document.getElementById('mob-lang-en').classList.toggle('active', l === 'en');
+  document.getElementById('mob-lang-ru').classList.toggle('active', l === 'ru');
+  document.getElementById('mob-lang-sr').classList.toggle('active', l === 'sr');
   translatePage();
 }
 
@@ -1324,6 +1333,7 @@ function setLocale(l) {
 window.addEventListener('DOMContentLoaded', async () => {
   route = window.location.hash.replace('#','') || 'home';
   document.getElementById('lang-en').classList.add('active');
+  document.getElementById('mob-lang-en').classList.add('active');
   bindEvents();
   translatePage();
   updateCartCount();

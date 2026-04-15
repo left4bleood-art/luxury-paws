@@ -919,6 +919,7 @@ main { flex:1; }
 
 @media (max-width:768px) {
   .burger { display:flex; }
+  .lang-switch { display:none; }
   .nav {
     position:fixed; top:0; right:0;
     width:280px; height:100vh;
@@ -929,6 +930,7 @@ main { flex:1; }
     transition:transform 0.35s ease;
     box-shadow:-16px 0 48px rgba(30,24,18,0.12);
     z-index:85; gap:0;
+    overflow-y:auto;
   }
   .nav.open { transform:translateX(0); }
   .nav a {
@@ -938,16 +940,67 @@ main { flex:1; }
   }
   .nav a::after { display:none; }
 
+  /* Mobile language switcher inside nav */
+  .mobile-lang-switch {
+    display:flex; gap:8px; padding:20px 0 10px;
+    border-top:1px solid var(--border);
+    margin-top:8px;
+  }
+  .mobile-lang-switch .lang-btn {
+    flex:1; text-align:center;
+    padding:12px 0; font-size:0.88rem;
+  }
+
   .col-grid { grid-template-columns:1fr; }
   .col-card { height:340px; }
   .trust-grid { grid-template-columns:1fr; }
   .reviews-grid { grid-template-columns:1fr; }
-  .pgrid { grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); }
+  .pgrid { grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); }
   .section { padding:64px 18px; }
   .hero-inner { padding:80px 18px 60px; }
   .header-inner { padding:14px 18px; }
   .cat-banner { height:260px; }
   .form-row { grid-template-columns:1fr; }
+
+  /* Drawer mobile full-width */
+  .drawer { width:100%; }
+  .drawer-top { padding:20px 18px 16px; }
+  .drawer-top h2 { font-size:1.3rem; }
+  .drawer-body { padding:18px 18px 32px; }
+  .drawer-body label span { font-size:0.85rem; }
+  .drawer-body input,
+  .drawer-body select { font-size:16px; }
+
+  /* Payment element mobile */
+  #payment-element { min-height:auto; }
+  #express-checkout-element { min-height:auto; }
+  .express-divider { margin:14px 0; font-size:0.78rem; }
+
+  /* Cart item mobile */
+  .cart-item { grid-template-columns:56px 1fr; gap:10px; padding:12px; }
+  .cart-item-thumb { width:56px; height:56px; }
+
+  /* Hero mobile */
+  .hero-text h1 { font-size:clamp(1.8rem,6vw,2.8rem); }
+  .hero-sub { font-size:0.92rem; }
+
+  /* Product detail mobile */
+  .pd-wrap { padding:0 16px; }
+  .pd-info h1 { font-size:1.5rem; }
+  .pd-price { font-size:1.3rem; }
+  .pd-perks { font-size:0.82rem; }
+  .pd-perks span { display:block; margin-bottom:6px; }
+
+  /* Footer mobile */
+  .footer-inner { flex-direction:column; text-align:center; gap:12px; }
+  .footer-links { justify-content:center; }
+
+  /* Section headings mobile */
+  .section-head h2 { font-size:clamp(1.6rem,5vw,2.4rem); }
+  .section-head p { font-size:0.92rem; }
+
+  /* Contact mobile */
+  .contact-card { padding:32px 20px; }
 }
 
 @media (max-width:480px) {
@@ -957,6 +1010,21 @@ main { flex:1; }
   .hero-cards { grid-template-columns:1fr; }
   .pcard-media { height:200px; }
   .col-card { height:280px; }
+  .pgrid { grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:12px; }
+  .pcard-info { padding:10px 14px 14px; }
+  .pcard-name { font-size:0.88rem; }
+  .pcard-btn { padding:10px 14px; font-size:0.82rem; }
+  .section { padding:48px 14px; }
+  .header-inner { padding:12px 14px; }
+  .logo { font-size:1rem; letter-spacing:0.16em; }
+  .promo-bar { font-size:0.76rem; padding:8px 36px 8px 12px; }
+  .drawer-body .fs legend { font-size:0.95rem; }
+  .sum-row { font-size:0.88rem; }
+  .sum-total { font-size:1rem; }
+  .cat-banner { height:220px; }
+  .cat-banner-inner h1 { font-size:1.6rem; }
+  .trust-card { padding:24px 18px; }
+  .trust-icon { font-size:1.6rem; }
 }
 
 /* ═══════════════════════════════════════════════
@@ -1260,4 +1328,15 @@ main { flex:1; }
   .cursor-glow { display:none; }
   .gold-particle { display:none; }
   .col-card::before { display:none; }
+}
+
+/* ─── MOBILE: HIDE DESKTOP LANG IN NAV ─── */
+@media (min-width:769px) {
+  .mobile-lang-switch { display:none !important; }
+}
+
+/* ─── SAFE AREA (iPhone notch) ─── */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .drawer-body { padding-bottom:calc(32px + env(safe-area-inset-bottom)); }
+  .site-footer { padding-bottom:env(safe-area-inset-bottom); }
 }
