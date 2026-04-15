@@ -1444,7 +1444,7 @@ main { flex:1; }
 
 /* ─── GLOBAL AMBIENT PARTICLES ─── */
 .ambient-particles {
-  position:fixed; inset:0; z-index:10; pointer-events:none; overflow:hidden;
+  position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden;
 }
 .ambient-dot {
   position:absolute;
