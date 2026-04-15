@@ -1442,6 +1442,47 @@ main { flex:1; }
   100% { opacity:0; transform:translateY(-20vh) scale(1); }
 }
 
+/* ─── GLOBAL AMBIENT PARTICLES ─── */
+.ambient-particles {
+  position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;
+}
+.ambient-dot {
+  position:absolute;
+  border-radius:50%;
+  opacity:0;
+}
+.ambient-dot--gold {
+  background:radial-gradient(circle, rgba(212,169,76,0.5) 0%, rgba(212,169,76,0) 70%);
+  animation:ambientFloat var(--dur) var(--delay) infinite ease-in-out;
+}
+.ambient-dot--warm {
+  background:radial-gradient(circle, rgba(176,140,96,0.35) 0%, rgba(176,140,96,0) 70%);
+  animation:ambientDrift var(--dur) var(--delay) infinite ease-in-out;
+}
+.ambient-dot--light {
+  background:radial-gradient(circle, rgba(250,246,240,0.6) 0%, rgba(250,246,240,0) 70%);
+  animation:ambientRise var(--dur) var(--delay) infinite ease-in-out;
+}
+@keyframes ambientFloat {
+  0%   { opacity:0; transform:translate(0, 100vh) scale(0.3); }
+  15%  { opacity:0.4; }
+  50%  { opacity:0.25; transform:translate(var(--dx, 30px), 50vh) scale(0.8); }
+  85%  { opacity:0.35; }
+  100% { opacity:0; transform:translate(calc(var(--dx, 30px) * -1), -10vh) scale(0.4); }
+}
+@keyframes ambientDrift {
+  0%   { opacity:0; transform:translate(var(--dx, -20px), 100vh) scale(0.5); }
+  20%  { opacity:0.3; }
+  60%  { opacity:0.2; }
+  100% { opacity:0; transform:translate(calc(var(--dx, -20px) * -0.5), -15vh) scale(0.7); }
+}
+@keyframes ambientRise {
+  0%   { opacity:0; transform:translateY(100vh) scale(0.2); }
+  10%  { opacity:0.5; }
+  90%  { opacity:0.3; }
+  100% { opacity:0; transform:translateY(-10vh) scale(1); }
+}
+
 /* ─── GRADIENT TEXT ─── */
 .gradient-text {
   background:linear-gradient(135deg, var(--accent-dark) 0%, var(--gold) 40%, var(--accent) 70%, var(--accent-dark) 100%);
@@ -1674,6 +1715,7 @@ main { flex:1; }
 @media (max-width:768px) {
   .cursor-glow { display:none; }
   .gold-particle { display:none; }
+  .ambient-particles { display:none; }
   .col-card::before { display:none; }
 
   /* Mobile-specific premium touches */

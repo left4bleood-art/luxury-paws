@@ -1494,6 +1494,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 function initCreativeEffects() {
   initScrollReveal();
   initHeroParticles();
+  initAmbientParticles();
   initGradientText();
   initCardTilt();
   initCursorGlow();
@@ -1568,6 +1569,30 @@ function initHeroParticles() {
 function initGradientText() {
   const heroH1 = document.querySelector('.hero-text h1');
   if (heroH1) heroH1.classList.add('gradient-text');
+}
+
+/* ── Ambient Particles (full page) ── */
+function initAmbientParticles() {
+  if (window.matchMedia('(max-width:768px)').matches) return;
+  if (document.querySelector('.ambient-particles')) return;
+  const container = document.createElement('div');
+  container.className = 'ambient-particles';
+  document.body.appendChild(container);
+
+  const types = ['gold', 'warm', 'light'];
+  const count = 35;
+  for (let i = 0; i < count; i++) {
+    const dot = document.createElement('div');
+    const type = types[i % 3];
+    dot.className = `ambient-dot ambient-dot--${type}`;
+    const size = 3 + Math.random() * 6;
+    dot.style.width = dot.style.height = size + 'px';
+    dot.style.left = Math.random() * 100 + '%';
+    dot.style.setProperty('--dur', (12 + Math.random() * 18) + 's');
+    dot.style.setProperty('--delay', (Math.random() * 14) + 's');
+    dot.style.setProperty('--dx', (Math.random() * 80 - 40) + 'px');
+    container.appendChild(dot);
+  }
 }
 
 /* ── 3D Tilt on Product Cards (disabled) ── */
