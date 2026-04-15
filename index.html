@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luxury Paws — Premium Dog Boutique</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://js.stripe.com/v3/"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=EUR" data-sdk-integration-source="button-factory"></script>
+</head>
+<body>
+
+  <!-- Loading -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-ring"></div>
+    <span class="loading-brand">Luxury Paws</span>
+  </div>
+
+  <div class="page-shell">
+
+    <!-- Urgency / Promo Bar -->
+    <div class="promo-bar" id="promo-bar">
+      <span id="promo-bar-text"></span>
+      <button class="promo-bar-close" id="promo-bar-close" aria-label="Close">&times;</button>
+    </div>
+
+    <!-- Header -->
+    <header class="site-header" id="site-header">
+      <div class="header-inner">
+        <a href="#home" class="logo" id="logo">
+          <span class="logo-icon">&#9884;</span> Luxury Paws
+        </a>
+        <nav class="nav" id="site-nav">
+          <a href="#home" data-nav="home" data-i18n="nav.home">Home</a>
+          <a href="#shop" data-nav="shop" data-i18n="nav.shop">Shop</a>
+          <a href="#best-sellers" data-nav="best-sellers" data-i18n="nav.bestSellers">Best Sellers</a>
+          <a href="#contact" data-nav="contact" data-i18n="nav.contact">Contact</a>
+        </nav>
+        <div class="header-actions">
+          <button class="cart-toggle" id="cart-toggle" type="button">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            <span data-i18n="cart.label">Cart</span>
+            <span class="cart-count" id="cart-count">0</span>
+          </button>
+          <div class="lang-switch">
+            <button class="lang-btn" id="lang-en" type="button">EN</button>
+            <button class="lang-btn" id="lang-ru" type="button">RU</button>
+            <button class="lang-btn" id="lang-sr" type="button">SR</button>
+          </div>
+          <button class="burger" id="burger" type="button" aria-label="Menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main">
+
+      <!-- ═══ HOME ═══ -->
+      <div id="home-sections">
+
+        <!-- Hero -->
+        <section id="home" class="hero">
+          <div class="hero-bg">
+            <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=2000&q=80" alt="" class="hero-bg-img">
+            <div class="hero-shade"></div>
+          </div>
+          <div class="hero-inner">
+            <div class="hero-text">
+              <span class="eyebrow" data-i18n="hero.eyebrow">Премиальный бутик для собак</span>
+              <h1 data-i18n="hero.heading">Всё, что нужно вашей собаке для счастливой жизни</h1>
+              <p class="hero-sub" data-i18n="hero.subtitle">Премиум комфорт, игрушки и аксессуары для самых любимых питомцев.</p>
+              <div class="hero-cta">
+                <a href="#shop" class="btn btn-primary btn-lg" data-i18n="hero.shopBtn">В магазин</a>
+                <a href="#best-sellers" class="btn btn-ghost btn-lg" data-i18n="hero.bestBtn">Хиты продаж</a>
+              </div>
+            </div>
+            <div class="hero-cards">
+              <div class="hero-card fade-up">
+                <span class="hero-card-icon">&#10022;</span>
+                <div>
+                  <strong data-i18n="hero.note1">Тёплые материалы</strong>
+                  <p data-i18n="hero.note1Text">Отобрано для уюта и заботы.</p>
+                </div>
+              </div>
+              <div class="hero-card fade-up delay-1">
+                <span class="hero-card-icon">&#9819;</span>
+                <div>
+                  <strong data-i18n="hero.note2">Проверенное качество</strong>
+                  <p data-i18n="hero.note2Text">Создано для долгой радости.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Shop / Collections -->
+        <section id="shop" class="section">
+          <div class="section-wrap">
+            <div class="section-head">
+              <span class="eyebrow" data-i18n="shop.tag">Коллекция</span>
+              <h2 data-i18n="shop.heading">Изысканные товары для заботливых владельцев</h2>
+              <p data-i18n="shop.desc">Откройте мягкие лежанки, премиальные игрушки и аксессуары.</p>
+            </div>
+            <div class="col-grid" id="col-grid"></div>
+          </div>
+        </section>
+
+        <!-- Best Sellers -->
+        <section id="best-sellers" class="section section-alt">
+          <div class="section-wrap">
+            <div class="section-head">
+              <span class="eyebrow" data-i18n="bestSellers.tag">Хиты продаж</span>
+              <h2 data-i18n="bestSellers.heading">Самые любимые товары</h2>
+            </div>
+            <div class="pgrid" id="best-sellers-grid"></div>
+          </div>
+        </section>
+
+        <!-- New Arrivals -->
+        <section id="new-arrivals" class="section">
+          <div class="section-wrap">
+            <div class="section-head">
+              <span class="eyebrow" data-i18n="newArrivals.tag">Новинки</span>
+              <h2 data-i18n="newArrivals.heading">Свежие поступления</h2>
+            </div>
+            <div class="pgrid" id="new-arrivals-grid"></div>
+          </div>
+        </section>
+
+        <!-- Trust -->
+        <section id="trust" class="section section-alt">
+          <div class="section-wrap">
+            <div class="section-head center">
+              <span class="eyebrow" data-i18n="trust.tag">Почему выбирают нас</span>
+              <h2 data-i18n="trust.heading">Бутик, которому доверяют</h2>
+            </div>
+            <div class="trust-grid">
+              <div class="trust-card">
+                <span class="trust-icon">&#10022;</span>
+                <h3 data-i18n="trust.item1">Авторский дизайн</h3>
+                <p data-i18n="trust.item1Text">Премиальные материалы, изысканные детали и элегантная отделка.</p>
+              </div>
+              <div class="trust-card">
+                <span class="trust-icon">&#128274;</span>
+                <h3 data-i18n="trust.item2">Безопасная оплата</h3>
+                <p data-i18n="trust.item2Text">Stripe и PayPal обеспечивают надёжную защиту каждого платежа.</p>
+              </div>
+              <div class="trust-card">
+                <span class="trust-icon">&#9825;</span>
+                <h3 data-i18n="trust.item3">Персональный сервис</h3>
+                <p data-i18n="trust.item3Text">Индивидуальная поддержка и быстрые ответы на каждом этапе.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section id="reviews" class="section">
+          <div class="section-wrap">
+            <div class="section-head center">
+              <span class="eyebrow" data-i18n="reviews.tag">Отзывы</span>
+              <h2 data-i18n="reviews.heading">Нас любят владельцы питомцев</h2>
+            </div>
+            <div class="reviews-grid" id="reviews-grid"></div>
+          </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="section section-contact">
+          <div class="section-wrap">
+            <div class="contact-card">
+              <div class="contact-info">
+                <span class="eyebrow" data-i18n="contact.tag">Связь</span>
+                <h2 data-i18n="contact.heading">Поможем выбрать идеальный товар</h2>
+                <p data-i18n="contact.text">Оставьте email для получения новостей и предложений.</p>
+                <div class="social-row">
+                  <a href="https://www.instagram.com/lakshmi_love_kennel?igsh=YWxydTB6c3FiYWRi" target="_blank" rel="noopener noreferrer">Instagram</a>
+                  <a href="https://www.facebook.com/profile.php?id=100023984442219" target="_blank" rel="noopener noreferrer">Facebook</a>
+                </div>
+              </div>
+              <form id="contact-form" class="contact-form">
+                <label data-i18n="contact.emailLabel">Email</label>
+                <input type="email" id="contact-email" data-i18n-placeholder="contact.emailPlaceholder" placeholder="you@example.com" required>
+                <button type="submit" class="btn btn-primary" data-i18n="contact.button">Подписаться</button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /home-sections -->
+
+      <!-- ═══ CATEGORY: BEDS ═══ -->
+      <section class="page-view" id="beds-page" style="display:none">
+        <div class="cat-banner" id="beds-banner">
+          <div class="cat-banner-shade"></div>
+          <div class="cat-banner-inner">
+            <button class="back-link" data-back="beds" data-i18n="product.back">← Назад</button>
+            <h1 data-i18n="categories.beds.name">Лежанки</h1>
+            <p data-i18n="categories.beds.subtitle">Комфортные и стильные лежанки</p>
+          </div>
+        </div>
+        <div class="cat-body">
+          <div class="filter-bar" id="beds-filters"></div>
+          <div class="pgrid" id="beds-grid"></div>
+          <div class="empty-state" id="beds-empty" style="display:none">
+            <span class="empty-icon">&#128269;</span>
+            <p data-i18n="filters.noResults">Ничего не найдено.</p>
+            <button class="btn btn-ghost btn-sm" data-clear="beds" data-i18n="filters.clearAll">Сбросить</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ CATEGORY: TOYS ═══ -->
+      <section class="page-view" id="toys-page" style="display:none">
+        <div class="cat-banner" id="toys-banner">
+          <div class="cat-banner-shade"></div>
+          <div class="cat-banner-inner">
+            <button class="back-link" data-back="toys" data-i18n="product.back">← Назад</button>
+            <h1 data-i18n="categories.toys.name">Игрушки</h1>
+            <p data-i18n="categories.toys.subtitle">Забавные и развивающие игрушки</p>
+          </div>
+        </div>
+        <div class="cat-body">
+          <div class="filter-bar" id="toys-filters"></div>
+          <div class="pgrid" id="toys-grid"></div>
+          <div class="empty-state" id="toys-empty" style="display:none">
+            <span class="empty-icon">&#128269;</span>
+            <p data-i18n="filters.noResults">Ничего не найдено.</p>
+            <button class="btn btn-ghost btn-sm" data-clear="toys" data-i18n="filters.clearAll">Сбросить</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ CATEGORY: ACCESSORIES ═══ -->
+      <section class="page-view" id="accessories-page" style="display:none">
+        <div class="cat-banner" id="accessories-banner">
+          <div class="cat-banner-shade"></div>
+          <div class="cat-banner-inner">
+            <button class="back-link" data-back="accessories" data-i18n="product.back">← Назад</button>
+            <h1 data-i18n="categories.accessories.name">Аксессуары</h1>
+            <p data-i18n="categories.accessories.subtitle">Ошейники, поводки и другие аксессуары</p>
+          </div>
+        </div>
+        <div class="cat-body">
+          <div class="filter-bar" id="accessories-filters"></div>
+          <div class="pgrid" id="accessories-grid"></div>
+          <div class="empty-state" id="accessories-empty" style="display:none">
+            <span class="empty-icon">&#128269;</span>
+            <p data-i18n="filters.noResults">Ничего не найдено.</p>
+            <button class="btn btn-ghost btn-sm" data-clear="accessories" data-i18n="filters.clearAll">Сбросить</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ PRODUCT DETAIL ═══ -->
+      <section class="page-view" id="product-page" style="display:none">
+        <div class="pd-wrap">
+          <button class="back-link" id="product-back" data-i18n="product.back">← Назад</button>
+          <div class="pd-layout">
+            <div class="pd-gallery"><img id="pd-img" src="" alt=""></div>
+            <div class="pd-info">
+              <div class="pd-badges" id="pd-badges"></div>
+              <h1 id="pd-name"></h1>
+              <div class="pd-rating" id="pd-rating"></div>
+              <div class="pd-price" id="pd-price"></div>
+              <p class="pd-desc" id="pd-desc"></p>
+              <div class="pd-options" id="pd-options"></div>
+              <button class="btn btn-primary btn-lg btn-full" id="pd-add" data-i18n="product.addToCart">В корзину</button>
+              <div class="pd-viewers" id="pd-viewers"></div>
+              <div class="pd-perks">
+                <span>&#128666; <span data-i18n="product.shippingNote">Доставка от €4 · Бесплатно от €60</span></span>
+                <span>&#128274; <span data-i18n="product.securePayment">Безопасная оплата</span></span>
+                <span>&#8617; <span data-i18n="product.returns">Возврат 14 дней</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand"><span class="logo-icon">&#9884;</span> Luxury Paws</div>
+        <p data-i18n="footer.copy">&copy; 2026 Luxury Paws. Все права защищены.</p>
+        <div class="footer-links">
+          <a href="#home" data-i18n="footer.home">Главная</a>
+          <a href="#shop" data-i18n="footer.shop">Магазин</a>
+          <a href="#contact" data-i18n="footer.contact">Контакты</a>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /page-shell -->
+
+  <!-- Cart Drawer -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-top">
+      <div>
+        <span class="eyebrow" data-i18n="cart.tag">Ваша корзина</span>
+        <h2 data-i18n="cart.heading">Оформление заказа</h2>
+        <p class="drawer-sub" data-i18n="cart.subtitle">Проверка и безопасная оплата.</p>
+      </div>
+      <button class="drawer-close" id="drawer-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-items" id="drawer-items"></div>
+      <div class="drawer-summary">
+        <div class="sum-row"><span data-i18n="cart.subtotal">Подытог</span><span id="sum-sub">€0</span></div>
+        <div class="sum-row"><span data-i18n="cart.shipping">Доставка</span><span id="sum-ship">€5</span></div>
+        <div class="sum-row"><span data-i18n="cart.discount">Скидка</span><span id="sum-disc">€0</span></div>
+        <div class="sum-row sum-total"><span data-i18n="cart.total">Итого</span><span id="sum-total">€0</span></div>
+      </div>
+      <form id="checkout-form" novalidate>
+        <fieldset class="fs">
+          <legend data-i18n="checkout.contactTitle">Контактные данные</legend>
+          <div class="form-row">
+            <label><span data-i18n="checkout.firstName">Имя</span><input id="inp-fn" type="text" required></label>
+            <label><span data-i18n="checkout.lastName">Фамилия</span><input id="inp-ln" type="text" required></label>
+          </div>
+          <label><span data-i18n="checkout.email">Email</span><input id="inp-em" type="email" required></label>
+          <label><span data-i18n="checkout.phone">Телефон</span><input id="inp-ph" type="tel" required></label>
+        </fieldset>
+        <fieldset class="fs">
+          <legend data-i18n="checkout.addressTitle">Адрес доставки</legend>
+          <label><span data-i18n="checkout.country">Страна</span>
+            <select id="inp-country" required>
+              <option value="" data-i18n="checkout.selectCountry">Выберите страну</option>
+            </select>
+          </label>
+          <label id="custom-country-wrap" style="display:none"><span data-i18n="checkout.customCountry">Ваша страна</span><input id="inp-custom-country" type="text"></label>
+          <label><span data-i18n="checkout.street">Улица</span><input id="inp-st" type="text" required></label>
+          <div class="form-row">
+            <label><span data-i18n="checkout.city">Город</span><input id="inp-ci" type="text" required></label>
+            <label><span data-i18n="checkout.state">Регион</span><input id="inp-re" type="text" required></label>
+          </div>
+          <div class="form-row">
+            <label><span data-i18n="checkout.zip">Индекс</span><input id="inp-zi" type="text" required></label>
+            <label><span data-i18n="checkout.apartment">Кв. (опц.)</span><input id="inp-apt" type="text"></label>
+          </div>
+        </fieldset>
+        <fieldset class="fs">
+          <legend data-i18n="checkout.paymentTitle">Способ оплаты</legend>
+          <div class="pay-opts">
+            <label class="pay-opt"><input type="radio" name="pay" value="card" checked><span data-i18n="checkout.card">Карта</span></label>
+            <label class="pay-opt"><input type="radio" name="pay" value="paypal"><span data-i18n="checkout.paypal">PayPal</span></label>
+            <label class="pay-opt"><input type="radio" name="pay" value="apple"><span data-i18n="checkout.applePay">Apple Pay</span></label>
+            <label class="pay-opt"><input type="radio" name="pay" value="google"><span data-i18n="checkout.googlePay">Google Pay</span></label>
+          </div>
+          <div id="card-fields" class="card-fields">
+            <label><span data-i18n="checkout.cardholder">Владелец карты</span><input id="inp-ch" type="text" required></label>
+            <label><span data-i18n="checkout.cardNumber">Номер карты</span><div id="card-element" class="stripe-el"></div></label>
+          </div>
+          <div id="pr-container" class="pr-container"></div>
+          <div id="pp-container" class="pp-container"></div>
+        </fieldset>
+        <fieldset class="fs promo-fs">
+          <label><span data-i18n="checkout.promo">Промокод</span>
+            <div class="promo-row">
+              <input id="inp-promo" type="text" placeholder="LUXURY20">
+              <button type="button" class="btn btn-ghost btn-sm" id="promo-btn" data-i18n="checkout.promoApply">Применить</button>
+            </div>
+          </label>
+        </fieldset>
+        <div class="terms-row">
+          <label class="cb-label"><input type="checkbox" id="inp-terms" required><span data-i18n="checkout.terms">Я соглашаюсь с условиями</span></label>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full" id="checkout-submit" data-i18n="checkout.submit">Оформить заказ</button>
+        <p class="drawer-note" data-i18n="checkout.note">Безопасная оплата и подтверждение на email.</p>
+      </form>
+    </div>
+  </aside>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
