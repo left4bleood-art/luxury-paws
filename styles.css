@@ -30,14 +30,15 @@
 }
 
 *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+html { scroll-behavior:smooth; overflow-x:clip; overscroll-behavior-x:none; scrollbar-gutter:stable; -webkit-font-smoothing:antialiased; }
 
 body {
   font-family: var(--font-body);
   color: var(--text);
   background: var(--bg);
   line-height: 1.6;
-  overflow-x: hidden;
+  overflow-x: clip;
+  overscroll-behavior-x: none;
 }
 body.no-scroll { overflow: hidden; }
 
@@ -46,7 +47,7 @@ button { cursor:pointer; border:none; background:none; }
 a { color:inherit; text-decoration:none; }
 img { display:block; max-width:100%; }
 
-.page-shell { min-height:100vh; display:flex; flex-direction:column; }
+.page-shell { min-height:100vh; display:flex; flex-direction:column; overflow-x:clip; max-width:100%; }
 main { flex:1; }
 
 /* ─── PROMO BAR ─── */
@@ -296,7 +297,7 @@ main { flex:1; }
   overflow:hidden;
 }
 .hero-bg {
-  position:absolute; inset:0; z-index:0;
+  position:absolute; inset:0; z-index:0; overflow:hidden;
 }
 .hero-bg-img {
   width:100%; height:100%; object-fit:cover;
@@ -828,7 +829,7 @@ main { flex:1; }
   background:#fff;
   box-shadow:-24px 0 80px rgba(30,24,18,0.18);
   z-index:95;
-  transform:translateX(102%);
+  transform:translateX(100%);
   transition:transform 0.4s cubic-bezier(0.22,0.61,0.36,1), visibility 0s 0.4s;
   display:flex; flex-direction:column;
   visibility:hidden;
@@ -1451,7 +1452,7 @@ main { flex:1; }
 
 /* ─── GLOBAL AMBIENT PARTICLES ─── */
 .ambient-particles {
-  position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden;
+  position:fixed; inset:0; z-index:1; pointer-events:none; overflow:hidden; contain:strict;
 }
 .ambient-dot {
   position:absolute;
@@ -1614,6 +1615,7 @@ main { flex:1; }
   z-index:999;
   will-change:transform;
   mix-blend-mode:normal;
+  contain:layout style;
 }
 
 /* ─── FLOATING BADGE ANIMATION ─── */

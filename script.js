@@ -2395,7 +2395,7 @@ function initAmbientParticles() {
   container.className = 'ambient-particles';
   document.body.appendChild(container);
 
-  const W = () => window.innerWidth;
+  const W = () => document.documentElement.clientWidth;
   const H = () => window.innerHeight;
   const count = 30;
   const particles = [];
@@ -2477,8 +2477,8 @@ function initAmbientParticles() {
         p.opacity = 0;
         p.fadeIn = true;
       }
-      if (p.x < -30) p.x = w + 20;
-      if (p.x > w + 30) p.x = -20;
+      if (p.x < -20) p.x = w;
+      if (p.x > w) p.x = -20;
 
       p.el.style.transform = `translate(${p.x}px, ${p.y}px)`;
       p.el.style.opacity = p.opacity;
@@ -2516,7 +2516,9 @@ function initCursorGlow() {
   let mx = -500, my = -500;
   document.addEventListener('mousemove', e => {
     mx = e.clientX; my = e.clientY;
-    glow.style.transform = `translate(${mx - 150}px, ${my - 150}px)`;
+    const x = Math.min(mx - 150, document.documentElement.clientWidth - 300);
+    const y = my - 150;
+    glow.style.transform = `translate(${x}px, ${y}px)`;
   }, { passive:true });
 }
 
