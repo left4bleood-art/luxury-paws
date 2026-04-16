@@ -365,6 +365,12 @@ const products = [
     rating:4.8, color:'graphite',
     availableColors:['graphite','lightBeige','grayBeige','lightGray','cream','dustyPink','darkGray','lavenderGray','lightPink','marbleGray','chocolate','ivory','hotPink','darkTeal','blueGray','grayBlue'],
     dimensions:['40 CM','50 CM','60 CM','70 CM','80 CM','90 CM'] },
+  { id:'round-sofa-bed', category:'beds', section:'new-arrivals',
+    name:{ ru:'Круглая плюшевая лежанка', en:'Round Plush Dog Sofa', sr:'Okrugli plišani ležaj za pse' },
+    description:{ ru:'Мягкая круглая лежанка с ребристым плюшем. Подходит для собак и кошек, доступна в розовом, чёрном и коричневом цветах.', en:'Soft round ribbed plush bed for dogs and cats, available in pink, black and brown.', sr:'Meki okrugli plišani ležaj za pse i mačke, dostupan u roze, crnoj i braon boji.' },
+    price:25, image:'images/25.webp', images:['images/25.webp','images/23.webp','images/24.webp'],
+    rating:4.7, color:'pink', availableColors:['pink','black','brown'],
+    dimensions:['50 CM','60 CM','70 CM','80 CM'] },
   // ── TOYS ──
   { id:'plush-duck', category:'toys', section:'best-sellers',
     name:{ ru:'Плюшевая уточка для собак', en:'Plush Duck Dog Toy', sr:'Plišana patka za pse' },

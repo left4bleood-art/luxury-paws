@@ -9,3 +9,5 @@ database.sql
 next.config.js
 postcss.config.js
 tailwind.config.js
+venv/
+ali-parser/venv/

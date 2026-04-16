@@ -1,0 +1,33 @@
+{
+  "products": {
+    "1005010792608218": {
+      "title": "Round Plush Dog Sofa",
+      "description_short": "Soft round ribbed plush bed for dogs and cats, available in pink, black and brown.",
+      "colors": [
+        "pink",
+        "black",
+        "brown"
+      ],
+      "sizes": [
+        "50 CM",
+        "60 CM",
+        "70 CM",
+        "80 CM"
+      ],
+      "images": [
+        "https://ae01.alicdn.com/kf/S951fc15ebd2d4328bcb62f42b4415889r.jpg",
+        "https://ae01.alicdn.com/kf/Sb0cb024bd01f4098b7984008a597d1a0m.jpg",
+        "https://ae01.alicdn.com/kf/Seb8628df9cff489f9428fa7f8bf3be8eg.jpg"
+      ]
+    },
+    "1005012095189817": {
+      "images": [
+        "https://ae01.alicdn.com/kf/S52006226b03e4923b28691fcc5bd888bU.jpg",
+        "https://ae01.alicdn.com/kf/Sb9767da588744188945c601d5c304f97Q.jpg",
+        "https://ae01.alicdn.com/kf/S221b00f9e1394bf0a062b90dab416808v.jpg"
+      ],
+      "colors": ["pink", "gray", "brown"],
+      "sizes": ["50 CM", "60 CM", "70 CM", "80 CM"]
+    }
+  }
+}

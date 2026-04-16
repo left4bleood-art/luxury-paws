@@ -1,0 +1,37 @@
+{
+  "source_url": "https://www.aliexpress.com/item/1005012095189817.html",
+  "product_title": "",
+  "generated_title": "Product",
+  "price_original": "0.00 USD",
+  "currency_original": "USD",
+  "price_range": null,
+  "price_markup_50_percent": "0.00 USD",
+  "price_final_eur": "€0.00",
+  "price_final_eur_number": 0.0,
+  "usd_to_eur_rate": 0,
+  "images": [
+    "https://ae01.alicdn.com/kf/S52006226b03e4923b28691fcc5bd888bU.jpg",
+    "https://ae01.alicdn.com/kf/Sb9767da588744188945c601d5c304f97Q.jpg",
+    "https://ae01.alicdn.com/kf/S221b00f9e1394bf0a062b90dab416808v.jpg"
+  ],
+  "colors": [
+    "pink",
+    "gray",
+    "brown"
+  ],
+  "sizes": [
+    "50 CM",
+    "60 CM",
+    "70 CM",
+    "80 CM"
+  ],
+  "material": "",
+  "description_short": "",
+  "features": [],
+  "variants": [],
+  "downloaded_images": [
+    "downloaded_images/product-1/image-1.webp",
+    "downloaded_images/product-1/image-2.webp",
+    "downloaded_images/product-1/image-3.webp"
+  ]
+}
