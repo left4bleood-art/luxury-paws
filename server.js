@@ -525,9 +525,9 @@ const newsletterI18n = {
 function buildNewsletterHtml(product, lang, email) {
   const t = newsletterI18n[lang] || newsletterI18n.en;
   const name = product.name[lang] || product.name.en;
-  const siteUrl = process.env.SITE_URL || 'https://left4bleood-art.github.io/luxury-paws';
+  const siteUrl = process.env.SITE_URL || 'https://theluxurypaws.com';
   const imageBase = 'https://raw.githubusercontent.com/left4bleood-art/luxury-paws/main';
-  const serverUrl = process.env.SERVER_URL || 'http://localhost:4242';
+  const serverUrl = process.env.SERVER_URL || 'https://theluxurypaws.com';
   const productUrl = `${siteUrl}/#product/${product.id}`;
   const imageUrl = `${imageBase}/${product.image}`;
   const unsubUrl = `${serverUrl}/api/unsubscribe?email=${encodeURIComponent(email)}`;
