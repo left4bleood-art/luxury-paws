@@ -46,7 +46,7 @@ const i18n = {
       button: 'Подписаться', success: 'Спасибо! Мы скоро свяжемся.',
     },
     footer: { copy: '© 2026 Luxury Paws. Все права защищены.',
-              home: 'Главная', shop: 'Магазин', contact: 'Контакты' },
+              home: 'Главная', shop: 'Магазин', contact: 'Контакты', terms: 'Условия', privacy: 'Конфиденциальность' },
     categories: {
       beds:        { name: 'Лежанки', subtitle: 'Комфортные и стильные лежанки для вашего питомца', countLabel: 'видов лежанок' },
       toys:        { name: 'Игрушки', subtitle: 'Забавные и развивающие игрушки для активных собак', countLabel: 'игрушек' },
@@ -104,7 +104,7 @@ const i18n = {
       card: 'Карта', paypal: 'PayPal', applePay: 'Apple Pay', googlePay: 'Google Pay',
       cardholder: 'Владелец карты', cardNumber: 'Номер карты',
       promo: 'Промокод', promoApply: 'Применить',
-      terms: 'Я соглашаюсь с условиями и политикой',
+      terms: 'Я соглашаюсь с <a href="/terms.html" target="_blank">условиями</a> и <a href="/privacy.html" target="_blank">политикой конфиденциальности</a>',
       submit: 'Оформить заказ',
       note: 'Безопасная оплата и подтверждение на email.',
       thankYou: 'Спасибо! Ваш заказ оформлен.',
@@ -157,7 +157,7 @@ const i18n = {
       button: 'Subscribe', success: 'Thanks! We will reach out soon.',
     },
     footer: { copy: '© 2026 Luxury Paws. All rights reserved.',
-              home: 'Home', shop: 'Shop', contact: 'Contact' },
+              home: 'Home', shop: 'Shop', contact: 'Contact', terms: 'Terms', privacy: 'Privacy' },
     categories: {
       beds:        { name: 'Dog Beds', subtitle: 'Comfortable and stylish beds for your beloved pet', countLabel: 'bed types' },
       toys:        { name: 'Toys', subtitle: 'Fun and stimulating toys for active dogs', countLabel: 'toys' },
@@ -215,7 +215,7 @@ const i18n = {
       card: 'Card', paypal: 'PayPal', applePay: 'Apple Pay', googlePay: 'Google Pay',
       cardholder: 'Cardholder Name', cardNumber: 'Card Number',
       promo: 'Promo Code', promoApply: 'Apply',
-      terms: 'I agree to terms and policy',
+      terms: 'I agree to the <a href="/terms.html" target="_blank">Terms of Service</a> and <a href="/privacy.html" target="_blank">Privacy Policy</a>',
       submit: 'Place Order',
       note: 'Secure payment and confirmation email included.',
       thankYou: 'Thank you! Your order is confirmed.',
@@ -268,7 +268,7 @@ const i18n = {
       button: 'Pretplatite se', success: 'Hvala! Uskoro ćemo vas kontaktirati.',
     },
     footer: { copy: '© 2026 Luxury Paws. Sva prava zadržana.',
-              home: 'Početna', shop: 'Prodavnica', contact: 'Kontakt' },
+              home: 'Početna', shop: 'Prodavnica', contact: 'Kontakt', terms: 'Uslovi', privacy: 'Privatnost' },
     categories: {
       beds:        { name: 'Ležaljke', subtitle: 'Udobne i stilske ležaljke za vašeg ljubimca', countLabel: 'vrsta ležaljki' },
       toys:        { name: 'Igračke', subtitle: 'Zabavne i razvojne igračke za aktivne pse', countLabel: 'igračaka' },
@@ -326,7 +326,7 @@ const i18n = {
       card: 'Kartica', paypal: 'PayPal', applePay: 'Apple Pay', googlePay: 'Google Pay',
       cardholder: 'Ime na kartici', cardNumber: 'Broj kartice',
       promo: 'Promo kod', promoApply: 'Primeni',
-      terms: 'Slažem se sa uslovima i politikom',
+      terms: 'Slažem se sa <a href="/terms.html" target="_blank">uslovima korišćenja</a> i <a href="/privacy.html" target="_blank">politikom privatnosti</a>',
       submit: 'Poruči',
       note: 'Bezbedno plaćanje i potvrda na email.',
       thankYou: 'Hvala! Vaša porudžbina je potvrđena.',
@@ -620,6 +620,10 @@ function translateStatic() {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const v = t(el.dataset.i18n);
     if (v && v !== el.dataset.i18n) el.textContent = v;
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const v = t(el.dataset.i18nHtml);
+    if (v && v !== el.dataset.i18nHtml) el.innerHTML = v;
   });
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
     const v = t(el.dataset.i18nPlaceholder);
