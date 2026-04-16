@@ -1435,7 +1435,19 @@ function bindEvents() {
   // Contact form
   document.getElementById('contact-form').addEventListener('submit', e => {
     e.preventDefault();
-    alert(t('contact.success'));
+    const email = document.getElementById('contact-email').value.trim();
+    if (!email) return;
+    fetch('/api/subscribe', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ email })
+    }).then(r => r.json()).then(d => {
+      if (d.ok) {
+        showToast(t('contact.success'));
+      } else {
+        showToast(d.message || 'Error');
+      }
+    }).catch(() => showToast(t('contact.success')));
     e.target.reset();
   });
 

@@ -448,6 +448,230 @@ app.get('/api/config', (req, res) => {
   });
 });
 
+/* ═══════════════════════════════════════════════
+   NEWSLETTER SYSTEM
+   ═══════════════════════════════════════════════ */
+
+const SUBSCRIBERS_FILE = __dirname + '/subscribers.json';
+
+function loadSubscribers() {
+  try { return JSON.parse(fs.readFileSync(SUBSCRIBERS_FILE, 'utf8')); }
+  catch { return []; }
+}
+function saveSubscribers(list) {
+  fs.writeFileSync(SUBSCRIBERS_FILE, JSON.stringify(list, null, 2));
+}
+
+/* ─── Subscribe endpoint ─── */
+app.post('/api/subscribe', (req, res) => {
+  const email = (req.body.email || '').trim().toLowerCase();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.json({ ok: false, message: 'Invalid email' });
+  }
+  const subs = loadSubscribers();
+  if (subs.some(s => s.email === email)) {
+    return res.json({ ok: true, message: 'Already subscribed' });
+  }
+  subs.push({ email, date: new Date().toISOString() });
+  saveSubscribers(subs);
+  console.log(`📧 New subscriber: ${email} (total: ${subs.length})`);
+  res.json({ ok: true });
+});
+
+/* ─── Unsubscribe endpoint ─── */
+app.get('/api/unsubscribe', (req, res) => {
+  const email = (req.query.email || '').trim().toLowerCase();
+  if (!email) return res.send('Invalid request.');
+  let subs = loadSubscribers();
+  const before = subs.length;
+  subs = subs.filter(s => s.email !== email);
+  saveSubscribers(subs);
+  if (subs.length < before) {
+    res.send(`
+      <html><body style="font-family:Inter,Arial,sans-serif;text-align:center;padding:80px 20px;background:#f7f2eb;">
+        <h2 style="color:#2c261f;">Unsubscribed</h2>
+        <p style="color:#7a6d5f;">You have been removed from the Luxury Paws newsletter.</p>
+        <a href="/" style="color:#b08c60;font-weight:700;">← Back to shop</a>
+      </body></html>
+    `);
+  } else {
+    res.send('Email not found.');
+  }
+});
+
+/* ─── Product catalog for newsletter ─── */
+const newsletterProducts = [
+  { id:'elevated-feeder', name:{ru:'Подставка с двойной миской',en:'Elevated Dual Bowl Feeder',sr:'Postolje sa duplom činijom'}, price:30, image:'images/40.webp' },
+  { id:'retractable-leash', name:{ru:'Автоматический поводок',en:'Retractable Dog Leash',sr:'Automatski povodac'}, price:15, image:'images/26.webp' },
+  { id:'squeaker-joint-toy', name:{ru:'Пищащая игрушка',en:'Squeaker Joint Toy',sr:'Pištaljka igračka'}, price:11, image:'images/31.webp' },
+  { id:'octopus-rope-toy', name:{ru:'Осьминог канат',en:'Octopus Rope Toy',sr:'Hobotnica igračka'}, price:10, image:'images/35.webp' },
+];
+
+const newsletterI18n = {
+  ru: {
+    subject: '🐾 Luxury Paws: товар недели',
+    hi: 'Привет!',
+    intro: 'Мы подобрали для вас товар, который точно понравится вашему питомцу:',
+    price: 'Цена',
+    cta: 'Смотреть в магазине',
+    why1: '✦ Бесплатная доставка от €50',
+    why2: '✦ Премиальное качество',
+    why3: '✦ Безопасная оплата',
+    footer: 'Вы получили это письмо, потому что подписались на рассылку Luxury Paws.',
+    unsub: 'Отписаться',
+  },
+  en: {
+    subject: '🐾 Luxury Paws: Product of the Week',
+    hi: 'Hey there!',
+    intro: 'We picked a product your pet will absolutely love:',
+    price: 'Price',
+    cta: 'View in Store',
+    why1: '✦ Free shipping over €50',
+    why2: '✦ Premium quality materials',
+    why3: '✦ Secure payment',
+    footer: 'You are receiving this because you subscribed to the Luxury Paws newsletter.',
+    unsub: 'Unsubscribe',
+  },
+};
+
+function buildNewsletterHtml(product, lang, email) {
+  const t = newsletterI18n[lang] || newsletterI18n.en;
+  const name = product.name[lang] || product.name.en;
+  const siteUrl = process.env.SITE_URL || 'https://left4bleood-art.github.io/luxury-paws';
+  const productUrl = `${siteUrl}/#product/${product.id}`;
+  const imageUrl = `${siteUrl}/${product.image}`;
+  const unsubUrl = `${siteUrl}/api/unsubscribe?email=${encodeURIComponent(email)}`;
+
+  return `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
+<body style="margin:0;padding:0;background:#f7f2eb;font-family:'Inter',Arial,sans-serif;">
+  <div style="max-width:560px;margin:0 auto;padding:28px 16px;">
+
+    <!-- Header -->
+    <div style="background:linear-gradient(135deg,#1a1612 0%,#2c2418 100%);border-radius:16px 16px 0 0;padding:32px 28px;text-align:center;">
+      <div style="font-size:12px;letter-spacing:3px;color:#d4a94c;text-transform:uppercase;margin-bottom:4px;">🐾 Luxury Paws</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.4);">Premium Dog Boutique</div>
+    </div>
+
+    <!-- Body -->
+    <div style="background:#fff;padding:32px 28px;border-left:1px solid #e8dcc8;border-right:1px solid #e8dcc8;">
+
+      <h1 style="font-family:Georgia,'Times New Roman',serif;font-size:22px;color:#2c261f;margin:0 0 8px;font-weight:700;">${t.hi}</h1>
+      <p style="font-size:14px;color:#7a6d5f;line-height:1.7;margin:0 0 28px;">${t.intro}</p>
+
+      <!-- Product Card -->
+      <div style="background:linear-gradient(180deg,#faf6f0 0%,#fff 100%);border:1px solid rgba(176,140,96,0.15);border-radius:16px;overflow:hidden;margin-bottom:28px;">
+        <img src="${esc(imageUrl)}" alt="${esc(name)}" style="width:100%;height:280px;object-fit:cover;display:block;">
+        <div style="padding:24px;">
+          <h2 style="font-family:Georgia,'Times New Roman',serif;font-size:20px;color:#2c261f;margin:0 0 8px;font-weight:700;">${esc(name)}</h2>
+          <div style="font-size:13px;color:#7a6d5f;margin-bottom:16px;">${t.price}: <span style="font-family:Georgia,serif;font-size:22px;font-weight:800;color:#7e5a34;">€${product.price}</span></div>
+          <a href="${esc(productUrl)}" target="_blank" style="display:inline-block;padding:14px 36px;background:linear-gradient(135deg,#7e5a34,#b08c60,#c9a96e);color:#fff;font-weight:700;font-size:14px;border-radius:50px;text-decoration:none;letter-spacing:0.02em;">${t.cta} →</a>
+        </div>
+      </div>
+
+      <!-- Perks -->
+      <div style="background:#faf6f0;border-radius:12px;padding:18px 22px;margin-bottom:8px;">
+        <div style="font-size:13px;color:#7a6d5f;line-height:2;">${t.why1}<br>${t.why2}<br>${t.why3}</div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="background:linear-gradient(135deg,#1a1612 0%,#2c2418 100%);border-radius:0 0 16px 16px;padding:24px 28px;text-align:center;">
+      <p style="font-size:11px;color:rgba(255,255,255,0.35);margin:0 0 8px;line-height:1.6;">${t.footer}</p>
+      <a href="${esc(unsubUrl)}" style="font-size:11px;color:#d4a94c;text-decoration:underline;">${t.unsub}</a>
+    </div>
+
+  </div>
+</body>
+</html>`;
+}
+
+/* ─── Send newsletter to all subscribers ─── */
+async function sendNewsletter() {
+  const subs = loadSubscribers();
+  if (subs.length === 0) {
+    console.log('📭 No subscribers — skipping newsletter.');
+    return { sent: 0 };
+  }
+
+  // Pick random product
+  const product = newsletterProducts[Math.floor(Math.random() * newsletterProducts.length)];
+  console.log(`📬 Sending newsletter: "${product.name.en}" to ${subs.length} subscribers`);
+
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: parseInt(process.env.SMTP_PORT || '587', 10),
+    secure: process.env.SMTP_SECURE === 'true',
+    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+  });
+
+  let sent = 0;
+  let errors = 0;
+
+  for (const sub of subs) {
+    // Detect language: default to EN
+    const lang = 'en';
+    const t = newsletterI18n[lang] || newsletterI18n.en;
+    try {
+      await transporter.sendMail({
+        from: process.env.EMAIL_FROM,
+        to: sub.email,
+        subject: t.subject,
+        html: buildNewsletterHtml(product, lang, sub.email),
+      });
+      sent++;
+    } catch (err) {
+      errors++;
+      console.error(`  ✗ Failed: ${sub.email} — ${err.message}`);
+    }
+  }
+
+  console.log(`📬 Newsletter done: ${sent} sent, ${errors} errors`);
+  return { sent, errors, product: product.name.en };
+}
+
+/* ─── Manual trigger (protected with secret key) ─── */
+app.post('/api/newsletter/send', async (req, res) => {
+  const secret = req.body.secret || req.query.secret;
+  const NEWSLETTER_SECRET = process.env.NEWSLETTER_SECRET || 'luxurypaws2026';
+  if (secret !== NEWSLETTER_SECRET) {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+  try {
+    const result = await sendNewsletter();
+    res.json({ ok: true, ...result });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+/* ─── List subscribers (protected) ─── */
+app.get('/api/newsletter/subscribers', (req, res) => {
+  const secret = req.query.secret;
+  const NEWSLETTER_SECRET = process.env.NEWSLETTER_SECRET || 'luxurypaws2026';
+  if (secret !== NEWSLETTER_SECRET) {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+  const subs = loadSubscribers();
+  res.json({ count: subs.length, subscribers: subs });
+});
+
+/* ─── Weekly scheduler (every Monday at 10:00) ─── */
+function scheduleWeeklyNewsletter() {
+  const INTERVAL_MS = 60 * 60 * 1000; // check every hour
+  setInterval(() => {
+    const now = new Date();
+    // Monday = 1, 10:00 hour
+    if (now.getDay() === 1 && now.getHours() === 10) {
+      console.log('⏰ Weekly newsletter trigger (Monday 10:00)');
+      sendNewsletter().catch(err => console.error('Newsletter cron error:', err));
+    }
+  }, INTERVAL_MS);
+  console.log('📅 Weekly newsletter scheduled: every Monday at 10:00');
+}
+
 app.listen(port, () => {
   console.log(`Backend server listening on http://localhost:${port}`);
+  scheduleWeeklyNewsletter();
 });
