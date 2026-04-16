@@ -443,43 +443,43 @@ const products = [
   { id:'aquarosa-pro', category:'cosmetics', section:'',
     name:{ ru:'Aquarosa Pro — шампунь для обезвоженной шерсти', en:'Aquarosa Pro — Shampoo for Dehydrated Coats', sr:'Aquarosa Pro — šampon za dehidriranu dlaku' },
     description:{ ru:'Профессиональный ультра-концентрированный шампунь с витаминами. Восстанавливает увлажнение и блеск шерсти.', en:'Professional ultra-concentrated shampoo with vitamins. Restores hydration and coat brilliance.', sr:'Profesionalni ultra-koncentrovani šampon sa vitaminima. Vraća hidrataciju i sjaj dlake.' },
-    price:27, image:'images/45.png', images:['images/45.png','images/46.png','images/47.jpg'],
-    rating:4.9, cosType:'shampoo', dimensions:['250 mL','5 L','10 L'] },
+    price:30, image:'images/45.png', images:['images/45.png','images/46.png','images/47.jpg'],
+    rating:4.9, cosType:'shampoo', variants:[{name:'250 mL',price:30},{name:'5 Litres',price:191},{name:'10 Litres',price:328}] },
   { id:'hydrating-cream', category:'cosmetics', section:'best-sellers',
     name:{ ru:'Hydrating Cream — увлажняющая маска', en:'Hydrating Cream — Hydrating Mask', sr:'Hydrating Cream — hidratantna maska' },
     description:{ ru:'Бестселлер Special One. Финальная маска для глубокого увлажнения, блеска и гладкости шерсти.', en:'Special One bestseller. Final mask for deep hydration, shine and coat smoothness.', sr:'Special One bestseler. Završna maska za duboku hidrataciju, sjaj i glatkoću dlake.' },
-    price:62, image:'images/48.png', images:['images/48.png','images/49.png','images/50.jpg'],
-    rating:4.9, cosType:'mask', dimensions:['500 mL','1 L','3 L'] },
+    price:70, image:'images/48.png', images:['images/48.png','images/49.png','images/50.jpg'],
+    rating:4.9, cosType:'mask', variants:[{name:'500 mL',price:70},{name:'1 Litre',price:109},{name:'3 Litres',price:273}] },
   { id:'mix-pink', category:'cosmetics', section:'new-arrivals',
     name:{ ru:'Mix Pink — двухфазный кондиционер-спрей', en:'Mix Pink — Bi-Phase Conditioner Spray', sr:'Mix Pink — dvofazni kondicionersprej' },
     description:{ ru:'Антистатический двухфазный кондиционер. Мгновенно распутывает, придаёт блеск и защищает шерсть.', en:'Anti-static bi-phase conditioner. Instantly detangles, adds shine and protects the coat.', sr:'Antistatički dvofazni kondicioner. Trenutno raspetljava, dodaje sjaj i štiti dlaku.' },
-    price:55, image:'images/51.png', images:['images/51.png','images/52.jpg'],
-    rating:4.8, cosType:'conditioner', dimensions:['200 mL','1 L','3 L'] },
+    price:61, image:'images/51.png', images:['images/51.png','images/52.jpg'],
+    rating:4.8, cosType:'conditioner', variants:[{name:'200 mL',price:61},{name:'1 Litre',price:148},{name:'3 Litres',price:416}] },
   { id:'bio-energy-plus', category:'cosmetics', section:'',
     name:{ ru:'Bio Energy Plus — маска пре-бат с зелёной икрой', en:'Bio Energy Plus — Pre-Bath Mask with Green Caviar', sr:'Bio Energy Plus — maska pre kupanja sa zelenim kavijarom' },
     description:{ ru:'Маска для подготовки шерсти перед купанием. Зелёная икра питает и восстанавливает повреждённую шерсть.', en:'Pre-bath preparation mask. Green caviar nourishes and repairs damaged coats.', sr:'Maska za pripremu dlake pre kupanja. Zeleni kavijar hrani i obnavlja oštećenu dlaku.' },
-    price:32, image:'images/53.png', images:['images/53.png','images/54.png','images/55.jpg'],
-    rating:4.8, cosType:'mask', dimensions:['250 mL','1 L','5 L','10 L'] },
+    price:36, image:'images/53.png', images:['images/53.png','images/54.png','images/55.jpg'],
+    rating:4.8, cosType:'mask', variants:[{name:'250 mL',price:36},{name:'1 Litre',price:69},{name:'5 Litres',price:214},{name:'10 Litres',price:375}] },
   { id:'bain-pro', category:'cosmetics', section:'',
     name:{ ru:'Bain Pro — мягкий шампунь для всех типов шерсти', en:'Bain Pro — Gentle Shampoo for All Coat Types', sr:'Bain Pro — nežni šampon za sve tipove dlake' },
     description:{ ru:'Нежнейший профессиональный шампунь. Подходит для всех пород, возрастов и типов шерсти. Натуральная антипаразитарная защита.', en:'The gentlest professional shampoo. Suitable for all breeds, ages and coat types. Natural anti-parasitic protection.', sr:'Najnežniji profesionalni šampon. Pogodan za sve rase, uzraste i tipove dlake. Prirodna antiparazitska zaštita.' },
-    price:29, image:'images/56.png', images:['images/56.png','images/57.png','images/58.jpg'],
-    rating:4.9, cosType:'shampoo', dimensions:['250 mL','1 L','5 L'] },
+    price:33, image:'images/56.png', images:['images/56.png','images/57.png','images/58.jpg'],
+    rating:4.9, cosType:'shampoo', variants:[{name:'250 mL',price:33},{name:'1 L',price:63},{name:'5 Litres',price:163}] },
   { id:'aqua-dolce', category:'cosmetics', section:'',
     name:{ ru:'Aqua Dolce — восстанавливающая маска после шампуня', en:'Aqua Dolce — Revitalizing After-Shampoo Mask', sr:'Aqua Dolce — revitalizujuća maska posle šampona' },
     description:{ ru:'Маска-кондиционер для восстановления и смягчения шерсти. Убирает пушистость, лечит секущиеся кончики.', en:'Revitalizing conditioner mask for softening and restoring coats. Eliminates frizz, treats split ends.', sr:'Revitalizujuća maska-kondicioner za omekšavanje i obnovu dlake. Uklanja frizziness, tretira rascepljene vrhove.' },
-    price:44, image:'images/59.png', images:['images/59.png','images/60.png','images/61.jpg'],
-    rating:4.8, cosType:'mask', dimensions:['150 mL','500 mL','3 L'] },
+    price:49, image:'images/59.png', images:['images/59.png','images/60.png','images/61.jpg'],
+    rating:4.8, cosType:'mask', variants:[{name:'150 mL',price:49},{name:'500 mL',price:93},{name:'3 Litres',price:355}] },
   { id:'huiles-4-elements', category:'cosmetics', section:'best-sellers',
     name:{ ru:'Huiles 4 Éléments — масло для шерсти', en:'Huiles 4 Éléments — Coat Oil Blend', sr:'Huiles 4 Éléments — uljana mešavina za dlaku' },
     description:{ ru:'Смесь четырёх драгоценных растительных масел. Восстанавливает, распутывает и придаёт шелковистый блеск.', en:'Blend of four precious plant oils. Repairs, detangles and adds a silky shine.', sr:'Mešavina četiri dragocena biljna ulja. Obnavlja, raspetljava i dodaje svilenkast sjaj.' },
-    price:51, image:'images/62.png', images:['images/62.png','images/63.jpg'],
-    rating:4.9, cosType:'oil', dimensions:['50 mL','200 mL'] },
+    price:108, image:'images/62.png', images:['images/62.png','images/63.jpg'],
+    rating:4.9, cosType:'oil', variants:[{name:'200 mL',price:108},{name:'50 mL',price:57}] },
   { id:'hygro-fluid', category:'cosmetics', section:'',
     name:{ ru:'Hygro Fluid — питательный интегратор', en:'Hygro Fluid — Nourishing Integrator', sr:'Hygro Fluid — hranjivi integrator' },
     description:{ ru:'Интегратор на основе масел для восстановления шерсти. Усиливает действие всех последующих средств ухода.', en:'Oil-based integrator for coat restoration. Amplifies the effect of all subsequent care products.', sr:'Integrator na bazi ulja za obnovu dlake. Pojačava dejstvo svih narednih proizvoda za negu.' },
-    price:48, image:'images/64.png', images:['images/64.png','images/65.png','images/66.jpg'],
-    rating:4.8, cosType:'integrator', dimensions:['250 mL','1 L'] },
+    price:116, image:'images/64.png', images:['images/64.png','images/65.png','images/66.jpg'],
+    rating:4.8, cosType:'integrator', variants:[{name:'1 Litre',price:116},{name:'250 mL',price:54}] },
 
 // ═══ IMPORTED PRODUCTS FROM PETDESIGN (50% markup) ═══
 
@@ -724,33 +724,33 @@ const products = [
     name:{ ru:'EXTRA BODY CREAM', en:'EXTRA BODY CREAM', sr:'EXTRA BODY CREAM' },
     description:{ ru:'EXTRA BODY CREAM is a concentrated volume balm with an instant effect, formulated for dogs and cats. Who is this product for? Everyone will find it...', en:'EXTRA BODY CREAM is a concentrated volume balm with an instant effect, formulated for dogs and cats. Who is this product for? Everyone will find it...', sr:'EXTRA BODY CREAM is a concentrated volume balm with an instant effect, formulated for dogs and cats. Who is this product for? Everyone will find it...' },
     price:108, image:'images/364.png',
-    rating:4.8, cosType:'mask', dimensions:['1 Litre','3 Litres'] },
+    rating:4.8, cosType:'mask', variants:[{name:'1 Litre',price:108},{name:'3 Litres',price:303}] },
   { id:'villanelle-creme-ultra-demelan', category:'cosmetics', section:'',
     name:{ ru:'VILLANELLE, Crème Ultra-Démêlante & Séchage Rapide', en:'VILLANELLE, Crème Ultra-Démêlante & Séchage Rapide', sr:'VILLANELLE, Crème Ultra-Démêlante & Séchage Rapide' },
     description:{ ru:'VILLANELLE est le nouveau traitement "Ultra-Démêlant" de Special One. Conçue pour dissoudre les feutrages les plus critiques, elle réduit jusqu\'à 40%...', en:'VILLANELLE est le nouveau traitement "Ultra-Démêlant" de Special One. Conçue pour dissoudre les feutrages les plus critiques, elle réduit jusqu\'à 40%...', sr:'VILLANELLE est le nouveau traitement "Ultra-Démêlant" de Special One. Conçue pour dissoudre les feutrages les plus critiques, elle réduit jusqu\'à 40%...' },
     price:104, image:'images/365.jpg',
-    rating:4.8, cosType:'mask', dimensions:['500 mL','3 L'] },
+    rating:4.8, cosType:'mask', variants:[{name:'500 mL',price:104},{name:'3 L',price:390}] },
   { id:'glossy-pose-pour-plomber-allou', category:'cosmetics', section:'',
     name:{ ru:'Glossy Pose - Pour Plomber, allourdir, nourrir, faire pousser comme jamais', en:'Glossy Pose - Pour Plomber, allourdir, nourrir, faire pousser comme jamais', sr:'Glossy Pose - Pour Plomber, allourdir, nourrir, faire pousser comme jamais' },
     description:{ ru:'GLOSSY POSE est le traitement restructurant intensif de Special One, conçu pour la sauvegarde et la mise en valeur des manteaux longs, frangés et...', en:'GLOSSY POSE est le traitement restructurant intensif de Special One, conçu pour la sauvegarde et la mise en valeur des manteaux longs, frangés et...', sr:'GLOSSY POSE est le traitement restructurant intensif de Special One, conçu pour la sauvegarde et la mise en valeur des manteaux longs, frangés et...' },
     price:129, image:'images/366.jpg',
-    rating:4.8, cosType:'mask', dimensions:['500 mL','3 L'] },
+    rating:4.8, cosType:'mask', variants:[{name:'500 mL',price:129},{name:'3 L',price:501}] },
   // ── COSMETICS - Bain Collection (PetDesign) ──
   { id:'super-keeper', category:'cosmetics', section:'',
     name:{ ru:'SUPER KEEPER', en:'SUPER KEEPER', sr:'SUPER KEEPER' },
     description:{ ru:'Super Keeper – Special One | Product Details SUPER KEEPER is the Special One protective integrator, highly restorative , Designed to strengthen and rebuild the coat. Its blend of selected plant oil...', en:'Super Keeper – Special One | Product Details SUPER KEEPER is the Special One protective integrator, highly restorative , Designed to strengthen and rebuild the coat. Its blend of selected plant oil...', sr:'Super Keeper – Special One | Product Details SUPER KEEPER is the Special One protective integrator, highly restorative , Designed to strengthen and rebuild the coat. Its blend of selected plant oil...' },
     price:57, image:'images/387.png', images:['images/387.png','images/388.png','images/389.jpg'],
-    rating:4.8, cosType:'serum', dimensions:['250 mL'] },
+    rating:4.8, cosType:'serum', variants:[{name:'250 mL',price:57},{name:'1 Litre',price:133}] },
   { id:'platynum-pro-shampoing-volume', category:'cosmetics', section:'best-sellers',
     name:{ ru:'PLATINUM PRO, volume shampoo', en:'PLATINUM PRO, volume shampoo', sr:'PLATINUM PRO, volume shampoo' },
     description:{ ru:'PLATINUM PRO is the Special One professional shampoo whose main focus is the VOLUME . Ideal for shows and scissor cuts, it reveals the full natural volume of the fur, provides lasting straightening...', en:'PLATINUM PRO is the Special One professional shampoo whose main focus is the VOLUME . Ideal for shows and scissor cuts, it reveals the full natural volume of the fur, provides lasting straightening...', sr:'PLATINUM PRO is the Special One professional shampoo whose main focus is the VOLUME . Ideal for shows and scissor cuts, it reveals the full natural volume of the fur, provides lasting straightening...' },
     price:34, image:'images/390.png', images:['images/390.png','images/391.jpg','images/392.jpg'],
-    rating:4.8, cosType:'shampoo', dimensions:['250 mL','1 Litre','5 Litres'] },
+    rating:4.8, cosType:'shampoo', variants:[{name:'250 mL',price:34},{name:'1 Litre',price:66},{name:'5 Litres',price:192}] },
   { id:'shampoing-salon-toilettage', category:'cosmetics', section:'',
     name:{ ru:'BLUE SKY PRO, can be diluted 40 times!', en:'BLUE SKY PRO, can be diluted 40 times!', sr:'BLUE SKY PRO, can be diluted 40 times!' },
     description:{ ru:'BLUE SKY PRO is the highly concentrated Special One professional shampoo universal . Designed for grooming salons and breeders, it offers the best value for money in the range : ultra versatile, ul...', en:'BLUE SKY PRO is the highly concentrated Special One professional shampoo universal . Designed for grooming salons and breeders, it offers the best value for money in the range : ultra versatile, ul...', sr:'BLUE SKY PRO is the highly concentrated Special One professional shampoo universal . Designed for grooming salons and breeders, it offers the best value for money in the range : ultra versatile, ul...' },
-    price:36, image:'images/393.png', images:['images/393.png','images/394.png','images/395.jpg'],
-    rating:4.8, cosType:'shampoo', dimensions:['250 mL','1 Litre'] },
+    price:252, image:'images/393.png', images:['images/393.png','images/394.png','images/395.jpg'],
+    rating:4.8, cosType:'shampoo', variants:[{name:'10 Litres',price:252},{name:'250 mL',price:36},{name:'1 Litre',price:72}] },
   { id:'bombastic-special-one-en', category:'cosmetics', section:'best-sellers',
     name:{ ru:'BOMBASTIC - the essential serum ✨', en:'BOMBASTIC - the essential serum ✨', sr:'BOMBASTIC - the essential serum ✨' },
     description:{ ru:'Bombastic – Special One | Product Sheet BOMBASTIC is the Reconstructive Liquid Fiber Special One — no shampoo, no conditioner, no oily serum. A true innovation in zoo-cosmetology: Remineralizing + ...', en:'Bombastic – Special One | Product Sheet BOMBASTIC is the Reconstructive Liquid Fiber Special One — no shampoo, no conditioner, no oily serum. A true innovation in zoo-cosmetology: Remineralizing + ...', sr:'Bombastic – Special One | Product Sheet BOMBASTIC is the Reconstructive Liquid Fiber Special One — no shampoo, no conditioner, no oily serum. A true innovation in zoo-cosmetology: Remineralizing + ...' },
@@ -759,8 +759,8 @@ const products = [
   { id:'4poodle-shampoing-caniche-special-one', category:'cosmetics', section:'',
     name:{ ru:'4Poodle - Special Edition - Straightens and volumizes', en:'4Poodle - Special Edition - Straightens and volumizes', sr:'4Poodle - Special Edition - Straightens and volumizes' },
     description:{ ru:'4POODLE PRO (pronounced "For Poudeul Pro") is the shampoo that will revolutionize all your blow-drying of hair to volumize and straighten. The best shampoo on the market for this — a technical inno...', en:'4POODLE PRO (pronounced "For Poudeul Pro") is the shampoo that will revolutionize all your blow-drying of hair to volumize and straighten. The best shampoo on the market for this — a technical inno...', sr:'4POODLE PRO (pronounced "For Poudeul Pro") is the shampoo that will revolutionize all your blow-drying of hair to volumize and straighten. The best shampoo on the market for this — a technical inno...' },
-    price:79, image:'images/397.png', images:['images/397.png','images/398.png','images/399.jpg','images/400.png','images/401.png'],
-    rating:4.8, cosType:'shampoo', dimensions:['5 Litres','1 Litre'] },
+    price:231, image:'images/397.png', images:['images/397.png','images/398.png','images/399.jpg','images/400.png','images/401.png'],
+    rating:4.8, cosType:'shampoo', variants:[{name:'5 Litres',price:231},{name:'1 Litre',price:79}] },
   { id:'aqua-nettoyant-oculaire', category:'cosmetics', section:'best-sellers',
     name:{ ru:'AQUA eye cleaner', en:'AQUA eye cleaner', sr:'AQUA eye cleaner' },
     description:{ ru:'AQUA eye cleanser is an ultra-gentle ophthalmic lotion with plant extracts. Finally a product that allows you to REMOVE THE TRACES OF TEARS thanks to natural active ingredients. . Who is this produ...', en:'AQUA eye cleanser is an ultra-gentle ophthalmic lotion with plant extracts. Finally a product that allows you to REMOVE THE TRACES OF TEARS thanks to natural active ingredients. . Who is this produ...', sr:'AQUA eye cleanser is an ultra-gentle ophthalmic lotion with plant extracts. Finally a product that allows you to REMOVE THE TRACES OF TEARS thanks to natural active ingredients. . Who is this produ...' },
@@ -770,57 +770,57 @@ const products = [
     name:{ ru:'AQUAPURE PRO - 1st washing and disinfecting shampoo', en:'AQUAPURE PRO - 1st washing and disinfecting shampoo', sr:'AQUAPURE PRO - 1st washing and disinfecting shampoo' },
     description:{ ru:'AQUAPURE PRO is the Special One shampoo strongest washing power in the range . It cleans even the dirtiest animals very thoroughly, and allows for a reset of the epidermis thanks to its natural ant...', en:'AQUAPURE PRO is the Special One shampoo strongest washing power in the range . It cleans even the dirtiest animals very thoroughly, and allows for a reset of the epidermis thanks to its natural ant...', sr:'AQUAPURE PRO is the Special One shampoo strongest washing power in the range . It cleans even the dirtiest animals very thoroughly, and allows for a reset of the epidermis thanks to its natural ant...' },
     price:34, image:'images/403.png', images:['images/403.png','images/404.png','images/405.jpg'],
-    rating:4.8, cosType:'shampoo', dimensions:['250 mL','5 L'] },
+    rating:4.8, cosType:'shampoo', variants:[{name:'250 mL',price:34},{name:'5 L',price:193}] },
   { id:'aquablu-pro-shampoing-bleu', category:'cosmetics', section:'best-sellers',
     name:{ ru:'AQUABLU PRO', en:'AQUABLU PRO', sr:'AQUABLU PRO' },
     description:{ ru:'Aquablu Pro – Special One | Product Sheet AQUABLU PRO is the Special One professional shampoo with marine bio-derived ingredients and reflective blue pigments, specially designed for neutralize yel...', en:'Aquablu Pro – Special One | Product Sheet AQUABLU PRO is the Special One professional shampoo with marine bio-derived ingredients and reflective blue pigments, specially designed for neutralize yel...', sr:'Aquablu Pro – Special One | Product Sheet AQUABLU PRO is the Special One professional shampoo with marine bio-derived ingredients and reflective blue pigments, specially designed for neutralize yel...' },
     price:30, image:'images/406.png', images:['images/406.png','images/407.png','images/408.jpg'],
-    rating:4.8, cosType:'shampoo', dimensions:['250 mL','5 Litres'] },
+    rating:4.8, cosType:'shampoo', variants:[{name:'250 mL',price:30},{name:'5 Litres',price:169}] },
   { id:'absolute-4poodle-grooming-poodle', category:'cosmetics', section:'',
     name:{ ru:'Absolute 4Poodle - The best anti-static volume spray', en:'Absolute 4Poodle - The best anti-static volume spray', sr:'Absolute 4Poodle - The best anti-static volume spray' },
     description:{ ru:'ABSOLUTE 4POODLE is the Special One anti-static conditioning finishing spray, dedicated to all hair types with volume or those needing to be straightened. Its precious formula — enriched with cashm...', en:'ABSOLUTE 4POODLE is the Special One anti-static conditioning finishing spray, dedicated to all hair types with volume or those needing to be straightened. Its precious formula — enriched with cashm...', sr:'ABSOLUTE 4POODLE is the Special One anti-static conditioning finishing spray, dedicated to all hair types with volume or those needing to be straightened. Its precious formula — enriched with cashm...' },
     price:59, image:'images/409.png', images:['images/409.png','images/410.png','images/411.png'],
-    rating:4.8, cosType:'spray', dimensions:['250 mL','1 Liter'] },
+    rating:4.8, cosType:'spray', variants:[{name:'250 mL',price:59},{name:'1 Liter',price:140}] },
   { id:'keratine-pro-shampoing-texture-epilation', category:'cosmetics', section:'best-sellers',
     name:{ ru:'KERATINE PRO, texture shampoo +++', en:'KERATINE PRO, texture shampoo +++', sr:'KERATINE PRO, texture shampoo +++' },
     description:{ ru:'KERATIN PRO is the Special One texturizing and hardening shampoo, to be used in very specific situations : Post-bath hair removal, revealing natural volume, enhancing hair texture. A precision tool...', en:'KERATIN PRO is the Special One texturizing and hardening shampoo, to be used in very specific situations : Post-bath hair removal, revealing natural volume, enhancing hair texture. A precision tool...', sr:'KERATIN PRO is the Special One texturizing and hardening shampoo, to be used in very specific situations : Post-bath hair removal, revealing natural volume, enhancing hair texture. A precision tool...' },
-    price:33, image:'images/412.png', images:['images/412.png','images/413.jpg','images/414.jpg','images/415.jpg'],
-    rating:4.8, cosType:'shampoo', dimensions:['1 Litre','5 Litres','250 mL'] },
+    price:63, image:'images/412.png', images:['images/412.png','images/413.jpg','images/414.jpg','images/415.jpg'],
+    rating:4.8, cosType:'shampoo', variants:[{name:'1 Litre',price:63},{name:'5 Litres',price:170},{name:'250 mL',price:33}] },
   { id:'skincare-pro-shampoo-treatment-care', category:'cosmetics', section:'',
     name:{ ru:'SKINCARE pro, treatment shampoo', en:'SKINCARE pro, treatment shampoo', sr:'SKINCARE pro, treatment shampoo' },
     description:{ ru:'SKINCARE PRO is the Special One oil-based dermo-cleansing shampoo, specifically formulated for problem or delicate skin . It restores the balance of the dermis and hair, restores the natural produc...', en:'SKINCARE PRO is the Special One oil-based dermo-cleansing shampoo, specifically formulated for problem or delicate skin . It restores the balance of the dermis and hair, restores the natural produc...', sr:'SKINCARE PRO is the Special One oil-based dermo-cleansing shampoo, specifically formulated for problem or delicate skin . It restores the balance of the dermis and hair, restores the natural produc...' },
-    price:51, image:'images/417.png', images:['images/417.png','images/418.png','images/419.jpg','images/420.jpg'],
-    rating:4.8, cosType:'shampoo', dimensions:['1 Liter','5 Liters','250 mL'] },
+    price:96, image:'images/417.png', images:['images/417.png','images/418.png','images/419.jpg','images/420.jpg'],
+    rating:4.8, cosType:'shampoo', variants:[{name:'1 Liter',price:96},{name:'5 Liters',price:291},{name:'250 mL',price:51}] },
   { id:'aquarosa-passion-special-one', category:'cosmetics', section:'best-sellers',
     name:{ ru:'Aquarosa PASSION Pro * Glitter *', en:'Aquarosa PASSION Pro * Glitter *', sr:'Aquarosa PASSION Pro * Glitter *' },
     description:{ ru:'AQUAROSA PASSION It was created for true enthusiasts. 95% identical to the Aquarosa Pro — same multivitamin formula, same effectiveness — plus a rich and silky creamy texture, a delicate and envelo...', en:'AQUAROSA PASSION It was created for true enthusiasts. 95% identical to the Aquarosa Pro — same multivitamin formula, same effectiveness — plus a rich and silky creamy texture, a delicate and envelo...', sr:'AQUAROSA PASSION It was created for true enthusiasts. 95% identical to the Aquarosa Pro — same multivitamin formula, same effectiveness — plus a rich and silky creamy texture, a delicate and envelo...' },
     price:39, image:'images/421.png', images:['images/421.png','images/422.png','images/423.jpg'],
-    rating:4.8, cosType:'shampoo', dimensions:['250 mL','5 L'] },
+    rating:4.8, cosType:'shampoo', variants:[{name:'250 mL',price:39},{name:'5 L',price:222}] },
   { id:'style-360-spray-volume', category:'cosmetics', section:'',
     name:{ ru:'STYLE 360, volume spray', en:'STYLE 360, volume spray', sr:'STYLE 360, volume spray' },
     description:{ ru:'STYLE 360 is the very first conditioner in the Special One range — a classic with a particularly technical formulation. Designed for maximize the volume of all furs While eliminating static electri...', en:'STYLE 360 is the very first conditioner in the Special One range — a classic with a particularly technical formulation. Designed for maximize the volume of all furs While eliminating static electri...', sr:'STYLE 360 is the very first conditioner in the Special One range — a classic with a particularly technical formulation. Designed for maximize the volume of all furs While eliminating static electri...' },
-    price:67, image:'images/424.png', images:['images/424.png','images/425.png','images/426.png'],
-    rating:4.8, cosType:'spray', dimensions:['1 Litre','200 mL'] },
+    price:133, image:'images/424.png', images:['images/424.png','images/425.png','images/426.png'],
+    rating:4.8, cosType:'spray', variants:[{name:'1 Litre',price:133},{name:'200 mL',price:67}] },
   { id:'special-rinse-shampoing-sans-rincage', category:'cosmetics', section:'best-sellers',
     name:{ ru:'Special Rinse, "leave-in" shampoo', en:'Special Rinse, "leave-in" shampoo', sr:'Special Rinse, "leave-in" shampoo' },
     description:{ ru:'Shampoo WITHOUT RINSE, ideal for removing traces and other organic soiling. Odors also disappear instantly. Who is this product made for? Everyone will find a real interest in it! ☑️ Groomers ☑️ Br...', en:'Shampoo WITHOUT RINSE, ideal for removing traces and other organic soiling. Odors also disappear instantly. Who is this product made for? Everyone will find a real interest in it! ☑️ Groomers ☑️ Br...', sr:'Shampoo WITHOUT RINSE, ideal for removing traces and other organic soiling. Odors also disappear instantly. Who is this product made for? Everyone will find a real interest in it! ☑️ Groomers ☑️ Br...' },
-    price:30, image:'images/427.png', images:['images/427.png','images/428.jpg'],
-    rating:4.8, cosType:'shampoo', dimensions:['1 Litre','250 mL'] },
+    price:66, image:'images/427.png', images:['images/427.png','images/428.jpg'],
+    rating:4.8, cosType:'shampoo', variants:[{name:'1 Litre',price:66},{name:'250 mL',price:30}] },
   { id:'aquaterme-argile-verte', category:'cosmetics', section:'',
     name:{ ru:'AQUA TERME PRO, clay care shampoo', en:'AQUA TERME PRO, clay care shampoo', sr:'AQUA TERME PRO, clay care shampoo' },
     description:{ ru:'AQUA TERME PRO Special One is a professional shampoo formulated with green clay and mint, designed for skin requiring a treatment action. purifies and deeply cleanses while respecting the hydrolipi...', en:'AQUA TERME PRO Special One is a professional shampoo formulated with green clay and mint, designed for skin requiring a treatment action. purifies and deeply cleanses while respecting the hydrolipi...', sr:'AQUA TERME PRO Special One is a professional shampoo formulated with green clay and mint, designed for skin requiring a treatment action. purifies and deeply cleanses while respecting the hydrolipi...' },
     price:77, image:'images/429.png', images:['images/429.png','images/430.png','images/431.png'],
-    rating:4.8, cosType:'shampoo', dimensions:['1 Litre','5 Litres'] },
+    rating:4.8, cosType:'shampoo', variants:[{name:'1 Litre',price:77},{name:'5 Litres',price:216}] },
   { id:'tech-in-color-raviveur-de-couleurs', category:'cosmetics', section:'best-sellers',
     name:{ ru:'TECH IN COLOR, color reviver', en:'TECH IN COLOR, color reviver', sr:'TECH IN COLOR, color reviver' },
     description:{ ru:'TECH IN COLOR is the professional treatment from Special One for enhance the natural color of the dress . His natural pigments interact with the keratin structures of the hair to prolong shine unti...', en:'TECH IN COLOR is the professional treatment from Special One for enhance the natural color of the dress . His natural pigments interact with the keratin structures of the hair to prolong shine unti...', sr:'TECH IN COLOR is the professional treatment from Special One for enhance the natural color of the dress . His natural pigments interact with the keratin structures of the hair to prolong shine unti...' },
     price:76, image:'images/432.png', images:['images/432.png','images/433.png','images/434.jpg','images/435.jpg','images/436.jpg'],
-    rating:4.8, cosType:'other', dimensions:['A - WHITE/TWO-COLOR/TRICO COAT','C - APRICOT/FAUVE COAT','D - BROWN COAT, RUBY','E - CREAM/BLOND COAT'] },
+    rating:4.8, cosType:'other', variants:[{name:'A - WHITE/TWO-COLOR/TRICO COAT',price:76},{name:'B - BLACK/GREY COAT',price:76},{name:'C - APRICOT/FAUVE COAT',price:76},{name:'D - BROWN COAT, RUBY',price:76},{name:'E - CREAM/BLOND COAT',price:76}] },
   { id:'beauty-rinse-reequilibreur-de-ph', category:'cosmetics', section:'',
     name:{ ru:'BEAUTY RINSE, pH rebalancing', en:'BEAUTY RINSE, pH rebalancing', sr:'BEAUTY RINSE, pH rebalancing' },
     description:{ ru:'Hydrogen potential rebalancing lotion: cleanse the skin, force the scales to close, prevent the return of knots, air the hair. Who is this product for? Everyone will find it of real interest! ☑️ Gr...', en:'Hydrogen potential rebalancing lotion: cleanse the skin, force the scales to close, prevent the return of knots, air the hair. Who is this product for? Everyone will find it of real interest! ☑️ Gr...', sr:'Hydrogen potential rebalancing lotion: cleanse the skin, force the scales to close, prevent the return of knots, air the hair. Who is this product for? Everyone will find it of real interest! ☑️ Gr...' },
     price:35, image:'images/437.png', images:['images/437.png','images/438.png','images/439.jpg','images/440.jpg'],
-    rating:4.8, cosType:'spray', dimensions:['250 mL','1 Litre','5 Litres'] },
+    rating:4.8, cosType:'spray', variants:[{name:'250 mL',price:35},{name:'1 Litre',price:69},{name:'5 Litres',price:174}] },
   { id:'aqua-oto-hygiene-des-oreilles', category:'cosmetics', section:'best-sellers',
     name:{ ru:'AQUA OTO Ear Hygiene', en:'AQUA OTO Ear Hygiene', sr:'AQUA OTO Ear Hygiene' },
     description:{ ru:'AQUA OTO is a specific lotion for ear cleaning, but also for the prevention of blockages and infections. Who is this product for? Everyone will find something of real interest in it! ☑️ Groomers ☑️...', en:'AQUA OTO is a specific lotion for ear cleaning, but also for the prevention of blockages and infections. Who is this product for? Everyone will find something of real interest in it! ☑️ Groomers ☑️...', sr:'AQUA OTO is a specific lotion for ear cleaning, but also for the prevention of blockages and infections. Who is this product for? Everyone will find something of real interest in it! ☑️ Groomers ☑️...' },
@@ -849,13 +849,13 @@ const products = [
   { id:'masque-toilettage-argile-verte', category:'cosmetics', section:'',
     name:{ ru:'DETOX THERAPY pre-bath mask with green clay', en:'DETOX THERAPY pre-bath mask with green clay', sr:'DETOX THERAPY pre-bath mask with green clay' },
     description:{ ru:'Detox Therapy – Special One | Product Sheet DETOX THERAPY is the Special One professional pre-bath mask formulated with green clay — the "land that heals a thousand ills" — to act against the main ...', en:'Detox Therapy – Special One | Product Sheet DETOX THERAPY is the Special One professional pre-bath mask formulated with green clay — the "land that heals a thousand ills" — to act against the main ...', sr:'Detox Therapy – Special One | Product Sheet DETOX THERAPY is the Special One professional pre-bath mask formulated with green clay — the "land that heals a thousand ills" — to act against the main ...' },
-    price:78, image:'images/447.png', images:['images/447.png','images/448.png','images/449.png'],
-    rating:4.8, cosType:'mask', dimensions:['5 Litres','1 Litre'] },
+    price:229, image:'images/447.png', images:['images/447.png','images/448.png','images/449.png'],
+    rating:4.8, cosType:'mask', variants:[{name:'5 Litres',price:229},{name:'1 Litre',price:78}] },
   { id:'parfum-de-luxe-by-special-one', category:'cosmetics', section:'best-sellers',
     name:{ ru:'Luxury Perfume, by Special One', en:'Luxury Perfume, by Special One', sr:'Luxury Perfume, by Special One' },
     description:{ ru:'Pet perfumes, high-end Special One PERFUME LINE , by Special One A complete line of high-end perfumes, for dogs and cats, created in Grasse. Built with passion and refinement, offer your animals a ...', en:'Pet perfumes, high-end Special One PERFUME LINE , by Special One A complete line of high-end perfumes, for dogs and cats, created in Grasse. Built with passion and refinement, offer your animals a ...', sr:'Pet perfumes, high-end Special One PERFUME LINE , by Special One A complete line of high-end perfumes, for dogs and cats, created in Grasse. Built with passion and refinement, offer your animals a ...' },
     price:75, image:'images/451.jpg', images:['images/451.jpg','images/452.jpg','images/453.jpg','images/454.jpg','images/455.jpg'],
-    rating:4.8, cosType:'spray', dimensions:['Spring Water','Brave Water','Energy Water','Moon Water','Rock Water','L’è Bell','Kikinsci'] },
+    rating:4.8, cosType:'spray', variants:[{name:'Spring Water',price:75},{name:'Brave Water',price:75},{name:'Energy Water',price:75},{name:'Moon Water',price:75},{name:'Rock Water',price:75},{name:'L’è Bell',price:75},{name:'Kikinsci',price:75}] },
   { id:'aqua-vita-le-pouvoir-de-la-cryotherapie', category:'cosmetics', section:'',
     name:{ ru:'AQUA VITA, le pouvoir de  la cryothérapie *nouveau*', en:'AQUA VITA, le pouvoir de  la cryothérapie *nouveau*', sr:'AQUA VITA, le pouvoir de  la cryothérapie *nouveau*' },
     description:{ ru:'AQUA VITA – CRIO THERAPY est le produit de beauté innovant Special One aux actifs certifiés BIO — aloès, marron d\'Inde et vitamine C. Une vraie révolution dans le toilettage professionnel : sa mous...', en:'AQUA VITA – CRIO THERAPY est le produit de beauté innovant Special One aux actifs certifiés BIO — aloès, marron d\'Inde et vitamine C. Une vraie révolution dans le toilettage professionnel : sa mous...', sr:'AQUA VITA – CRIO THERAPY est le produit de beauté innovant Special One aux actifs certifiés BIO — aloès, marron d\'Inde et vitamine C. Une vraie révolution dans le toilettage professionnel : sa mous...' },
@@ -1398,7 +1398,8 @@ function navigateTo(r) {
   if (r === route) return;
   if (['beds','toys','accessories','cosmetics'].includes(route)) prevCategory = route;
   route = r;
-  window.location.hash = r;
+  const path = r === 'home' ? '/' : '/' + r;
+  history.pushState({ route: r }, '', path);
   renderRoute();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -1584,16 +1585,38 @@ function showProductDetail(id) {
     optHTML += `<select>${colors.map(c =>
       `<option value="${c}" ${c===p.color?'selected':''}>${t('filters.'+c)}</option>`
     ).join('')}</select>`;
-  }  if (p.dimensions) {
+  }  if (p.variants) {
+    optHTML += `<select id="pd-variant-select">${p.variants.map((v,i) =>
+      `<option value="${i}" data-price="${v.price}" ${i===0?'selected':''}>${v.name} — ${fmt(v.price)}</option>`
+    ).join('')}</select>`;
+  } else if (p.dimensions) {
     optHTML += `<select>${p.dimensions.map((d,i) =>
       `<option value="${d}" ${i===0?'selected':''}>${d}</option>`
     ).join('')}</select>`;
   }  opts.innerHTML = optHTML;
 
+  // Variant price change handler
+  const variantSel = document.getElementById('pd-variant-select');
+  if (variantSel) {
+    variantSel.addEventListener('change', () => {
+      const vi = +variantSel.value;
+      const newPrice = p.variants[vi].price;
+      document.getElementById('pd-price').textContent = fmt(newPrice);
+    });
+  }
+
   // Add to cart button
   const addBtn = document.getElementById('pd-add');
   addBtn.textContent = t('product.addToCart');
-  addBtn.onclick = () => addToCart(p.id);
+  addBtn.onclick = () => {
+    const vs = document.getElementById('pd-variant-select');
+    if (vs) {
+      const vi = +vs.value;
+      addToCart(p.id, p.variants[vi].name, p.variants[vi].price);
+    } else {
+      addToCart(p.id);
+    }
+  };
 
   // Stock urgency
   const viewersEl = document.getElementById('pd-viewers');
@@ -1691,12 +1714,17 @@ function updateCartCount() {
   document.getElementById('cart-count').textContent = n;
 }
 
-function addToCart(id) {
+function addToCart(id, variantName, variantPrice) {
   const p = products.find(x => x.id === id);
   if (!p) return;
-  const existing = cart.find(i => i.id === id);
+  const cartId = variantName ? id + '::' + variantName : id;
+  const existing = cart.find(i => i.cartId === cartId);
   if (existing) existing.qty += 1;
-  else cart.push({ ...p, qty: 1 });
+  else {
+    const item = { ...p, qty: 1, cartId };
+    if (variantName) { item.variantName = variantName; item.price = variantPrice; }
+    cart.push(item);
+  }
   saveCart();
   updateCartCount();
   renderCartDrawer();
@@ -1710,8 +1738,8 @@ function addToCart(id) {
   });
 }
 
-function changeQty(id, delta) {
-  const item = cart.find(i => i.id === id);
+function changeQty(cartId, delta) {
+  const item = cart.find(i => (i.cartId || i.id) === cartId);
   if (!item) return;
   item.qty = Math.max(1, item.qty + delta);
   saveCart();
@@ -1719,8 +1747,8 @@ function changeQty(id, delta) {
   updateCartCount();
 }
 
-function removeItem(id) {
-  const idx = cart.findIndex(i => i.id === id);
+function removeItem(cartId) {
+  const idx = cart.findIndex(i => (i.cartId || i.id) === cartId);
   if (idx >= 0) cart.splice(idx, 1);
   saveCart();
   renderCartDrawer();
@@ -1741,21 +1769,24 @@ function renderCartDrawer() {
   if (cart.length === 0) {
     el.innerHTML = `<div class="cart-item" style="grid-template-columns:1fr"><p style="text-align:center;color:var(--text-soft)">${t('cart.empty')}</p></div>`;
   } else {
-    el.innerHTML = cart.map(item => `
+    el.innerHTML = cart.map(item => {
+      const cid = (item.cartId || item.id).replace(/'/g, "\\'");
+      const varLabel = item.variantName ? `<span class="cart-item-variant">${item.variantName}</span>` : '';
+      return `
       <div class="cart-item">
         <img class="cart-item-thumb" src="${item.image}" alt="${item.name[locale]}">
         <div class="cart-item-info">
-          <h4>${item.name[locale]}</h4>
+          <h4>${item.name[locale]}${varLabel}</h4>
           <p class="cart-item-price">${fmt(item.price)} × ${item.qty}</p>
           <div class="cart-item-actions">
-            <button type="button" onclick="changeQty('${item.id}',-1)">−</button>
+            <button type="button" onclick="changeQty('${cid}',-1)">−</button>
             <span class="cart-item-qty">${item.qty}</span>
-            <button type="button" onclick="changeQty('${item.id}',1)">+</button>
-            <button type="button" class="cart-item-remove" onclick="removeItem('${item.id}')">${t('cart.remove')}</button>
+            <button type="button" onclick="changeQty('${cid}',1)">+</button>
+            <button type="button" class="cart-item-remove" onclick="removeItem('${cid}')">${t('cart.remove')}</button>
           </div>
         </div>
       </div>
-    `).join('');
+    `}).join('');
   }
 
   document.getElementById('sum-sub').textContent = fmt(t_.sub);
@@ -1798,7 +1829,6 @@ async function initPayPalButtons() {
   if (!window.paypal) { console.warn('PayPal SDK failed to load'); return; }
   if (paypalButtonsRendered) return;
   paypalButtonsRendered = true;
-  console.log('PayPal SDK loaded, rendering buttons...');
 
   try {
   paypal.Buttons({
@@ -1885,7 +1915,7 @@ async function initGooglePay() {
       onClick: () => onGooglePayClick(gPayClient, googlepay, gpConfig),
     });
     document.getElementById('googlepay-container').appendChild(btn);
-  } catch (e) { console.log('Google Pay not available:', e.message); }
+  } catch (e) { /* Google Pay not available */ }
 }
 
 async function onGooglePayClick(client, googlepay, gpConfig) {
@@ -1950,7 +1980,7 @@ async function initApplePay() {
     btn.style.cssText = 'width:100%;height:50px;border-radius:8px;cursor:pointer;';
     btn.addEventListener('click', () => onApplePayClick(applepay, apConfig));
     document.getElementById('applepay-container').appendChild(btn);
-  } catch (e) { console.log('Apple Pay not available:', e.message); }
+  } catch (e) { /* Apple Pay not available */ }
 }
 
 async function onApplePayClick(applepay, apConfig) {
@@ -2194,7 +2224,7 @@ function bindEvents() {
     link.addEventListener('click', e => {
       if (link.getAttribute('target') === '_blank') return;
       e.preventDefault();
-      navigateTo(link.getAttribute('href').replace('#',''));
+      navigateTo(link.getAttribute('href').replace(/^[\/#]+/,''));
     });
   });
 
@@ -2234,10 +2264,10 @@ function bindEvents() {
     });
   });
 
-  // Hash change
-  window.addEventListener('hashchange', () => {
-    const h = window.location.hash.replace('#','') || 'home';
-    if (h !== route) { route = h; renderRoute(); }
+  // Browser back/forward
+  window.addEventListener('popstate', () => {
+    const path = window.location.pathname.replace(/^\//, '') || 'home';
+    if (path !== route) { route = path; renderRoute(); }
   });
 
   // Header scroll shadow
@@ -2261,7 +2291,10 @@ function setLocale(l) {
    16. INIT
    ───────────────────────────────────────────── */
 window.addEventListener('DOMContentLoaded', async () => {
-  route = window.location.hash.replace('#','') || 'home';
+  // SPA redirect from 404.html
+  const redirect = sessionStorage.getItem('redirect');
+  if (redirect) { sessionStorage.removeItem('redirect'); history.replaceState(null, '', redirect); }
+  route = window.location.pathname.replace(/^\//, '') || 'home';
   document.getElementById('lang-en').classList.add('active');
   document.getElementById('mob-lang-en').classList.add('active');
   bindEvents();
@@ -2325,9 +2358,6 @@ function initScrollReveal() {
   const contactCard = document.querySelector('.contact-card');
   if (contactCard) { contactCard.classList.add('reveal-scale'); observer.observe(contactCard); }
 }
-
-// Re-observe after route changes
-const origRenderRoute = typeof renderRoute === 'function' ? renderRoute : null;
 
 /* ── Hero Gold Particles ── */
 function initHeroParticles() {

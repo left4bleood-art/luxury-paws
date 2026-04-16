@@ -661,6 +661,12 @@ function scheduleWeeklyNewsletter() {
   console.log('📅 Weekly newsletter scheduled: every Monday at 10:00');
 }
 
+// SPA catch-all: serve index.html for all non-API, non-file routes
+app.get('*', (req, res) => {
+  if (req.path.startsWith('/api/')) return res.status(404).json({ error: 'Not found' });
+  res.sendFile(__dirname + '/index.html');
+});
+
 app.listen(port, () => {
   console.log(`Backend server listening on http://localhost:${port}`);
   scheduleWeeklyNewsletter();
