@@ -389,6 +389,17 @@ const products = [
     description:{ ru:'Прочная верёвка для игр, тренировки и ухода за зубами.', en:'Durable rope for play, training and dental care.', sr:'Izdražljivo uže za igru, trening i negu zuba.' },
     price:25, image:'images/10.png',
     rating:4.9, toyType:'chew' },
+  { id:'squeaker-joint-toy', category:'toys', section:'new-arrivals',
+    name:{ ru:'Плюшевая пищалка-косточка', en:'Plush Squeaker Joint Toy', sr:'Plišana pištaljka-kost za pse' },
+    description:{ ru:'Мягкая плюшевая игрушка для жевания с пищалкой. Устойчива к укусам, подходит для щенков и взрослых собак.', en:'Soft plush chew toy with squeaker. Bite-resistant, suitable for puppies and adult dogs.', sr:'Meka plišana igračka za žvakanje sa pištaljkom. Otporna na ugrize, pogodna za štence i odrasle pse.' },
+    price:11, image:'images/31.webp', images:['images/31.webp','images/32.webp','images/33.webp','images/34.webp'],
+    rating:4.8, toyType:'interactive', color:'green',
+    availableColors:['green','red','yellow'] },
+  { id:'octopus-rope-toy', category:'toys', section:'new-arrivals',
+    name:{ ru:'Канатный осьминог-пищалка', en:'Rope Octopus Squeaky Toy', sr:'Pištaljka hobotnica od užeta' },
+    description:{ ru:'Прочная игрушка-осьминог из каната с пищалкой. Чистит зубы, развивает активность. Для собак и кошек.', en:'Durable rope octopus toy with squeaker. Cleans teeth, promotes activity. For dogs and cats.', sr:'Izdržljiva igračka hobotnica od užeta sa pištaljkom. Čisti zube, podstiče aktivnost. Za pse i mačke.' },
+    price:10, image:'images/35.webp', images:['images/35.webp','images/36.webp','images/37.webp','images/38.webp'],
+    rating:4.9, toyType:'chew', color:'pink' },
   // ── ACCESSORIES ──
   { id:'vest-harness', category:'accessories', section:'best-sellers',
     name:{ ru:'Мягкая жилет-шлейка с поводком', en:'Soft Vest Harness with Leash', sr:'Meki prsluk-povodac sa kašem' },
@@ -412,7 +423,7 @@ const products = [
   { id:'retractable-leash', category:'accessories', section:'new-arrivals',
     name:{ ru:'Автоматический поводок-рулетка', en:'Retractable Dog Leash', sr:'Automatski povodac-ruleta za pse' },
     description:{ ru:'Прочный автоматический поводок-рулетка 5M/8M для собак до 50 кг. Подходит для крупных и мелких пород. Удобная кнопка фиксации.', en:'Strong automatic retractable leash 5M/8M for dogs up to 50kg. Suitable for large and small breeds. Convenient lock button.', sr:'Jak automatski povodac-ruleta 5M/8M za pse do 50kg. Pogodan za velike i male rase. Praktično dugme za zaključavanje.' },
-    price:15, image:'images/26.webp', images:['images/26.webp','images/27.webp','images/28.webp','images/29.webp','images/30.webp'],
+    price:15, image:'images/26.webp', images:['images/26.webp','images/29.webp','images/30.webp'],
     rating:4.7, accType:'leash', color:'roseRed',
     availableColors:['roseRed','blue','gray'],
     availableSizes:['5M-50kg','8M-50kg'] },
@@ -422,7 +433,7 @@ const collections = [
   { id:'beds',
     title:{ ru:'Лежанки', en:'Dog Beds', sr:'Ležaljke' },
     description:{ ru:'Комфортные и стильные лежанки для вашего питомца.', en:'Comfortable and stylish beds for your beloved pet.', sr:'Udobne i stilske ležaljke za vašeg ljubimca.' },
-    image:'images/4.png' },
+    image:'images/23.webp' },
   { id:'toys',
     title:{ ru:'Игрушки', en:'Toys', sr:'Igračke' },
     description:{ ru:'Забавные игрушки для активных игр и развития.', en:'Fun toys for active play and development.', sr:'Zabavne igračke za aktivnu igru i razvoj.' },
@@ -817,7 +828,7 @@ function showProductDetail(id) {
   if (p.size || p.availableSizes) {
     const sizes = p.availableSizes || ['small','medium','large'];
     optHTML += `<select>${sizes.map((s,i) =>
-      `<option value="${s}" ${(p.size?s===p.size:i===0)?'selected':''}>${t('filters.'+s)}</option>`
+      `<option value="${s}" ${(p.size?s===p.size:i===0)?'selected':''}>${t('filters.'+s) !== 'filters.'+s ? t('filters.'+s) : s}</option>`
     ).join('')}</select>`;
   }
   if (p.color) {
