@@ -1442,6 +1442,7 @@ function bindEvents() {
   // Navigation links
   document.querySelectorAll('.nav a, .hero-cta a, .footer-links a').forEach(link => {
     link.addEventListener('click', e => {
+      if (link.getAttribute('target') === '_blank') return;
       e.preventDefault();
       navigateTo(link.getAttribute('href').replace('#',''));
     });
