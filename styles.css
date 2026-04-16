@@ -227,7 +227,7 @@ main { flex:1; }
 }
 
 /* ─── SECTIONS ─── */
-.section { padding:100px 24px; position:relative; }
+.section { padding:100px 24px; position:relative; z-index:2; }
 .section-alt {
   background: linear-gradient(
     180deg,
@@ -290,7 +290,7 @@ main { flex:1; }
 
 /* ─── HERO ─── */
 .hero {
-  position:relative;
+  position:relative; z-index:2;
   min-height:calc(100vh - 74px);
   display:flex; align-items:center;
   overflow:hidden;
@@ -618,6 +618,7 @@ main { flex:1; }
 
 /* ─── FOOTER ─── */
 .site-footer {
+  position:relative; z-index:2;
   padding:36px 24px 44px;
   background: linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 30%);
   border-top:none;
