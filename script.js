@@ -70,7 +70,7 @@ const i18n = {
       collar: 'Ошейник', leash: 'Поводок', bowl: 'Миска', other: 'Другое',
       harness: 'Шлейка', brush: 'Щётка', fleaCollar: 'Арома-ошейник',
       apricot: 'Абрикосовый', pink: 'Розовый', yellow: 'Жёлтый',
-      mint: 'Мятный', roseRed: 'Розово-красный',
+      mint: 'Мятный', roseRed: 'Розово-красный', white: 'Белый',
       noResults: 'По выбранным фильтрам ничего не найдено.',
       clearAll: 'Сбросить',
       itemCount: 'товаров',
@@ -181,7 +181,7 @@ const i18n = {
       collar: 'Collar', leash: 'Leash', bowl: 'Bowl', other: 'Other',
       harness: 'Harness', brush: 'Brush', fleaCollar: 'Aroma Collar',
       apricot: 'Apricot', pink: 'Pink', yellow: 'Yellow',
-      mint: 'Mint', roseRed: 'Rose Red',
+      mint: 'Mint', roseRed: 'Rose Red', white: 'White',
       noResults: 'No products match the selected filters.',
       clearAll: 'Clear All',
       itemCount: 'products',
@@ -292,7 +292,7 @@ const i18n = {
       collar: 'Ogrlica', leash: 'Povodac', bowl: 'Činija', other: 'Ostalo',
       harness: 'Povodac-prsluk', brush: 'Četka', fleaCollar: 'Aroma ogrlica',
       apricot: 'Kajsija', pink: 'Roze', yellow: 'Žut',
-      mint: 'Mente', roseRed: 'Roze crvena',
+      mint: 'Mente', roseRed: 'Roze crvena', white: 'Bela',
       noResults: 'Nema proizvoda za izabrane filtere.',
       clearAll: 'Obriši',
       itemCount: 'proizvoda',
@@ -427,6 +427,12 @@ const products = [
     rating:4.7, accType:'leash', color:'roseRed',
     availableColors:['roseRed','blue','gray'],
     availableSizes:['5M-50kg','8M-50kg'] },
+  { id:'elevated-feeder', category:'accessories', section:'best-sellers',
+    name:{ ru:'Подставка с двойной миской', en:'Elevated Dual Bowl Feeder', sr:'Postolje sa duplom činijom' },
+    description:{ ru:'Яркая подставка с двумя мисками из нержавеющей стали. Поддержка шеи, легко моется. Для собак и кошек.', en:'Colorful elevated stand with dual stainless steel bowls. Neck support, easy to clean. For dogs and cats.', sr:'Jarko postolje sa duplim činijama od nerđajućeg čelika. Podrška za vrat, lako se čisti. Za pse i mačke.' },
+    price:30, image:'images/39.webp', images:['images/39.webp','images/40.webp','images/41.webp','images/42.webp','images/43.webp'],
+    rating:4.9, accType:'bowl', color:'white',
+    availableColors:['white','pink','green','yellow'] },
 ];
 
 const collections = [
@@ -466,8 +472,8 @@ const filterConfig = {
     { key:'price',   type:'price',   ranges:['0-25','25-50','50-999'] },
   ],
   accessories: [
-    { key:'accType', prop:'accType', options:['harness','brush','fleaCollar','leash'] },
-    { key:'color', prop:'color', options:['apricot','blue','pink','yellow','black','mint','beige','roseRed','gray'] },
+    { key:'accType', prop:'accType', options:['harness','brush','fleaCollar','leash','bowl'] },
+    { key:'color', prop:'color', options:['apricot','blue','pink','yellow','black','mint','beige','roseRed','gray','white','green'] },
     { key:'price',   type:'price',   ranges:['0-25','25-35','35-999'] },
   ],
 };
