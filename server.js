@@ -508,18 +508,6 @@ const newsletterProducts = [
 ];
 
 const newsletterI18n = {
-  ru: {
-    subject: '🐾 Luxury Paws: товар недели',
-    hi: 'Привет!',
-    intro: 'Мы подобрали для вас товар, который точно понравится вашему питомцу:',
-    price: 'Цена',
-    cta: 'Смотреть в магазине',
-    why1: '✦ Бесплатная доставка от €50',
-    why2: '✦ Премиальное качество',
-    why3: '✦ Безопасная оплата',
-    footer: 'Вы получили это письмо, потому что подписались на рассылку Luxury Paws.',
-    unsub: 'Отписаться',
-  },
   en: {
     subject: '🐾 Luxury Paws: Product of the Week',
     hi: 'Hey there!',
@@ -538,9 +526,11 @@ function buildNewsletterHtml(product, lang, email) {
   const t = newsletterI18n[lang] || newsletterI18n.en;
   const name = product.name[lang] || product.name.en;
   const siteUrl = process.env.SITE_URL || 'https://left4bleood-art.github.io/luxury-paws';
+  const imageBase = 'https://raw.githubusercontent.com/left4bleood-art/luxury-paws/main';
+  const serverUrl = process.env.SERVER_URL || 'http://localhost:4242';
   const productUrl = `${siteUrl}/#product/${product.id}`;
-  const imageUrl = `${siteUrl}/${product.image}`;
-  const unsubUrl = `${siteUrl}/api/unsubscribe?email=${encodeURIComponent(email)}`;
+  const imageUrl = `${imageBase}/${product.image}`;
+  const unsubUrl = `${serverUrl}/api/unsubscribe?email=${encodeURIComponent(email)}`;
 
   return `<!DOCTYPE html>
 <html>
