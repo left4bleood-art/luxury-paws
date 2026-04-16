@@ -1691,13 +1691,12 @@ main { flex:1; }
   .ambient-particles { display:none; }
   .col-card::before { display:none; }
 
-  /* Mobile-specific premium touches */
-
+  /* ═══ MOBILE PREMIUM OVERHAUL ═══ */
 
   /* Smooth active states for touch */
-  .pcard:active { transform:scale(0.98) !important; transition:transform 0.1s; }
-  .col-card:active { transform:scale(0.98); transition:transform 0.1s; }
-  .btn:active { transform:scale(0.96) !important; transition:transform 0.1s; }
+  .pcard:active { transform:scale(0.97) !important; transition:transform 0.15s; }
+  .col-card:active { transform:scale(0.97); transition:transform 0.15s; }
+  .btn:active { transform:scale(0.96) !important; transition:transform 0.15s; }
   .trust-card:active { transform:scale(0.97); }
   .cart-item-actions button:active { transform:scale(0.9); }
 
@@ -1710,6 +1709,256 @@ main { flex:1; }
   /* Better tap targets */
   .back-link { min-height:44px; display:inline-flex; align-items:center; }
   .filter-bar select { min-height:44px; }
+
+  /* ─── MOBILE: BOTTOM NAV BAR ─── */
+  .mobile-bottom-bar {
+    position:fixed; bottom:0; left:0; right:0;
+    z-index:88;
+    display:flex; align-items:center; justify-content:space-around;
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(20px) saturate(1.8);
+    -webkit-backdrop-filter:blur(20px) saturate(1.8);
+    border-top:1px solid var(--border);
+    padding:6px 0 calc(6px + env(safe-area-inset-bottom, 0px));
+    box-shadow:0 -4px 24px rgba(60,45,30,0.08);
+  }
+  .mobile-bottom-bar a,
+  .mobile-bottom-bar button {
+    display:flex; flex-direction:column; align-items:center; gap:2px;
+    font-size:0.62rem; font-weight:600; color:var(--text-soft);
+    padding:6px 12px; border-radius:12px;
+    transition:color 0.2s, background 0.2s;
+    position:relative;
+    letter-spacing:0.02em;
+    -webkit-tap-highlight-color:transparent;
+    background:none; border:none;
+  }
+  .mobile-bottom-bar a.active,
+  .mobile-bottom-bar button.active {
+    color:var(--accent-dark);
+  }
+  .mobile-bottom-bar a.active::before {
+    content:'';
+    position:absolute; top:-6px; left:50%; transform:translateX(-50%);
+    width:20px; height:3px; border-radius:2px;
+    background:var(--accent);
+  }
+  .mobile-bottom-bar .bar-icon {
+    font-size:1.25rem; line-height:1;
+  }
+  .mobile-bottom-bar .bar-cart-badge {
+    position:absolute; top:0px; right:4px;
+    min-width:16px; height:16px;
+    background:var(--accent-dark); color:#fff;
+    font-size:0.6rem; font-weight:800;
+    border-radius:99px; display:flex; align-items:center; justify-content:center;
+    padding:0 4px;
+  }
+
+  /* Extra bottom padding for content above bottom bar */
+  .site-footer { padding-bottom:calc(70px + env(safe-area-inset-bottom, 0px)); }
+  .cat-body { padding-bottom:calc(80px + env(safe-area-inset-bottom, 0px)); }
+  .pd-wrap { padding-bottom:calc(80px + env(safe-area-inset-bottom, 0px)); }
+
+  /* ─── MOBILE: PRODUCT CARDS GLASS EFFECT ─── */
+  .pcard {
+    background:rgba(255,255,255,0.85);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border-color:rgba(255,255,255,0.5);
+    box-shadow:0 2px 12px rgba(60,45,30,0.06);
+  }
+  .pcard:hover { transform:none; box-shadow:0 2px 12px rgba(60,45,30,0.06); }
+
+  /* ─── MOBILE: HERO IMPROVEMENTS ─── */
+  .hero-cards { display:none; }
+  .hero-text { text-align:center; }
+  .hero-sub { margin:0 auto; }
+  .hero-cta { justify-content:center; }
+  .hero-shade {
+    background:
+      linear-gradient(180deg, rgba(247,242,235,0.92) 0%, rgba(247,242,235,0.75) 40%, rgba(247,242,235,0.4) 70%, var(--bg) 100%);
+  }
+
+  /* ─── MOBILE: SMOOTH SCROLL SNAP PRODUCT CAROUSEL ─── */
+  .pgrid.mobile-scroll {
+    display:flex;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    gap:12px;
+    padding-bottom:8px;
+    margin:-4px -18px;
+    padding-left:18px; padding-right:18px;
+  }
+  .pgrid.mobile-scroll::-webkit-scrollbar { display:none; }
+  .pgrid.mobile-scroll .pcard {
+    flex:0 0 65vw;
+    max-width:260px;
+    scroll-snap-align:center;
+  }
+  .pgrid.mobile-scroll .pcard-media { height:200px; }
+
+  /* ─── MOBILE: COLLECTION CARDS HORIZONTAL SCROLL ─── */
+  .col-grid.mobile-scroll-col {
+    display:flex;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    gap:14px;
+    padding:4px 0;
+    margin:0 -20px;
+    padding-left:20px; padding-right:20px;
+  }
+  .col-grid.mobile-scroll-col::-webkit-scrollbar { display:none; }
+  .col-grid.mobile-scroll-col .col-card {
+    flex:0 0 75vw;
+    max-width:300px;
+    height:280px;
+    scroll-snap-align:center;
+  }
+
+  /* ─── MOBILE: TRUST CARDS HORIZONTAL SCROLL ─── */
+  .trust-grid.mobile-scroll-trust {
+    display:flex;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    gap:12px;
+    margin:0 -20px;
+    padding-left:20px; padding-right:20px;
+  }
+  .trust-grid.mobile-scroll-trust::-webkit-scrollbar { display:none; }
+  .trust-grid.mobile-scroll-trust .trust-card {
+    flex:0 0 70vw;
+    max-width:280px;
+    scroll-snap-align:center;
+  }
+
+  /* ─── MOBILE: SECTION FADE-IN ON SCROLL ─── */
+  .section {
+    opacity:0; transform:translateY(20px);
+    transition:opacity 0.6s ease, transform 0.6s ease;
+  }
+  .section.mob-visible {
+    opacity:1; transform:translateY(0);
+  }
+
+  /* ─── MOBILE: PRODUCT DETAIL STICKY ADD-TO-CART ─── */
+  .pd-sticky-bar {
+    position:fixed; bottom:calc(52px + env(safe-area-inset-bottom, 0px)); left:0; right:0;
+    z-index:87;
+    display:flex; align-items:center; gap:12px;
+    background:rgba(255,255,255,0.95);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    padding:10px 16px;
+    box-shadow:0 -2px 16px rgba(60,45,30,0.1);
+    border-top:1px solid var(--border);
+    transform:translateY(100%);
+    transition:transform 0.3s ease;
+  }
+  .pd-sticky-bar.visible { transform:translateY(0); }
+  .pd-sticky-bar .sticky-price {
+    font-family:var(--font-display);
+    font-size:1.2rem; font-weight:800;
+    color:var(--accent-dark);
+    white-space:nowrap;
+  }
+  .pd-sticky-bar .btn { flex:1; min-height:44px; font-size:0.88rem; }
+
+  /* ─── MOBILE: PILL FILTERS ─── */
+  .filter-bar {
+    overflow-x:auto;
+    flex-wrap:nowrap;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+    margin:0 -18px 28px;
+    padding:0 18px 8px;
+  }
+  .filter-bar::-webkit-scrollbar { display:none; }
+  .filter-bar select {
+    flex-shrink:0;
+    border-radius:999px;
+    padding:10px 32px 10px 14px;
+    font-size:0.8rem;
+    min-width:auto;
+    background-color:var(--surface);
+    box-shadow:0 2px 8px rgba(60,45,30,0.04);
+  }
+
+  /* ─── MOBILE: IMAGE GALLERY DOTS BIGGER ─── */
+  .pd-dot {
+    width:8px; height:8px;
+  }
+  .pd-dot.active {
+    width:24px; border-radius:4px;
+    background:var(--accent);
+  }
+  .pd-arrow {
+    width:34px; height:34px; font-size:1.2rem;
+    background:rgba(255,255,255,0.9);
+  }
+
+  /* ─── MOBILE: CONTACT COMPACT GLASS ─── */
+  .contact-card {
+    background:rgba(255,255,255,0.85);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+  }
+  .social-row { gap:12px; }
+  .social-row a {
+    display:inline-flex; align-items:center; gap:6px;
+    padding:10px 18px;
+    background:var(--accent-glow);
+    border-radius:999px;
+    font-size:0.82rem;
+    transition:background 0.2s, transform 0.2s;
+  }
+  .social-row a:active { transform:scale(0.95); }
+
+  /* ─── MOBILE: REVIEW CARDS HORIZONTAL ─── */
+  .reviews-grid.mobile-scroll-reviews {
+    display:flex;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    gap:12px;
+    margin:0 -20px;
+    padding-left:20px; padding-right:20px;
+  }
+  .reviews-grid.mobile-scroll-reviews::-webkit-scrollbar { display:none; }
+  .reviews-grid.mobile-scroll-reviews .review-card {
+    flex:0 0 80vw;
+    max-width:320px;
+    scroll-snap-align:center;
+  }
+
+  /* ─── MOBILE: DRAWER IMPROVEMENTS ─── */
+  .drawer {
+    border-radius:20px 0 0 0;
+  }
+  .drawer-top {
+    position:sticky; top:0; z-index:2;
+    background:rgba(255,255,255,0.95);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+  }
+
+  /* ─── MOBILE: PULL-TO-CLOSE INDICATOR ─── */
+  .drawer::before {
+    content:'';
+    display:block;
+    width:36px; height:4px;
+    border-radius:2px;
+    background:var(--border-strong);
+    margin:10px auto 0;
+    flex-shrink:0;
+  }
 }
 
 /* ─── ULTRA SMALL SCREENS ─── */

@@ -397,6 +397,37 @@
   <!-- Toast notification -->
   <div class="toast" id="toast"></div>
 
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="mobile-bottom-bar" id="mobile-bottom-bar">
+    <a href="#home" data-mobnav="home" class="active">
+      <span class="bar-icon">&#127968;</span>
+      <span data-i18n="nav.home">Home</span>
+    </a>
+    <a href="#shop" data-mobnav="shop">
+      <span class="bar-icon">&#128722;</span>
+      <span data-i18n="nav.shop">Shop</span>
+    </a>
+    <a href="#best-sellers" data-mobnav="best-sellers">
+      <span class="bar-icon">&#11088;</span>
+      <span data-i18n="nav.bestSellers">Best</span>
+    </a>
+    <a href="#contact" data-mobnav="contact">
+      <span class="bar-icon">&#9993;</span>
+      <span data-i18n="nav.contact">Contact</span>
+    </a>
+    <button type="button" id="mob-cart-btn">
+      <span class="bar-icon">&#128091;</span>
+      <span class="bar-cart-badge" id="mob-cart-count">0</span>
+      <span data-i18n="cart.label">Cart</span>
+    </button>
+  </nav>
+
+  <!-- Mobile Sticky Add-to-cart bar (product detail) -->
+  <div class="pd-sticky-bar" id="pd-sticky-bar">
+    <span class="sticky-price" id="sticky-price"></span>
+    <button class="btn btn-primary" id="sticky-add-btn" type="button" data-i18n="product.addToCart">Add to cart</button>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
