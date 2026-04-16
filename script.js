@@ -70,7 +70,7 @@ const i18n = {
       collar: 'Ошейник', leash: 'Поводок', bowl: 'Миска', other: 'Другое',
       harness: 'Шлейка', brush: 'Щётка', fleaCollar: 'Арома-ошейник',
       apricot: 'Абрикосовый', pink: 'Розовый', yellow: 'Жёлтый',
-      mint: 'Мятный',
+      mint: 'Мятный', roseRed: 'Розово-красный',
       noResults: 'По выбранным фильтрам ничего не найдено.',
       clearAll: 'Сбросить',
       itemCount: 'товаров',
@@ -181,7 +181,7 @@ const i18n = {
       collar: 'Collar', leash: 'Leash', bowl: 'Bowl', other: 'Other',
       harness: 'Harness', brush: 'Brush', fleaCollar: 'Aroma Collar',
       apricot: 'Apricot', pink: 'Pink', yellow: 'Yellow',
-      mint: 'Mint',
+      mint: 'Mint', roseRed: 'Rose Red',
       noResults: 'No products match the selected filters.',
       clearAll: 'Clear All',
       itemCount: 'products',
@@ -292,7 +292,7 @@ const i18n = {
       collar: 'Ogrlica', leash: 'Povodac', bowl: 'Činija', other: 'Ostalo',
       harness: 'Povodac-prsluk', brush: 'Četka', fleaCollar: 'Aroma ogrlica',
       apricot: 'Kajsija', pink: 'Roze', yellow: 'Žut',
-      mint: 'Mint',
+      mint: 'Mente', roseRed: 'Roze crvena',
       noResults: 'Nema proizvoda za izabrane filtere.',
       clearAll: 'Obriši',
       itemCount: 'proizvoda',
@@ -409,6 +409,13 @@ const products = [
     price:31, image:'images/18.png', images:['images/18.png','images/19.png','images/20.png'],
     rating:4.7, accType:'fleaCollar', color:'mint',
     availableColors:['mint','beige','pink'] },
+  { id:'retractable-leash', category:'accessories', section:'new-arrivals',
+    name:{ ru:'Автоматический поводок-рулетка', en:'Retractable Dog Leash', sr:'Automatski povodac-ruleta za pse' },
+    description:{ ru:'Прочный автоматический поводок-рулетка 5M/8M для собак до 50 кг. Подходит для крупных и мелких пород. Удобная кнопка фиксации.', en:'Strong automatic retractable leash 5M/8M for dogs up to 50kg. Suitable for large and small breeds. Convenient lock button.', sr:'Jak automatski povodac-ruleta 5M/8M za pse do 50kg. Pogodan za velike i male rase. Praktično dugme za zaključavanje.' },
+    price:15, image:'images/26.webp', images:['images/26.webp','images/27.webp','images/28.webp','images/29.webp','images/30.webp'],
+    rating:4.7, accType:'leash', color:'roseRed',
+    availableColors:['roseRed','blue','gray'],
+    availableSizes:['5M-50kg','8M-50kg'] },
 ];
 
 const collections = [
@@ -448,8 +455,8 @@ const filterConfig = {
     { key:'price',   type:'price',   ranges:['0-25','25-50','50-999'] },
   ],
   accessories: [
-    { key:'accType', prop:'accType', options:['harness','brush','fleaCollar'] },
-    { key:'color', prop:'color', options:['apricot','blue','pink','yellow','black','mint','beige'] },
+    { key:'accType', prop:'accType', options:['harness','brush','fleaCollar','leash'] },
+    { key:'color', prop:'color', options:['apricot','blue','pink','yellow','black','mint','beige','roseRed','gray'] },
     { key:'price',   type:'price',   ranges:['0-25','25-35','35-999'] },
   ],
 };
