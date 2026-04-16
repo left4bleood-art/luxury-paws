@@ -430,7 +430,7 @@ const products = [
   { id:'elevated-feeder', category:'accessories', section:'best-sellers',
     name:{ ru:'Подставка с двойной миской', en:'Elevated Dual Bowl Feeder', sr:'Postolje sa duplom činijom' },
     description:{ ru:'Яркая подставка с двумя мисками из нержавеющей стали. Поддержка шеи, легко моется. Для собак и кошек.', en:'Colorful elevated stand with dual stainless steel bowls. Neck support, easy to clean. For dogs and cats.', sr:'Jarko postolje sa duplim činijama od nerđajućeg čelika. Podrška za vrat, lako se čisti. Za pse i mačke.' },
-    price:30, image:'images/39.webp', images:['images/39.webp','images/40.webp','images/41.webp','images/42.webp','images/43.webp'],
+    price:30, image:'images/39.webp', images:['images/39.webp','images/40.webp','images/41.webp','images/42.webp','images/43.webp','images/44.webp'],
     rating:4.9, accType:'bowl', color:'white',
     availableColors:['white','pink','green','yellow'] },
 ];
